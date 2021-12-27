@@ -2,12 +2,14 @@ const express = require("express");
 const helmet = require("helmet");
 const { Server } = require("socket.io");
 const app = express();
-const cors = require("cors")
-const authRouter = require("./routers/authRouter")
+const cors = require("cors");
+const authRouter = require("./routers/authRouter");
 const session = require("express-session");
+const Redis = require("ioredis");
+const ReditStore = require("connect-redis")(session)
 require("dotenv").config();
-
 const server = require("http").createServer(app);
+
 
 const io = new Server(server, {
     cors: {
@@ -17,6 +19,7 @@ const io = new Server(server, {
 });
 
 //Middleware
+const redisClient = new Redis();
 app.use(helmet());
 app.use(
     cors({
@@ -29,6 +32,7 @@ app.use(session({
     secret: process.env.COOKIE_SECRET,
     credentials: true,
     name: "sid",
+    store: new ReditStore({ client: redisClient }), //Used for storing user sessions across multiple sessions
     resave: false,
     saveUninitialized: false,
     cookie: {
