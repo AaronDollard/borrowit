@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 module.exports.handleLogin = (req, res) => {
     if (req.session.user && req.session.user.username) {
-        res.json({ loggedIn: true, username: req.session.username })
+        res.json({ loggedIn: true, username: req.session.user.username })
     } else {
         res.json({ loggedIn: false })
     }
@@ -27,7 +27,7 @@ module.exports.attemptLogin = async (req, res) => {
                 id: potentialUser.rows[0].id,
             };
 
-            res.json({ loggedIn: true, username: req.body.username });
+            res.json({ loggedIn: true, username: req.body.username, id: req.session.user.id });
         } else {
             res.json({ loggedIn: false, status: "Incorrect credentials!" })
         }
@@ -39,8 +39,6 @@ module.exports.attemptLogin = async (req, res) => {
 
 
 module.exports.attemptSignUp = async (req, res) => {
-    validateForm(req, res);
-
     //Check for existing user
     const existingUser = await db.query(
         "SELECT username from users WHERE username=$1",

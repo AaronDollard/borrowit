@@ -27,7 +27,7 @@ const UserContext = ({ children }) => {
                     return;
                 } //Return JSON data when the user is successful in logging in and nav to home
                 setUser({ ...data })
-                navigate("/home");
+                // navigate("/home");
             });
     }, []);
 

@@ -47,7 +47,7 @@ app.use(session({
 //Route below are used for authentication
 app.use("/auth", authRouter)
 app.get("/", (req, res) => {
-    res.json("hi");
+    //res.json("hi");
 });
 
 
