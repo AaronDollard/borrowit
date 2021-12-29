@@ -11,18 +11,22 @@ DROP TABLE users;
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(20) not NULL UNIQUE,
+    email VARCHAR(70),
+    firstname VARCHAR(70),
+    surname VARCHAR(70),
     passhashed VARCHAR(150) not NULL,
     userid VARCHAR NOT NULL UNIQUE);
 
 
 CREATE TABLE items(
     id SERIAL PRIMARY KEY,
-    itemname VARCHAR(30) not NULL,
-    descr VARCHAR(30) not NULL,
-    condition VARCHAR(30) not NULL,
+    itemname VARCHAR(50) not NULL,
+    descr VARCHAR(250) not NULL,
+    condition VARCHAR(15) not NULL,
     lendlength VARCHAR(20) not NULL,
-    photo VARCHAR(30),
-    giveaway BOOLEAN not NULL,
+    photo VARCHAR,
+    imageAlt VARCHAR,
+    giveaway VARCHAR(8) not NULL,
     itemowner VARCHAR NOT NULL,
     CONSTRAINT fk_items
       FOREIGN KEY(itemowner) 
