@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import BrowseItems from '../Browse/BrowseItems';
 
-function Browse() {
+
+const Browse = () => {
 
     return (
         <div>
-            browse
+            <BrowseItems />
         </div>
     )
 }

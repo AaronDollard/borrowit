@@ -11,9 +11,12 @@ import { useState } from 'react';
 
 import Modal from 'react-modal';
 import { Form } from "formik";
+import useSocket from '../Hooks/useSocket';
+import socket from '../../Socket/socket';
 
 const Home = () => {
-  //Add a listeing
+  useSocket();
+  //Add a listening
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [condition, setCondition] = useState("");
@@ -21,8 +24,10 @@ const Home = () => {
   const [photo, setPhoto] = useState("");
   const [giveaway, setGiveaway] = useState(false);
 
-
   const { user, setUser } = useContext(AccountContext);
+  const currentUser = user.userid;
+  console.log(currentUser)
+
   const navigate = useNavigate
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -35,11 +40,9 @@ const Home = () => {
     setIsOpen(false);
   }
 
-
   const onSubmitCreateListing = async (e) => {
     e.preventDefault();
     try {
-      const currentUser = user.id;
       console.log(currentUser, "NavBar Debug");
 
       const body = { name, description, condition, period, photo, giveaway, currentUser };
@@ -49,8 +52,6 @@ const Home = () => {
         body: JSON.stringify(body)
       });
       console.log(body, "logging on navbar")
-      console.log(currentUser, "TESTETST")
-      //window.location = "/";
     } catch (err) {
       console.log(err.message)
     }
@@ -75,9 +76,9 @@ const Home = () => {
               display={{ base: 'none', md: 'flex' }}>
               <Link href='/dashboard'>Dashboard</Link>
               <Link href='/browse'>Browse</Link>
+              <p>{currentUser}</p>
             </HStack>
           </HStack>
-
 
           <Flex alignItems={'center'}>
 
@@ -90,7 +91,6 @@ const Home = () => {
               leftIcon={<AddIcon />}>
               Make Offer
             </Button>
-
 
             <Menu>
               <ToggleColourMode />

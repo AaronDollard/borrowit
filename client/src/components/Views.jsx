@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import PrivateRoutes from './PrivateRouters';
 import { AccountContext } from './Contexts/AccountContext';
-import DashBoard from './Dashboard/DashBoard'
+import Dashboard from './Dashboard/Dashboard'
 import Browse from './Browse/Browse'
 import Loading from './assets/Loading'
 import '../styles/styles.css'
@@ -30,7 +30,7 @@ const Views = () => {
 
 
                     <Route element={<PrivateRoutes />}>
-                        <Route path="/dashboard" element={<DashBoard />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/browse" element={<Browse />} />
                     </Route>
 

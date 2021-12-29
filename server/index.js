@@ -1,58 +1,34 @@
 const express = require("express");
-const helmet = require("helmet");
+const { sessionMiddleware, wrap, corsConfig } = require("./controllers/serverController");
 const { Server } = require("socket.io");
 const app = express();
+const helmet = require("helmet");
 const cors = require("cors");
 const authRouter = require("./routers/authRouter");
-const session = require("express-session");
-const Redis = require("ioredis");
-const ReditStore = require("connect-redis")(session)
-require("dotenv").config();
+const { userAuthorized } = require("./controllers/socketController");
 const server = require("http").createServer(app);
-
-
+require("dotenv").config();
 const io = new Server(server, {
-    cors: {
-        origin: "http://localhost:3000",
-        credentials: "true",
-    },
+    cors: corsConfig
 });
 
 //Middleware
-const redisClient = new Redis();
 app.use(helmet());
-app.use(
-    cors({
-        origin: "http://localhost:3000",
-        credentials: true,
-    })
-);
+app.use(cors(corsConfig));
 app.use(express.json());
-app.use(session({
-    secret: process.env.COOKIE_SECRET,
-    credentials: true,
-    name: "sid",
-    store: new ReditStore({ client: redisClient }), //Used for storing user sessions across multiple sessions
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: process.env.ENVIRONMENT === "production",
-        httpOnly: true,
-        sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
-        expires: 1000 * 60 * 60 * 60 * 24 //expires in 1 day
-    }
-})
-)
+app.use(sessionMiddleware);
 
 //Route below are used for authentication
 app.use("/auth", authRouter)
-app.get("/", (req, res) => {
-    //res.json("hi");
-});
 
-
-
-io.on("connect", socket => { })
+io.use(wrap(sessionMiddleware))
+io.use(userAuthorized);
+io.on("connect", socket => {
+    console.log("socket is working - hello")
+    console.log("UserID: ", socket.user.userid)
+    console.log(socket.id)
+    console.log(socket.request.session.user.username)
+})
 
 server.listen(4000, () => {
     console.log("Server listening on port 4000")

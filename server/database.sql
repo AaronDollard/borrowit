@@ -4,14 +4,17 @@ DELETE borrowit;
 
 \c borrowit;
 
-CREATE TABLE users(
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(20) not NULL UNIQUE,
-    passhashed VARCHAR(150) not NULL);
-
 INSERT INTO users(username, passhashed) values ($1, $2);
 
 DROP TABLE items;
+DROP TABLE users;
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(20) not NULL UNIQUE,
+    passhashed VARCHAR(150) not NULL,
+    userid VARCHAR NOT NULL UNIQUE);
+
+
 CREATE TABLE items(
     id SERIAL PRIMARY KEY,
     itemname VARCHAR(30) not NULL,
@@ -20,10 +23,10 @@ CREATE TABLE items(
     lendlength VARCHAR(20) not NULL,
     photo VARCHAR(30),
     giveaway BOOLEAN not NULL,
-    userid INTEGER not NULL,
+    itemowner VARCHAR NOT NULL,
     CONSTRAINT fk_items
-      FOREIGN KEY(userid) 
-      REFERENCES users(id));
+      FOREIGN KEY(itemowner) 
+      REFERENCES users(userid));
 
 SELECT * FROM items;
 SELECT * FROM users;
