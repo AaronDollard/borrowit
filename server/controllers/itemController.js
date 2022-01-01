@@ -39,3 +39,22 @@ module.exports.getItem = async (req, res) => {
         console.error(err.message);
     }
 };
+
+//get all for certain user
+module.exports.getLoggedUserItems = async (req, res) => {
+    try {
+        console.log("GetUserLoggedItems - itemController Debug");
+        const { currentUserID } = req.body;
+
+        const getLoggedUserItems = await db.query
+            ("SELECT * FROM items as i WHERE i.itemowner = $1",
+                [currentUserID])
+            ;
+        for (var i = 0; i < getLoggedUserItems.rows.length; i++) {
+            var row = getLoggedUserItems.rows[i];
+        }
+        res.json(getLoggedUserItems.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};

@@ -25,7 +25,7 @@ const Home = () => {
 
   const { user, setUser } = useContext(AccountContext);
   const currentUserID = user.userid;
-  console.log(currentUserID)
+  console.log("Current Logged User ID", currentUserID, "NavBar Debug")
   const currentUser = user.username;
 
 
