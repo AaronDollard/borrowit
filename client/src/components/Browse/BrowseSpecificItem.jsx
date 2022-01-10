@@ -1,26 +1,33 @@
-import { Badge, Box, Button, Grid, GridItem, Image, Link, VStack } from '@chakra-ui/react';
+import { Badge, Box, Button, Grid, GridItem, Image, VStack } from '@chakra-ui/react';
 import React, { Fragment, useEffect } from 'react'
 import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 
-const BrowseItems = () => {
+const BrowseSpecificItem = () => {
     const [items, setItems] = useState([]);
 
-    const getItems = async () => {
+    const getSpecificItem = async () => {
+        var itemID = window.location.pathname;
+        console.log(itemID.split('/')[2]); //Split the url to get the item ID
+        itemID = itemID.split('/')[2];
+        const body = { itemID };
+
         try {
-            const response = await fetch("http://localhost:4000/auth/items")
+            const response = await fetch("http://localhost:4000/auth/items/:id", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            console.log(response)
             const itemData = await response.json();
             setItems(itemData);
-            for (var i = 0; i < itemData.length; i += 1) {
-                console.log(itemData[i]); //Print all of the items to the console for debugging
-            }
         } catch (err) {
             console.error(err.message)
         }
     };
 
     useEffect(() => {
-        getItems();
+        getSpecificItem();
     }, []);
 
     return (
@@ -48,10 +55,9 @@ const BrowseItems = () => {
                             < Box as='span' ml='2' color='gray.600' fontSize='sm'>
                                 {item.username}
                             </Box>
-                            <Link href={'/browse/' + item.id}>View</Link>
                         </Box>
-                    </GridItem>
 
+                    </GridItem>
                 </Fragment>
             ))
             }
@@ -60,4 +66,4 @@ const BrowseItems = () => {
 
 }
 
-export default BrowseItems;
+export default BrowseSpecificItem;

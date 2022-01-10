@@ -40,6 +40,21 @@ module.exports.getItem = async (req, res) => {
     }
 };
 
+//get specific item clicked
+module.exports.getSpecificItem = async (req, res) => {
+
+    try {
+        console.log("getSpecificItem - itemController Debug");
+        const { itemID } = req.body;
+        console.log(itemID)
+        const getSpecificItem = await db.query("SELECT * FROM items where id = $1",
+            [itemID]);
+        res.json(getSpecificItem.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
 //get all for certain user
 module.exports.getLoggedUserItems = async (req, res) => {
     try {
