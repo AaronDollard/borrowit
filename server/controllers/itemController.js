@@ -30,7 +30,7 @@ module.exports.addItem = async (req, res) => {
 //get all of the currently available offers
 module.exports.getItem = async (req, res) => {
     try {
-        const getItems = await db.query("SELECT i.*, users.username FROM items as i LEFT JOIN users ON users.userid = i.itemowner");
+        const getItems = await db.query("SELECT i.*, users.username FROM items i LEFT JOIN users ON users.userid = i.itemowner");
         for (var i = 0; i < getItems.rows.length; i++) {
             var row = getItems.rows[i];
         }
@@ -42,12 +42,11 @@ module.exports.getItem = async (req, res) => {
 
 //get specific item clicked
 module.exports.getSpecificItem = async (req, res) => {
-
     try {
         console.log("getSpecificItem - itemController Debug");
         const { itemID } = req.body;
         console.log(itemID)
-        const getSpecificItem = await db.query("SELECT * FROM items where id = $1",
+        const getSpecificItem = await db.query("SELECT * FROM items i LEFT JOIN users ON users.userid = i.itemowner WHERE i.id = $1",
             [itemID]);
         res.json(getSpecificItem.rows);
     } catch (err) {
@@ -62,13 +61,27 @@ module.exports.getLoggedUserItems = async (req, res) => {
         const { currentUserID } = req.body;
 
         const getLoggedUserItems = await db.query
-            ("SELECT * FROM items as i WHERE i.itemowner = $1",
+            ("SELECT i.*, users.username FROM items i LEFT JOIN users ON users.userid = i.itemowner WHERE i.itemowner = $1",
                 [currentUserID])
             ;
         for (var i = 0; i < getLoggedUserItems.rows.length; i++) {
             var row = getLoggedUserItems.rows[i];
         }
         res.json(getLoggedUserItems.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+//get specific user clicked
+module.exports.getSpecificUser = async (req, res) => {
+    try {
+        console.log("getSpecificUser - itemController Debug");
+        const { userID } = req.body;
+        console.log(userID)
+        const getSpecificUser = await db.query("SELECT * FROM users WHERE username = $1",
+            [userID]);
+        res.json(getSpecificUser.rows);
     } catch (err) {
         console.error(err.message);
     }

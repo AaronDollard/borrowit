@@ -45,13 +45,10 @@ const BrowseItems = () => {
                                         color={i < item.rating ? 'teal.500' : 'gray.300'}
                                     />
                                 ))}
-                            < Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                {item.username}
-                            </Box>
-                            <Link href={'/browse/' + item.id}>View</Link>
+                            < Box as='span' ml='2' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                         </Box>
+                        <Button><Link href={'/browse/' + item.id}>View</Link></Button>
                     </GridItem>
-
                 </Fragment>
             ))
             }

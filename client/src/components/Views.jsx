@@ -11,6 +11,7 @@ import Browse from './Browse/Browse'
 import Loading from './assets/Loading'
 import '../styles/styles.css'
 import BrowseSpecificItem from './Browse/BrowseSpecificItem'
+import BrowseSpecificUser from './Browse/BrowseSpecificUser'
 
 const Views = () => {
     //The below part render the login and signup components only if the user is logged out
@@ -34,6 +35,7 @@ const Views = () => {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/browse" element={<Browse />} />
                         <Route path="/browse/:itemid" element={<BrowseSpecificItem />} />
+                        <Route path="/users/:username" element={<BrowseSpecificUser />} />
                     </Route>
 
 

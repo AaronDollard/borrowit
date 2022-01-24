@@ -1,5 +1,5 @@
 import { StarIcon } from '@chakra-ui/icons';
-import { Badge, Box, Grid, GridItem, Heading, Image } from '@chakra-ui/react';
+import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { Fragment } from 'react';
@@ -53,20 +53,8 @@ const Dashboard = () => {
                             <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
                             <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
                             <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
-                            <Box display='flex' mt='2'>
-                                {Array(5)
-                                    .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
-                                    .map((_, i) => (
-                                        <StarIcon color={'teal.500'}
-                                            key={i}
-                                            color={i < item.rating ? 'teal.500' : 'gray.300'}
-                                        />
-                                    ))}
-                                < Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                    {item.username}
-                                </Box>
-                            </Box>
-
+                            <br />
+                            <Button><Link href={'/browse/' + item.id}>View</Link></Button>
                         </GridItem>
                     </Fragment>
                 ))
