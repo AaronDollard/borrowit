@@ -120,7 +120,7 @@ const Dashboard = () => {
                             {incomingOffers.map(item => (
                                 <Fragment>
                                     <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                                        <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                        {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
                                         <Box display='flex' mt='2' alignItems='center'>
                                             <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                             <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
@@ -145,7 +145,7 @@ const Dashboard = () => {
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                                        <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                        {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
                                         <Box display='flex' mt='2' alignItems='center'>
                                             <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                             <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
