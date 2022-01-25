@@ -89,7 +89,7 @@ const Home = () => {
               size={'sm'}
               mr={4}
               leftIcon={<AddIcon />}>
-              Make Offer
+              New Listing
             </Button>
 
             <Menu>

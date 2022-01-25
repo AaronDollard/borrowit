@@ -1,19 +1,29 @@
 import { Badge, Box, Button, Grid, GridItem, Image, Link, VStack } from '@chakra-ui/react';
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
+import { AccountContext } from '../Contexts/AccountContext';
 
 const BrowseItems = () => {
     const [items, setItems] = useState([]);
 
+    const { user, setUser } = useContext(AccountContext);
+    const currentUserID = user.userid;
+
     const getItems = async () => {
+        const body = { currentUserID };
         try {
-            const response = await fetch("http://localhost:4000/auth/items")
+            const response = await fetch("http://localhost:4000/auth/itemsbrowse", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            // console.log(response)
             const itemData = await response.json();
-            setItems(itemData);
             for (var i = 0; i < itemData.length; i += 1) {
-                console.log(itemData[i]); //Print all of the items to the console for debugging
+                console.log(itemData[i]);
             }
+            setItems(itemData);
         } catch (err) {
             console.error(err.message)
         }

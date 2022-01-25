@@ -6,7 +6,9 @@ DELETE borrowit;
 
 INSERT INTO users(username, passhashed) values ($1, $2);
 
+
 DROP TABLE items;
+DROP TABLE offers;
 DROP TABLE users;
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
@@ -16,7 +18,6 @@ CREATE TABLE users(
     surname VARCHAR(70),
     passhashed VARCHAR(150) not NULL,
     userid VARCHAR NOT NULL UNIQUE);
-
 
 CREATE TABLE items(
     id SERIAL PRIMARY KEY,
@@ -30,6 +31,16 @@ CREATE TABLE items(
     itemowner VARCHAR NOT NULL,
     CONSTRAINT fk_items
       FOREIGN KEY(itemowner) 
+      REFERENCES users(userid));
+
+CREATE TABLE offers(
+    id SERIAL PRIMARY KEY,
+    itemid INTEGER NOT NULL,
+    lenderid VARCHAR NOT NULL,
+    offerstatus VARCHAR NOT NULL,
+    borrowerid VARCHAR NOT NULL,
+    CONSTRAINT fk_items
+      FOREIGN KEY(borrowerid) 
       REFERENCES users(userid));
 
 SELECT * FROM items;

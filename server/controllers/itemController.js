@@ -30,7 +30,10 @@ module.exports.addItem = async (req, res) => {
 //get all of the currently available offers
 module.exports.getItem = async (req, res) => {
     try {
-        const getItems = await db.query("SELECT i.*, users.username FROM items i LEFT JOIN users ON users.userid = i.itemowner");
+        const { currentUserID } = req.body;
+        console.log("getitemdebug", currentUserID)
+        const getItems = await db.query("SELECT i.*, users.username FROM items i JOIN users ON users.userid = i.itemowner WHERE i.itemowner != $1",
+            [currentUserID]);
         for (var i = 0; i < getItems.rows.length; i++) {
             var row = getItems.rows[i];
         }
@@ -45,8 +48,8 @@ module.exports.getSpecificItem = async (req, res) => {
     try {
         console.log("getSpecificItem - itemController Debug");
         const { itemID } = req.body;
-        console.log(itemID)
-        const getSpecificItem = await db.query("SELECT * FROM items i LEFT JOIN users ON users.userid = i.itemowner WHERE i.id = $1",
+        console.log("this is item id in backend", itemID)
+        const getSpecificItem = await db.query("SELECT i.*, users.username FROM items i LEFT JOIN users ON users.userid = i.itemowner WHERE i.id = $1",
             [itemID]);
         res.json(getSpecificItem.rows);
     } catch (err) {
@@ -82,6 +85,85 @@ module.exports.getSpecificUser = async (req, res) => {
         const getSpecificUser = await db.query("SELECT * FROM users WHERE username = $1",
             [userID]);
         res.json(getSpecificUser.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+//get specific user items that a user clicked
+module.exports.getClickedUserItems = async (req, res) => {
+    try {
+        console.log("getClickedUserItems - itemController Debug");
+        const { userID } = req.body;
+
+        const getClickedUserItems = await db.query
+            ("SELECT * FROM items i LEFT JOIN users ON users.userid = i.itemowner WHERE users.username = $1",
+                [userID])
+            ;
+        for (var i = 0; i < getClickedUserItems.rows.length; i++) {
+            var row = getClickedUserItems.rows[i];
+        }
+        res.json(getClickedUserItems.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+//make an offer
+module.exports.makeOffer = async (req, res) => {
+    try {
+        console.log("makeOffer - itemController Debug");
+        const { id, lenderid, offerstatus, borrowerid } = req.body;
+
+        const makeOffer = await db.query
+            ("INSERT INTO offers ( itemid, lenderid, offerstatus, borrowerid ) VALUES($1, $2, $3, $4) RETURNING *",
+                [id, lenderid, offerstatus, borrowerid]
+            );
+        res.json(makeOffer.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+//make an offer
+module.exports.getIncomingOffers = async (req, res) => {
+    try {
+        console.log("getIncomingOffers - itemController Debug");
+        const { currentUserID } = req.body;
+
+        const getIncomingOffers = await db.query
+            (`SELECT * FROM items 
+            JOIN offers ON items.id = offers.itemid 
+            JOIN users ON offers.borrowerid = users.userid 
+            WHERE items.itemowner = $1`,
+                [currentUserID])
+            ;
+        for (var i = 0; i < getIncomingOffers.rows.length; i++) {
+            var row = getIncomingOffers.rows[i];
+        }
+        res.json(getIncomingOffers.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+//make an offer
+module.exports.getOutgoingOffers = async (req, res) => {
+    try {
+        console.log("getOutgoingOffers - itemController Debug");
+        const { currentUserID } = req.body;
+
+        const getOutgoingOffers = await db.query
+            (`SELECT * FROM items 
+            JOIN offers ON items.id = offers.itemid 
+            JOIN users ON offers.lenderid = users.userid 
+            WHERE offers.borrowerid = $1`,
+                [currentUserID])
+            ;
+        for (var i = 0; i < getOutgoingOffers.rows.length; i++) {
+            var row = getOutgoingOffers.rows[i];
+        }
+        res.json(getOutgoingOffers.rows);
     } catch (err) {
         console.error(err.message);
     }
