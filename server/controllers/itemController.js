@@ -132,10 +132,10 @@ module.exports.getIncomingOffers = async (req, res) => {
         const { currentUserID } = req.body;
 
         const getIncomingOffers = await db.query
-            (`SELECT * FROM items 
-            JOIN offers ON items.id = offers.itemid 
+            (`SELECT users.username, i.itemname, i.descr, i.lendlength, i,giveaway, i.itemowner, i.id, offers.id AS offerID FROM items AS i 
+            JOIN offers ON i.id = offers.itemid 
             JOIN users ON offers.borrowerid = users.userid 
-            WHERE items.itemowner = $1`,
+            WHERE i.itemowner = $1`,
                 [currentUserID])
             ;
         for (var i = 0; i < getIncomingOffers.rows.length; i++) {
@@ -164,6 +164,25 @@ module.exports.getOutgoingOffers = async (req, res) => {
             var row = getOutgoingOffers.rows[i];
         }
         res.json(getOutgoingOffers.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+//Offer response from a user
+module.exports.offerResponse = async (req, res) => {
+    try {
+        console.log("offerResponse - itemController Debug");
+        const { responseToOffer, responseToOfferID } = req.body;
+        console.log("Offer Response Log: ", responseToOffer, responseToOfferID)
+
+        const offerResponse = await db.query
+            (`UPDATE offers
+            SET offerstatus = $1
+            WHERE id = $2`,
+                [responseToOffer, responseToOfferID]);
+
+        res.json(offerResponse.rows);
     } catch (err) {
         console.error(err.message);
     }

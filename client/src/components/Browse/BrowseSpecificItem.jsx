@@ -90,7 +90,10 @@ const BrowseSpecificItem = () => {
                                     ))}
                                 <Box as='span' ml='2' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                             </Box>
-                            <Button onClick={makeOffer} >Make Offer</Button>
+
+                            {user.userid !== item.itemowner && (
+                                <Button onClick={makeOffer} >Make Offer</Button>
+                            )}
                         </GridItem>
                     </Fragment>
                 ))
