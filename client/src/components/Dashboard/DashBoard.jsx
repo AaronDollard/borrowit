@@ -110,7 +110,7 @@ const Dashboard = () => {
         var responseToOfferID = offerstatusID;
 
         if (offerstatusID == "") {
-            openModal(responseToOffer);
+            openModal();
         }
 
         console.log("Offerstatusid: ", offerstatusID)
@@ -231,7 +231,7 @@ const Dashboard = () => {
             </Accordion>
 
             {/* An error can occur when responding to an offer, to try prevent mistakes from this error and catch it this modal has been implemented */}
-            <Modal style={{ verlay: { width: '100%', height: "100%" }, content: { position: 'absolute', top: '40%', left: '20%', right: '20%', bottom: '40%', border: '1px solid #ccc' } }}
+            <Modal style={{ overlay: { width: '100%', height: "100%" }, content: { position: 'absolute', top: '40%', left: '20%', right: '20%', bottom: '40%', border: '1px solid #ccc' } }}
                 isOpen={modalIsOpen} onRequestClose={closeModal}>
                 <VStack spacing="1rem">
                     <Heading>Oops!</Heading>

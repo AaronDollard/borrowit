@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from "../Contexts/AccountContext"
 import { useNavigate } from 'react-router-dom';
-
+import Modal from 'react-modal';
 
 const BrowseSpecificItem = () => {
     const [items, setItems] = useState([]);
@@ -22,10 +22,18 @@ const BrowseSpecificItem = () => {
     console.log("Current Logged User ID", currentUserID, "NavBar Debug")
     const currentUser = user.username;
 
-    const navigate = useNavigate();
     const borrowerid = user.userid;
     var lenderid;
     var id;
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+    function closeModal() {
+        setIsOpen(false);
+    }
 
     const getSpecificItem = async () => {
         var itemID = window.location.pathname;
@@ -71,6 +79,7 @@ const BrowseSpecificItem = () => {
     }
 
     const deleteOffer = async () => {
+        openModal();
         console.log("Offer has been deleted")
         id = items[0].id;
         lenderid = items[0].itemowner;
@@ -81,12 +90,12 @@ const BrowseSpecificItem = () => {
             const response = await fetch("http://localhost:4000/auth/deleteoffer", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
+                body: JSON.stringify(body)
             });
-            console.log(body, "logging on BrowseSpecificItem")
         } catch (err) {
             console.log(err.message)
         }
+
     }
 
     const onSubmitUpdateListing = async (e) => {
@@ -230,6 +239,15 @@ const BrowseSpecificItem = () => {
                     </Fragment>
                 ))
                 }
+
+                <Modal style={{ overlay: { width: '100%', height: "100%" }, content: { position: 'absolute', top: '40%', left: '20%', right: '20%', bottom: '40%', border: '1px solid #ccc' } }}
+                    isOpen={modalIsOpen} onRequestClose={closeModal}>
+                    <VStack spacing="1rem">
+                        <Heading>Gone forever!</Heading>
+                        <p>Your offer has been permanently deleted!</p>
+                        <Button><Link href={'/dashboard'}>Okay</Link></Button>
+                    </VStack>
+                </Modal>
             </Grid >
         </>
     )
