@@ -5,7 +5,6 @@ import { Input } from '@chakra-ui/input'
 import ToggleColourMode from "../ToggleColourMode"
 
 import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { AccountContext } from "../Contexts/AccountContext"
 import { useState } from 'react';
 
@@ -29,7 +28,6 @@ const Home = () => {
   const currentUser = user.username;
 
 
-  const navigate = useNavigate
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Add item modal
@@ -109,8 +107,8 @@ const Home = () => {
               </MenuButton>
               <MenuList>
                 <MenuItem>Hello, {currentUser}!</MenuItem>
-                <MenuItem>My Profile</MenuItem>
-                <MenuItem>My Account</MenuItem>
+                <MenuItem><Link href={'/users/' + user.username}>My Profile</Link></MenuItem>
+                {/* <MenuItem>My Account</MenuItem> */}
                 <MenuDivider />
 
                 <MenuItem onClick={() => {

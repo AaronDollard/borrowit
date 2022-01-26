@@ -93,9 +93,9 @@ const Dashboard = () => {
         }
     };
 
-    function sleep(milliseconds) {
-        return new Promise(resolve => setTimeout(resolve, milliseconds));
-    }
+    // function sleep(milliseconds) {
+    //     return new Promise(resolve => setTimeout(resolve, milliseconds));
+    // }
 
     const offerIDResponse = async (e) => {
         setStatusID(null);
@@ -173,7 +173,6 @@ const Dashboard = () => {
                                         <Box display='flex' mt='2' alignItems='center'>
                                             <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                         </Box>
-                                        <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
                                         <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
                                         <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
                                         <br />

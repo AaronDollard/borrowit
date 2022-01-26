@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const validateForm = require("../controllers/validateForm");
 const { handleLogin, attemptLogin, attemptSignUp } = require("../controllers/authController");
-const { addItem, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse } = require("../controllers/itemController");
+const { addItem, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer } = require("../controllers/itemController");
 const db = require("../db");
 
 router.route("/login").get(handleLogin).post(validateForm, attemptLogin) //Validation for login page
@@ -10,6 +10,9 @@ router.post("/register", validateForm, attemptSignUp); //Validation for signup p
 
 
 router.post("/items", addItem); //Post a new listing for an item
+router.post("/updateitems", updateItem); //Post an update listing for an item
+router.post("/deleteoffer", deleteOffer); //Delete a listing for an item
+
 router.route("/itemsbrowse").post(getItem); //Get a list of all items that are not of the logged in user 
 router.route("/items/:id").post(getSpecificItem);
 

@@ -1,14 +1,28 @@
-import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link, VStack } from '@chakra-ui/react';
+import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link, VStack, Flex, Avatar, HStack, Text, IconButton, Menu, MenuButton, MenuList, MenuItem, MenuDivider } from '@chakra-ui/react';
 import React, { Fragment, useContext, useEffect } from 'react'
 import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from "../Contexts/AccountContext"
+import { useNavigate } from 'react-router-dom';
 
 
 const BrowseSpecificItem = () => {
     const [items, setItems] = useState([]);
     const [offerstatus, setPeriod] = useState("PENDING");
     const { user, setUser } = useContext(AccountContext);
+
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [condition, setCondition] = useState("");
+    const [period, setPeriodLength] = useState("");
+    const [photo, setPhoto] = useState("Link to photo");
+    const [giveaway, setGiveaway] = useState(false);
+
+    const currentUserID = user.userid;
+    console.log("Current Logged User ID", currentUserID, "NavBar Debug")
+    const currentUser = user.username;
+
+    const navigate = useNavigate();
     const borrowerid = user.userid;
     var lenderid;
     var id;
@@ -56,13 +70,52 @@ const BrowseSpecificItem = () => {
         }
     }
 
+    const deleteOffer = async () => {
+        console.log("Offer has been deleted")
+        id = items[0].id;
+        lenderid = items[0].itemowner;
+        console.log(lenderid)
+        console.log(id)
+        try {
+            const body = { id, lenderid };
+            const response = await fetch("http://localhost:4000/auth/deleteoffer", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+            console.log(body, "logging on BrowseSpecificItem")
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    const onSubmitUpdateListing = async (e) => {
+        var itemID = window.location.pathname;
+        console.log(itemID.split('/')[2]); //Split the url to get the item ID
+        itemID = itemID.split('/')[2];
+
+        console.log("Item has been updated")
+        try {
+            console.log(currentUserID, "Browse Specific Debug");
+            const body = { name, description, condition, period, photo, giveaway, itemID };
+            const response = await fetch("http://localhost:4000/auth/updateitems", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            console.log(body, "Update logging")
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     useEffect(() => {
         getSpecificItem();
     }, []);
 
     return (
         <>
-            <Grid templateRows='repeat(2, 1fr)' templateColumns='repeat(3, 1fr)' gap={1} >
+            <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(2, 1fr)' gap={1} >
                 {items.map(item => (
                     <Fragment>
                         <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
@@ -91,10 +144,89 @@ const BrowseSpecificItem = () => {
                                 <Box as='span' ml='2' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                             </Box>
 
+                            {/* Checks to see if the logged in user is not the person who owns the item. This is to prevent borrowing ones own items */}
                             {user.userid !== item.itemowner && (
                                 <Button onClick={makeOffer} >Make Offer</Button>
                             )}
                         </GridItem>
+
+                        {/* Checks to make sure the user owns the item */}
+                        {user.userid === item.itemowner && (
+                            <GridItem maxW='sm' overflow='hidden'>
+                                <VStack spacing="1rem">
+                                    <Heading>Update your listing</Heading>
+
+                                    <form onSubmit={onSubmitUpdateListing}>
+                                        <label for="name">Item Name</label>
+                                        <input
+                                            required
+                                            type="text"
+                                            className="form-control"
+                                            placeholder={item.itemname}
+                                            value={name}
+                                            onChange={e => setName(e.target.value)} />
+
+                                        <label for="description">Item Description</label>
+                                        <input
+                                            required
+                                            type="text"
+                                            className="form-control"
+                                            placeholder={item.descr}
+                                            value={description}
+                                            onChange={e => setDescription(e.target.value)} />
+
+                                        <label for="condition">Item Condition</label>
+                                        <select required className="form-control" onChange={e => setCondition(e.target.value)}>
+                                            <option value={condition} selected disabled hidden>-- Select Condition --</option>
+                                            <option value="Used">Used</option>
+                                            <option value="Good Condition">Good</option>
+                                            <option value="New">New</option>
+                                        </select>
+
+                                        <label for="period">Lending Period</label>
+                                        <select required className="form-control" onChange={e => setPeriodLength(e.target.value)}>
+                                            <option value={period} selected disabled hidden>-- Select Lending Length --</option>
+                                            <option value="Couple Days (1 - 2)">1 to 2 days</option>
+                                            <option value="Few Days (3 - 4)">3 to 4 days</option>
+                                            <option value="One Week">1 week</option>
+                                        </select>
+
+                                        <HStack>
+                                            <label for="photo">Photo</label>
+                                            <input
+                                                placeholder={photo}
+                                                type="text"
+                                                className="form-control"
+                                                onChange={e => setPhoto(e.target.value)} />
+                                        </HStack>
+
+                                        <HStack>
+                                            <label for="giveaway">Give away item for good?</label>
+                                            <input
+                                                type="checkbox"
+                                                value={giveaway}
+                                                onChange={e => !setGiveaway(true)} />
+                                        </HStack>
+
+                                        <button >Update Listing</button>
+                                    </form>
+                                </VStack>
+                            </GridItem>
+                        )}
+
+                        {user.userid === item.itemowner && (
+                            <GridItem align="center">
+                                <Heading>Delete your listing</Heading>
+                                <Text fontSize='sm'>If you wish to delete your listing permenantly click the button below.
+                                    Be aware that this CANNOT be undone.</Text>
+
+                                <Button colorScheme='red' onClick={deleteOffer}>Delete</Button>
+                            </GridItem>
+
+                        )}
+
+
+
                     </Fragment>
                 ))
                 }

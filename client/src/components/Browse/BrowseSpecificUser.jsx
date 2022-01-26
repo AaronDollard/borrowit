@@ -30,7 +30,7 @@ const BrowseSpecificUser = () => {
     const getClickedUserItems = async () => {
         try {
             const body = { userID };
-
+            console.log(userID)
             const response = await fetch("http://localhost:4000/auth/usersitems/:id", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -71,7 +71,7 @@ const BrowseSpecificUser = () => {
                                     <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
                                     <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
                                     <GridItem>
-                                        <Button><Link href={'/browse/' + item.id}>View</Link></Button>
+                                        <Button><Link href={'/browse/' + item.itemid}>View</Link></Button>
                                     </GridItem>
                                 </GridItem>
                             </Fragment>

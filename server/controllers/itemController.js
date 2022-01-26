@@ -27,6 +27,59 @@ module.exports.addItem = async (req, res) => {
     }
 };
 
+//Update items
+module.exports.updateItem = async (req, res) => {
+    try {
+        const { name, description, condition, period, photo, giveaway, itemID } = req.body;
+        const imageAlt = "A photo has not yet been added for this item";
+        var dbimage = "";
+        var itemaway = ";"
+
+        if (photo == "Link to photo") {
+            dbimage = "https://bit.ly/3HcjfiW"
+        } else dbimage = photo
+
+        if (giveaway == true) {
+            itemaway = "Keep"
+        } else itemaway = "Borrow"
+
+        const updateItem = await db.query
+            (`UPDATE items SET 
+            itemname = $1, 
+            descr = $2, 
+            condition = $3, 
+            lendlength = $4, 
+            photo = $5, 
+            giveaway = $6, 
+            imageAlt = $7 
+            WHERE id = $8`,
+                [name, description, condition, period, dbimage, itemaway, imageAlt, itemID]
+            );
+        res.json(updateItem.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+//Delete item
+module.exports.deleteOffer = async (req, res) => {
+    try {
+        const { id, lenderid } = req.body;
+        console.log(id)
+        const updateItem = await db.query
+            (`DELETE FROM offers WHERE 
+                itemid = $1`, [id]
+            );
+        updateItem = await db.query
+            (`DELETE FROM items WHERE 
+                id = $1`, [id]
+            );
+        res.json(updateItem.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
 //get all of the currently available offers
 module.exports.getItem = async (req, res) => {
     try {
@@ -95,9 +148,8 @@ module.exports.getClickedUserItems = async (req, res) => {
     try {
         console.log("getClickedUserItems - itemController Debug");
         const { userID } = req.body;
-
         const getClickedUserItems = await db.query
-            ("SELECT * FROM items i LEFT JOIN users ON users.userid = i.itemowner WHERE users.username = $1",
+            ("SELECT users.username, i.itemname, i.photo, i.condition, i.descr, i.lendlength, i,giveaway, i.itemowner, i.id AS itemID, users.id AS userID FROM items AS i JOIN users ON users.userid = i.itemowner WHERE users.username = $1",
                 [userID])
             ;
         for (var i = 0; i < getClickedUserItems.rows.length; i++) {
