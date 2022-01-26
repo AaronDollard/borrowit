@@ -10,7 +10,7 @@ module.exports.addItem = async (req, res) => {
         var itemaway = ";"
 
         if (photo == "Link to photo") {
-            dbimage = "https://bit.ly/3HcjfiW"
+            dbimage = "https://bit.ly/3o2VIK5"
         } else dbimage = photo
 
         if (giveaway == true) {
@@ -36,7 +36,7 @@ module.exports.updateItem = async (req, res) => {
         var itemaway = ";"
 
         if (photo == "Link to photo") {
-            dbimage = "https://bit.ly/3HcjfiW"
+            dbimage = "https://bit.ly/3o2VIK5"
         } else dbimage = photo
 
         if (giveaway == true) {
@@ -86,6 +86,21 @@ module.exports.getItem = async (req, res) => {
         const { currentUserID } = req.body;
         console.log("getitemdebug", currentUserID)
         const getItems = await db.query("SELECT i.*, users.username FROM items i JOIN users ON users.userid = i.itemowner WHERE i.itemowner != $1",
+            [currentUserID]);
+        for (var i = 0; i < getItems.rows.length; i++) {
+            var row = getItems.rows[i];
+        }
+        res.json(getItems.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+module.exports.getLatestItem = async (req, res) => {
+    try {
+        const { currentUserID } = req.body;
+        console.log("getLatestsitemdebug", currentUserID)
+        const getItems = await db.query("SELECT i.*, users.username FROM items i JOIN users ON users.userid = i.itemowner WHERE i.itemowner != $1 ORDER BY i.id DESC limit 4",
             [currentUserID]);
         for (var i = 0; i < getItems.rows.length; i++) {
             var row = getItems.rows[i];

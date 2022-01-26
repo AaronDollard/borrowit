@@ -127,9 +127,11 @@ const BrowseSpecificItem = () => {
             <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(2, 1fr)' gap={1} >
                 {items.map(item => (
                     <Fragment>
-                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                            <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
-                        </GridItem>
+                        <Box padding={"10px"}>
+                            <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
+                                <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                            </GridItem>
+                        </Box>
 
                         <GridItem>
                             <Box display='flex' mt='2' alignItems='center'>

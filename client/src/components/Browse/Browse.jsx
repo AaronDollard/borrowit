@@ -7,7 +7,7 @@ const Browse = () => {
 
     return (
         <div>
-            <Heading>Lastest items</Heading>
+            <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>Four Newest items</Heading>
             <BrowseItems />
         </div>
     )

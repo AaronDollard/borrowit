@@ -68,7 +68,7 @@ const Home = () => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Borrowit</Box>
+            <Box fontFamily={"Mochiy Pop P One"}>Borrowit</Box>
             <HStack
               as={'nav'}
               spacing={4}
@@ -78,8 +78,15 @@ const Home = () => {
             </HStack>
           </HStack>
 
-          <Flex alignItems={'center'}>
+          <HStack>
+            <Input
+              onkeyup="myFunction()"
+              color={"black"}
+              background={"white"}
+              placeholder='Search for an item'></Input>
+          </HStack>
 
+          <Flex alignItems={'center'}>
             <Button
               onClick={openModal} //Add the item modal
               variant={'solid'}
@@ -91,20 +98,23 @@ const Home = () => {
             </Button>
 
             <Menu>
-              <ToggleColourMode />
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'md'}
-                  src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-              </MenuButton>
+              <HStack>
+                <ToggleColourMode />
+
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}>
+                  <Avatar
+                    size={'md'}
+                    src={
+                      'https://bit.ly/3G8EroR'
+                    } />
+                </MenuButton>
+              </HStack>
+
               <MenuList>
                 <MenuItem>Hello, {currentUser}!</MenuItem>
                 <MenuItem><Link href={'/users/' + user.username}>My Profile</Link></MenuItem>
@@ -147,8 +157,8 @@ const Home = () => {
 
       }} isOpen={modalIsOpen} onRequestClose={closeModal}>
         <VStack spacing="1rem">
-          <Heading>Create a listing</Heading>
-
+          <Heading fontFamily={"Dongle"} > Add to your catalog</Heading>
+          <p>Enter the details of the item you wish to add to your catalog. Click ADD when finished.</p>
           <form onSubmit={onSubmitCreateListing}>
             <label for="name">Item Name</label>
             <input
@@ -182,8 +192,8 @@ const Home = () => {
               <option value="One Week">1 week</option>
             </select>
 
+            <label for="photo">Photo <i>(Optional)</i></label>
             <HStack>
-              <label for="photo">Photo</label>
               <input
                 placeholder="Link to photo"
                 type="text"
@@ -192,14 +202,15 @@ const Home = () => {
             </HStack>
 
             <HStack>
-              <label for="giveaway">Give away item for good?</label>
+              <p><i>Only tick this box below if you're willing to give away your item!</i></p>
+              <label for="giveaway"></label>
               <input
                 type="checkbox"
                 value={giveaway}
                 onChange={e => !setGiveaway(true)} />
             </HStack>
 
-            <button>Create Listing</button>
+            <button class="btn btn-primary">Add</button>
           </form>
         </VStack>
       </Modal>

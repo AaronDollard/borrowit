@@ -137,22 +137,25 @@ const Dashboard = () => {
         <div>
             <Accordion defaultIndex={[0]} allowMultiple>
                 <AccordionItem>
-                    <AccordionButton><Heading>Your listings</Heading><AccordionIcon /></AccordionButton>
+                    <AccordionButton><Heading fontFamily={"Dongle"}>My Catalog</Heading><AccordionIcon /></AccordionButton>
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(3, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
                             {usersItems.map(item => (
                                 <Fragment>
                                     <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
                                         <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
-                                        <Box display='flex' mt='2' alignItems='center'>
-                                            <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                            <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
+                                        <Box padding={"10px"}>
+                                            <Box display='flex' mt='2' alignItems='center'>
+                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
+                                            </Box>
+                                            <Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
+                                                <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+                                            </Box>
+                                            <Button><Link href={'/browse/' + item.id}>View</Link></Button>
                                         </Box>
-                                        <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                        <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                        <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
-                                        <br />
-                                        <Button><Link href={'/browse/' + item.id}>View</Link></Button>
                                     </GridItem>
                                 </Fragment>
                             ))
@@ -162,12 +165,12 @@ const Dashboard = () => {
                 </AccordionItem>
 
                 <AccordionItem>
-                    <AccordionButton><Heading>Incoming Offers</Heading><AccordionIcon /></AccordionButton>
+                    <AccordionButton><Heading fontFamily={"Dongle"} > Incoming Requests</Heading><AccordionIcon /></AccordionButton>
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(3, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
                             {incomingOffers.map(item => (
                                 <Fragment>
-                                    <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
+                                    <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
                                         {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
                                         <Box mt='1' fontWeight='semibold' lineHeight='tight' isTruncated>Offer from <Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                         <Box display='flex' mt='2' alignItems='center'>
@@ -202,12 +205,12 @@ const Dashboard = () => {
                 </AccordionItem>
 
                 <AccordionItem>
-                    <AccordionButton><Heading>Outgoing Offers</Heading><AccordionIcon /></AccordionButton>
+                    <AccordionButton><Heading fontFamily={"Dongle"}>Your Wishlist</Heading><AccordionIcon /></AccordionButton>
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(3, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
-                                    <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
+                                    <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
                                         {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
                                         <Box display='flex' mt='2' alignItems='center'>
                                             <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
@@ -216,11 +219,16 @@ const Dashboard = () => {
                                             </Box>
                                         </Box>
 
-                                        <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                        <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                        <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
-                                        <br />
-                                        <Button><Link href={'/browse/' + item.id}>View</Link></Button>
+                                        <Box>
+                                            <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
+                                            <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                            <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+                                            <br />
+                                        </Box>
+
+                                        <Box alignItems="right">
+                                            <Button ><Link href={'/browse/' + item.id}>View</Link></Button>
+                                        </Box>
                                     </GridItem>
                                 </Fragment>
                             ))
@@ -228,6 +236,15 @@ const Dashboard = () => {
                         </Grid >
                     </AccordionPanel>
                 </AccordionItem>
+
+                <AccordionItem>
+                    <AccordionButton><Heading fontFamily={"Dongle"}>Your History</Heading><AccordionIcon /></AccordionButton>
+                    <AccordionPanel pb={4}>
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                        </Grid >
+                    </AccordionPanel>
+                </AccordionItem>
+
             </Accordion>
 
             {/* An error can occur when responding to an offer, to try prevent mistakes from this error and catch it this modal has been implemented */}
