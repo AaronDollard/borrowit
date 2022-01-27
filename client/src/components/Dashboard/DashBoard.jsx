@@ -1,11 +1,8 @@
 import { StarIcon } from '@chakra-ui/icons';
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Button, Grid, GridItem, Heading, Image, Link, Stack, VStack } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import { Fragment } from 'react';
+import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
 import Modal from 'react-modal';
-
 
 const Dashboard = () => {
     const [usersItems, setLoggedUserItems] = useState([]);
@@ -16,6 +13,15 @@ const Dashboard = () => {
     const [offerstatusD, setStatusDecline] = useState("DECLINED");
     const [offerstatusID, setStatusID] = useState("");
     const [buttonState, setbuttonState] = useState("");
+
+
+    const [incomingCount, setincomingCount] = useState("");
+    const [outgoingCount, setoutgoingCount] = useState("");
+    const [pendingCount, setpendingCount] = useState("");
+    const [acceptedCount, setacceptedCount] = useState("");
+    const [declinedCount, setdeclinedCount] = useState("");
+
+    const [loaded, setLoaded] = useState("NOTLOADED");
 
     const { user, setUser } = useContext(AccountContext);
     const currentUserID = user.userid;
@@ -28,8 +34,8 @@ const Dashboard = () => {
         setIsOpen(false);
     }
 
-    console.log(currentUserID, "Dashboard DEBUG")
 
+    // console.log(currentUserID, "Dashboard DEBUG")
     const getLoggedUserItems = async () => {
         try {
             const body = { currentUserID };
@@ -38,8 +44,8 @@ const Dashboard = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
-            console.log("LOGGED USER BODY", body)
-            console.log("LOGGED USER RESPONSE", response)
+            //console.log("LOGGED USER BODY", body)
+            // console.log("LOGGED USER RESPONSE", response)
 
             const userItemData = await response.json();
             setLoggedUserItems(userItemData);
@@ -59,43 +65,68 @@ const Dashboard = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
-            console.log("INCOMING OFFER BODY", body)
-            console.log("INCOMING OFFER RESPONSE", response)
+            // console.log("INCOMING OFFER BODY", body)
+            // console.log("INCOMING OFFER RESPONSE", response)
 
             const incomingOfferData = await response.json();
             setIncomingOffers(incomingOfferData);
-            for (var i = 0; i < incomingOfferData.length; i += 1) {
-                console.log(incomingOfferData[i]);
-            }
+            // for (var i = 0; i < incomingOfferData.length; i += 1) {
+            //     console.log(incomingOfferData[i]);
+            // }
+            setincomingCount(incomingOfferData.length);
         } catch (err) {
             console.error(err.message)
         }
+        setLoaded("LOADED");
     };
 
     const getOutgoingOffers = async () => {
         try {
+            var countPending = 0;
+            var countAccepted = 0;
+            var countDeclined = 0;
+
             const body = { currentUserID };
             const response = await fetch("http://localhost:4000/auth/myoutgoingitems", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
-            console.log("OUTGOING OFFER BODY", body)
-            console.log("OUTGOING OFFER RESPONSE", response)
+            // console.log("OUTGOING OFFER BODY", body)
+            // console.log("OUTGOING OFFER RESPONSE", response)
 
             const outgoingOfferData = await response.json();
+
             setOutgoingOffers(outgoingOfferData);
+
             for (var i = 0; i < outgoingOfferData.length; i += 1) {
-                console.log(outgoingOfferData[i]);
+                //console.log(outgoingOfferData[i]);
+
+                if (outgoingOffers[i].offerstatus == "PENDING") {
+                    countPending = countPending + 1;
+                    console.log("PENDING", countPending)
+                }
+
+                if (outgoingOffers[i].offerstatus == "ACCEPTED") {
+                    countAccepted = countAccepted + 1;
+                    console.log("ACCEPTED", countAccepted)
+                }
+
+                if (outgoingOffers[i].offerstatus == "DECLINED") {
+                    countDeclined = countDeclined + 1;
+                    console.log("DECLINED", countDeclined)
+                }
             }
+
+            setpendingCount(countPending);
+            setacceptedCount(countAccepted);
+            setdeclinedCount(countDeclined);
+            setoutgoingCount(outgoingOfferData.length);
+
         } catch (err) {
             console.error(err.message)
         }
     };
-
-    // function sleep(milliseconds) {
-    //     return new Promise(resolve => setTimeout(resolve, milliseconds));
-    // }
 
     const offerIDResponse = async (e) => {
         setStatusID(null);
@@ -103,15 +134,14 @@ const Dashboard = () => {
     }
 
     const offerResponse = async (e) => {
-        // await sleep(2000);
-        console.log("Offer response made")
-        console.log("Response made: e ", e)
+        // console.log("Offer response made")
+        // console.log("Response made: e ", e)
         var responseToOffer = e;
         var responseToOfferID = offerstatusID;
 
-        if (offerstatusID == "") {
-            openModal();
-        }
+        // if (offerstatusID == "") {
+        //     openModal();
+        // }
 
         console.log("Offerstatusid: ", offerstatusID)
         try {
@@ -128,10 +158,9 @@ const Dashboard = () => {
 
     useEffect(() => {
         getLoggedUserItems();
+        getOutgoingOffers(); //Wishlist
         getIncomingOffers();
-        getOutgoingOffers();
-    }, []);
-
+    }, [loaded]);
 
     return (
         <div>
@@ -164,8 +193,17 @@ const Dashboard = () => {
                     </AccordionPanel>
                 </AccordionItem>
 
+
+
                 <AccordionItem>
-                    <AccordionButton><Heading fontFamily={"Dongle"} > Incoming Requests</Heading><AccordionIcon /></AccordionButton>
+                    <AccordionButton>
+                        <Heading fontFamily={"Dongle"}>Incoming Requests</Heading><AccordionIcon />
+
+                        {incomingCount >= 1 && (
+                            <Badge colorScheme='red'>{incomingCount}</Badge>
+                        )}
+
+                    </AccordionButton>
                     <AccordionPanel pb={4}>
                         <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
                             {incomingOffers.map(item => (
@@ -204,8 +242,31 @@ const Dashboard = () => {
                     </AccordionPanel>
                 </AccordionItem>
 
+
+
                 <AccordionItem>
-                    <AccordionButton><Heading fontFamily={"Dongle"}>Your Wishlist</Heading><AccordionIcon /></AccordionButton>
+                    <AccordionButton>
+                        <Heading fontFamily={"Dongle"}>Your Wishlist</Heading><AccordionIcon />
+
+                        {pendingCount >= 1 && (
+                            <Badge colorScheme='orange'>Pending {pendingCount}</Badge>
+                        )}
+
+                        {acceptedCount >= 1 && (
+                            <Badge colorScheme='green'>Accepted {acceptedCount}</Badge>
+                        )}
+
+                        {declinedCount >= 1 && (
+                            <Badge colorScheme='red'>Declined {declinedCount}</Badge>
+                        )}
+
+                        {outgoingCount >= 1 && (
+                            <Badge>Wishlisted {outgoingCount}</Badge>
+                        )}
+
+                    </AccordionButton>
+
+
                     <AccordionPanel pb={4}>
                         <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
@@ -215,7 +276,18 @@ const Dashboard = () => {
                                         <Box display='flex' mt='2' alignItems='center'>
                                             <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                             <Box display='flex' mt='1' alignItems='right'>
-                                                <Badge lineHeight='tight' colorScheme='orange' isTruncated>{item.offerstatus}</Badge>
+
+                                                {item.offerstatus == "PENDING" && (
+                                                    <Badge lineHeight='tight' isTruncated>{item.offerstatus}</Badge>
+                                                )}
+
+                                                {item.offerstatus == "ACCEPTED" && (
+                                                    <Badge lineHeight='tight' colorScheme='green' isTruncated>{item.offerstatus}</Badge>
+                                                )}
+
+                                                {item.offerstatus == "DECLINED" && (
+                                                    <Badge lineHeight='tight' colorScheme='red' isTruncated>{item.offerstatus}</Badge>
+                                                )}
                                             </Box>
                                         </Box>
 

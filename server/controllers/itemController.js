@@ -96,6 +96,7 @@ module.exports.getItem = async (req, res) => {
     }
 };
 
+//get the 4 latests items from the database
 module.exports.getLatestItem = async (req, res) => {
     try {
         const { currentUserID } = req.body;
