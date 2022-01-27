@@ -1,5 +1,5 @@
 import { StarIcon } from '@chakra-ui/icons';
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Button, Grid, GridItem, Heading, Image, Link, Stack, VStack } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Button, Grid, GridItem, Heading, HStack, Image, Link, Stack, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
 import Modal from 'react-modal';
@@ -11,7 +11,12 @@ const Dashboard = () => {
 
     const [offerstatusA, setStatusAccept] = useState("ACCEPTED");
     const [offerstatusD, setStatusDecline] = useState("DECLINED");
-    const [offerstatusID, setStatusID] = useState("");
+
+    const [offerDismissed, setofferDismissed] = useState("DISMISSED");
+
+    var offerstatusID = 0;
+    const [counter, setcounter] = useState(1000);
+
     const [buttonState, setbuttonState] = useState("");
 
 
@@ -122,28 +127,25 @@ const Dashboard = () => {
             setacceptedCount(countAccepted);
             setdeclinedCount(countDeclined);
             setoutgoingCount(outgoingOfferData.length);
-
+            counter = outgoingOfferData.length;
         } catch (err) {
             console.error(err.message)
         }
     };
 
     const offerIDResponse = async (e) => {
-        setStatusID(null);
-        setStatusID(e);
+        offerstatusID = e;
+    }
+
+    const negativeOne = async () => {
+        setcounter(counter - 1)
     }
 
     const offerResponse = async (e) => {
-        // console.log("Offer response made")
-        // console.log("Response made: e ", e)
         var responseToOffer = e;
         var responseToOfferID = offerstatusID;
 
-        // if (offerstatusID == "") {
-        //     openModal();
-        // }
-
-        console.log("Offerstatusid: ", offerstatusID)
+        console.log("Offerstatusid: ", responseToOffer, responseToOfferID)
         try {
             const body = { responseToOffer, responseToOfferID };
             const response = await fetch("http://localhost:4000/auth/offerresponse", {
@@ -156,11 +158,30 @@ const Dashboard = () => {
         }
     }
 
+    const dismissOffer = async (e) => {
+        var responseToOffer = e;
+        var responseToOfferID = offerstatusID;
+
+        console.log("Dismiss Offer: ", responseToOffer, responseToOfferID)
+        try {
+            const body = { responseToOffer, responseToOfferID };
+            const response = await fetch("http://localhost:4000/auth/dismissoffer", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+        } catch (err) {
+            console.error(err.message)
+        }
+    };
+
+
     useEffect(() => {
         getLoggedUserItems();
         getOutgoingOffers(); //Wishlist
         getIncomingOffers();
-    }, [loaded]);
+    }, [loaded, counter]);
 
     return (
         <div>
@@ -200,7 +221,7 @@ const Dashboard = () => {
                         <Heading fontFamily={"Dongle"}>Incoming Requests</Heading><AccordionIcon />
 
                         {incomingCount >= 1 && (
-                            <Badge colorScheme='red'>{incomingCount}</Badge>
+                            <Badge colorScheme='red'>Requests {incomingCount}</Badge>
                         )}
 
                     </AccordionButton>
@@ -223,6 +244,7 @@ const Dashboard = () => {
                                                 onClick={e => {
                                                     offerIDResponse(item.offerid)
                                                     offerResponse(e.target.value)
+                                                    negativeOne(counter)
                                                 }} value={offerstatusA}>Accept
                                             </Button>
 
@@ -230,6 +252,7 @@ const Dashboard = () => {
                                                 onClick={e => {
                                                     offerIDResponse(item.offerid)
                                                     offerResponse(e.target.value)
+                                                    negativeOne(counter)
                                                 }} value={offerstatusD}>Decline
                                             </Button>
 
@@ -243,11 +266,9 @@ const Dashboard = () => {
                 </AccordionItem>
 
 
-
                 <AccordionItem>
                     <AccordionButton>
                         <Heading fontFamily={"Dongle"}>Your Wishlist</Heading><AccordionIcon />
-
                         {pendingCount >= 1 && (
                             <Badge colorScheme='orange'>Pending {pendingCount}</Badge>
                         )}
@@ -259,11 +280,6 @@ const Dashboard = () => {
                         {declinedCount >= 1 && (
                             <Badge colorScheme='red'>Declined {declinedCount}</Badge>
                         )}
-
-                        {outgoingCount >= 1 && (
-                            <Badge>Wishlisted {outgoingCount}</Badge>
-                        )}
-
                     </AccordionButton>
 
 
@@ -271,37 +287,59 @@ const Dashboard = () => {
                         <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
-                                    <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                        {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
-                                        <Box display='flex' mt='2' alignItems='center'>
-                                            <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                            <Box display='flex' mt='1' alignItems='right'>
+                                    {item.offerstatus != "DISMISSED" && (
+                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
+                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
+                                            <Box display='flex' mt='2' alignItems='center'>
+                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box display='flex' mt='1' alignItems='right'>
 
-                                                {item.offerstatus == "PENDING" && (
-                                                    <Badge lineHeight='tight' isTruncated>{item.offerstatus}</Badge>
-                                                )}
+                                                    {item.offerstatus == "PENDING" && (
+                                                        <Badge colorScheme='orange'>{item.offerstatus}</Badge>
+                                                    )}
 
-                                                {item.offerstatus == "ACCEPTED" && (
-                                                    <Badge lineHeight='tight' colorScheme='green' isTruncated>{item.offerstatus}</Badge>
-                                                )}
+                                                    {item.offerstatus == "ACCEPTED" && (
+                                                        <Badge colorScheme='green'>{item.offerstatus}</Badge>
+                                                    )}
 
-                                                {item.offerstatus == "DECLINED" && (
-                                                    <Badge lineHeight='tight' colorScheme='red' isTruncated>{item.offerstatus}</Badge>
-                                                )}
+                                                    {item.offerstatus == "DECLINED" && (
+                                                        <Badge colorScheme='red'>{item.offerstatus}</Badge>
+                                                    )}
+                                                </Box>
                                             </Box>
-                                        </Box>
 
-                                        <Box>
-                                            <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                            <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                            <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
-                                            <br />
-                                        </Box>
+                                            <Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
+                                                <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+                                            </Box>
 
-                                        <Box alignItems="right">
-                                            <Button ><Link href={'/browse/' + item.id}>View</Link></Button>
-                                        </Box>
-                                    </GridItem>
+
+                                            {item.offerstatus == "PENDING" && (
+                                                <Button ><Link href={'/browse/' + item.id}>View</Link></Button>
+                                            )}
+
+                                            {item.offerstatus == "ACCEPTED" && (
+
+                                                <Stack direction='row' spacing={4}>
+                                                    <Button >Contact</Button>
+                                                    <Button >Complete</Button>
+                                                </Stack>
+
+                                            )}
+
+                                            {item.offerstatus == "DECLINED" && (
+                                                <Button onClick={e => {
+                                                    offerIDResponse(item.offerid)
+                                                    dismissOffer(e.target.value)
+                                                    negativeOne(counter)
+                                                }} value={offerDismissed}>Dismiss</Button>
+                                            )}
+
+                                        </GridItem>
+
+                                    )}
                                 </Fragment>
                             ))
                             }
@@ -313,7 +351,29 @@ const Dashboard = () => {
                     <AccordionButton><Heading fontFamily={"Dongle"}>Your History</Heading><AccordionIcon /></AccordionButton>
                     <AccordionPanel pb={4}>
                         <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
-                        </Grid >
+                            {outgoingOffers.map(item => (
+                                <Fragment>
+                                    {item.offerstatus === "DISMISSED" && (
+                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
+                                            <Box display='flex' mt='2' alignItems='center'>
+                                                {item.offerstatus == "DISMISSED" && (
+                                                    <Badge colorScheme='gray'>Declined</Badge>
+                                                )}
+                                            </Box>
+
+                                            <Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
+                                                <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+                                            </Box>
+
+                                        </GridItem>
+                                    )}
+
+                                </Fragment>
+                            ))
+                            }
+                        </Grid>
                     </AccordionPanel>
                 </AccordionItem>
 

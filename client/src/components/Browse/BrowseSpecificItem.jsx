@@ -134,7 +134,7 @@ const BrowseSpecificItem = () => {
                         </Box>
 
                         <GridItem>
-                            <Box display='flex' mt='2' alignItems='center'>
+                            <Box mt='2'>
                                 <Heading mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Heading>
                             </Box>
                             <Badge borderRadius='full' px='2' colorScheme='teal'>To {item.giveaway}</Badge>
@@ -202,10 +202,10 @@ const BrowseSpecificItem = () => {
                                             <option value="One Week">1 week</option>
                                         </select>
 
+                                        <label for="photo">Photo</label>
                                         <HStack>
-                                            <label for="photo">Photo</label>
                                             <input
-                                                placeholder={photo}
+                                                placeholder={item.photo}
                                                 type="text"
                                                 className="form-control"
                                                 onChange={e => setPhoto(e.target.value)} />
@@ -219,25 +219,18 @@ const BrowseSpecificItem = () => {
                                                 onChange={e => !setGiveaway(true)} />
                                         </HStack>
 
-                                        <button >Update Listing</button>
+                                        <button class="btn btn-primary">Update Listing</button>
                                     </form>
+
+                                    <Box textAlign="center">
+                                        <Heading>Delete your listing</Heading>
+                                        <Text fontSize='sm' fontWeight={"thin"}>If you wish to delete your listing permenantly click the button below.
+                                            Be aware that this CANNOT be undone.</Text>
+                                        <Button colorScheme='red' onClick={deleteOffer}>Delete</Button>
+                                    </Box>
                                 </VStack>
                             </GridItem>
                         )}
-
-                        {user.userid === item.itemowner && (
-                            <GridItem align="center">
-                                <Heading>Delete your listing</Heading>
-                                <Text fontSize='sm'>If you wish to delete your listing permenantly click the button below.
-                                    Be aware that this CANNOT be undone.</Text>
-
-                                <Button colorScheme='red' onClick={deleteOffer}>Delete</Button>
-                            </GridItem>
-
-                        )}
-
-
-
                     </Fragment>
                 ))
                 }

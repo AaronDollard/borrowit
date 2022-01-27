@@ -203,7 +203,7 @@ module.exports.getIncomingOffers = async (req, res) => {
             (`SELECT users.username, i.itemname, i.descr, i.lendlength, i,giveaway, i.itemowner, i.id, offers.id AS offerID FROM items AS i 
             JOIN offers ON i.id = offers.itemid 
             JOIN users ON offers.borrowerid = users.userid 
-            WHERE i.itemowner = $1`,
+            WHERE i.itemowner = $1 AND offers.offerstatus = 'PENDING'`,
                 [currentUserID])
             ;
         for (var i = 0; i < getIncomingOffers.rows.length; i++) {
@@ -222,8 +222,8 @@ module.exports.getOutgoingOffers = async (req, res) => {
         const { currentUserID } = req.body;
 
         const getOutgoingOffers = await db.query
-            (`SELECT * FROM items 
-            JOIN offers ON items.id = offers.itemid 
+            (`SELECT users.username, i.itemname, i.descr, i.lendlength, i,giveaway, i.itemowner, i.id, offers.offerstatus, offers.id AS offerID FROM items AS i 
+            JOIN offers ON i.id = offers.itemid 
             JOIN users ON offers.lenderid = users.userid 
             WHERE offers.borrowerid = $1`,
                 [currentUserID])
@@ -243,6 +243,24 @@ module.exports.offerResponse = async (req, res) => {
         console.log("offerResponse - itemController Debug");
         const { responseToOffer, responseToOfferID } = req.body;
         console.log("Offer Response Log: ", responseToOffer, responseToOfferID)
+
+        const offerResponse = await db.query
+            (`UPDATE offers
+            SET offerstatus = $1
+            WHERE id = $2`,
+                [responseToOffer, responseToOfferID]);
+
+        res.json(offerResponse.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+module.exports.dismissOffer = async (req, res) => {
+    try {
+        console.log("dismissOffer - itemController Debug");
+        const { responseToOffer, responseToOfferID } = req.body;
+        console.log("dismissOffer Log: ", responseToOffer, responseToOfferID)
 
         const offerResponse = await db.query
             (`UPDATE offers

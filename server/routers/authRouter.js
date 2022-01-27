@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const validateForm = require("../controllers/validateForm");
 const { handleLogin, attemptLogin, attemptSignUp } = require("../controllers/authController");
-const { addItem, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer, getLatestItem } = require("../controllers/itemController");
+const { addItem, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer, getLatestItem, dismissOffer } = require("../controllers/itemController");
 const db = require("../db");
 
 router.route("/login").get(handleLogin).post(validateForm, attemptLogin) //Validation for login page
@@ -27,5 +27,7 @@ router.route("/usersitems/:id").post(getClickedUserItems); //Display the clicked
 
 router.post("/offers", makeOffer); //Post a new listing for an item.
 router.post("/offerresponse", offerResponse); //The response from a user to an offer
+
+router.route("/dismissoffer").post(dismissOffer);
 
 module.exports = router;

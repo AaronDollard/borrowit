@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Box, Flex, Avatar, HStack, VStack, Heading, Text, Link, IconButton, Button, Menu, MenuButton, MenuList, MenuItem, MenuDivider, useDisclosure, useColorModeValue, Stack } from '@chakra-ui/react';
+import { Box, Flex, Avatar, HStack, VStack, Heading, Text, Link, IconButton, Button, Menu, MenuButton, MenuList, MenuItem, MenuDivider, useDisclosure, useColorModeValue, Stack, Img } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon, MinusIcon } from '@chakra-ui/icons';
 import { Input } from '@chakra-ui/input'
 import ToggleColourMode from "../ToggleColourMode"
@@ -67,21 +67,21 @@ const Home = () => {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={'center'}>
-            <Box fontFamily={"Mochiy Pop P One"}>Borrowit</Box>
-            <HStack
-              as={'nav'}
-              spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
-              <Link href='/dashboard'>Dashboard</Link>
-              <Link href='/browse'>Browse</Link>
-            </HStack>
+          <HStack>
+            <Img boxSize='60px' src="https://i.postimg.cc/SK4yrq8z/image.png"></Img>
+            <Text fontStyle={"italic"} fontWeight={"bold"} textAlign={"center"}>Borrowit<br />Lendit</Text>
           </HStack>
 
-          <HStack>
+          <HStack
+            spacing={2}
+            as={'nav'}
+            spacing={4}
+            display={{ base: 'none', md: 'flex' }}>
+            <Link href='/dashboard'>Dashboard</Link>
+            <Link href='/browse'>Browse</Link>
             <Input
-              onkeyup="myFunction()"
-              color={"black"}
+              label="Search"
+              color={"gray"}
               background={"white"}
               placeholder='Search for an item'></Input>
           </HStack>
