@@ -57,16 +57,10 @@ const BrowseSpecificUser = () => {
         <div>
             {users.map(user => (
                 <Fragment>
-
                     {user.username === userID && (
 
                         < Heading ></Heading>
                     )}
-
-
-
-
-
                     <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>{user.username}'s Catalog</Heading>
                     <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
                         {usersItems.map(item => (
@@ -99,7 +93,6 @@ const BrowseSpecificUser = () => {
                                                 <Button><Link href={'/browse/' + item.itemid}>View</Link></Button>
                                             </>
                                         )}
-
                                     </Box>
                                 </GridItem>
                             </Fragment>
