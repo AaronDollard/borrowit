@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import PrivateRoutes from './PrivateRouters';
 import { AccountContext } from './Contexts/AccountContext';
-import Dashboard from './Dashboard/Dashboard'
+import Dashboard from './Dashboard/DashBoard'
 import Browse from './Browse/Browse'
 import Loading from './assets/Loading'
 import '../styles/styles.css'
