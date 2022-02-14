@@ -1,14 +1,16 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 export const AccountContext = createContext();
 
 const UserContext = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState({ loggedIn: null });
+    const { baseURL, setBaseURL } = useContext(ProdDevMode);
 
     useEffect(() => {
-        fetch("http://localhost:4000/auth/login", {
+        fetch(baseURL + "/auth/login", {
             credentials: "include",
         })
             .catch(err => {

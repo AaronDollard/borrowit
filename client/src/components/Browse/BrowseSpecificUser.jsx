@@ -2,10 +2,12 @@ import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link, VStack } from
 import React, { Fragment, useEffect } from 'react'
 import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
+import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const BrowseSpecificUser = () => {
     const [users, setUsers] = useState([]);
     const [usersItems, setClickedUserItems] = useState([]);
+    const { baseURL, setBaseURL } = useContext(ProdDevMode);
 
     var userID = window.location.pathname;
     //console.log(userID.split('/')[2]); //Split the url to get the item ID
@@ -14,7 +16,7 @@ const BrowseSpecificUser = () => {
     const getSpecificUser = async () => {
         const body = { userID };
         try {
-            const response = await fetch("http://localhost:4000/auth/users/:id", {
+            const response = await fetch(baseURL + "/auth/users/:id", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -31,7 +33,7 @@ const BrowseSpecificUser = () => {
         try {
             const body = { userID };
             console.log(userID)
-            const response = await fetch("http://localhost:4000/auth/usersitems/:id", {
+            const response = await fetch(baseURL + "/auth/usersitems/:id", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)

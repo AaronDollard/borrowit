@@ -3,6 +3,7 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
 import Modal from 'react-modal';
+import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const Dashboard = () => {
     const [usersItems, setLoggedUserItems] = useState([]);
@@ -30,6 +31,7 @@ const Dashboard = () => {
 
     const { user, setUser } = useContext(AccountContext);
     const currentUserID = user.userid;
+    const { baseURL, setBaseURL } = useContext(ProdDevMode);
 
     const [modalIsOpen, setIsOpen] = useState(false);
     function openModal() {
@@ -44,7 +46,7 @@ const Dashboard = () => {
     const getLoggedUserItems = async () => {
         try {
             const body = { currentUserID };
-            const response = await fetch("http://localhost:4000/auth/myitems", {
+            const response = await fetch(baseURL + "/auth/myitems", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -65,7 +67,7 @@ const Dashboard = () => {
     const getIncomingOffers = async () => {
         try {
             const body = { currentUserID };
-            const response = await fetch("http://localhost:4000/auth/myincomingitems", {
+            const response = await fetch(baseURL + "/auth/myincomingitems", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -92,7 +94,7 @@ const Dashboard = () => {
             var countDeclined = 0;
 
             const body = { currentUserID };
-            const response = await fetch("http://localhost:4000/auth/myoutgoingitems", {
+            const response = await fetch(baseURL + "/auth/myoutgoingitems", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -148,7 +150,7 @@ const Dashboard = () => {
         console.log("Offerstatusid: ", responseToOffer, responseToOfferID)
         try {
             const body = { responseToOffer, responseToOfferID };
-            const response = await fetch("http://localhost:4000/auth/offerresponse", {
+            const response = await fetch(baseURL + "/auth/offerresponse", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -165,7 +167,7 @@ const Dashboard = () => {
         console.log("Dismiss Offer: ", responseToOffer, responseToOfferID)
         try {
             const body = { responseToOffer, responseToOfferID };
-            const response = await fetch("http://localhost:4000/auth/dismissoffer", {
+            const response = await fetch(baseURL + "/auth/dismissoffer", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)

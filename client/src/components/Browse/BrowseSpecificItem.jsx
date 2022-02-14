@@ -5,6 +5,7 @@ import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from "../Contexts/AccountContext"
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
+import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const BrowseSpecificItem = () => {
     const [items, setItems] = useState([]);
@@ -21,7 +22,7 @@ const BrowseSpecificItem = () => {
     const currentUserID = user.userid;
     console.log("Current Logged User ID", currentUserID, "NavBar Debug")
     const currentUser = user.username;
-
+    const { baseURL, setBaseURL } = useContext(ProdDevMode);
     const borrowerid = user.userid;
     var lenderid;
     var id;
@@ -42,7 +43,7 @@ const BrowseSpecificItem = () => {
         const body = { itemID };
 
         try {
-            const response = await fetch("http://localhost:4000/auth/items/:id", {
+            const response = await fetch(baseURL + "/auth/items/:id", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -67,7 +68,7 @@ const BrowseSpecificItem = () => {
         console.log(id)
         try {
             const body = { id, lenderid, offerstatus, borrowerid };
-            const response = await fetch("http://localhost:4000/auth/offers", {
+            const response = await fetch(baseURL + "/auth/offers", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -87,7 +88,7 @@ const BrowseSpecificItem = () => {
         console.log(id)
         try {
             const body = { id, lenderid };
-            const response = await fetch("http://localhost:4000/auth/deleteoffer", {
+            const response = await fetch(baseURL + "/auth/deleteoffer", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -107,7 +108,7 @@ const BrowseSpecificItem = () => {
         try {
             console.log(currentUserID, "Browse Specific Debug");
             const body = { name, description, condition, period, photo, giveaway, itemID };
-            const response = await fetch("http://localhost:4000/auth/updateitems", {
+            const response = await fetch(baseURL + "/auth/updateitems", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)

@@ -3,18 +3,21 @@ import React, { Fragment, useContext, useEffect } from 'react'
 import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from '../Contexts/AccountContext';
+import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const BrowseItems = () => {
     const [items, setItems] = useState([]);
     const [latestItems, setLatestItems] = useState([]);
 
     const { user, setUser } = useContext(AccountContext);
+    const { baseURL, setBaseURL } = useContext(ProdDevMode);
+
     const currentUserID = user.userid;
 
     const getItems = async () => {
         const body = { currentUserID };
         try {
-            const response = await fetch("http://localhost:4000/auth/itemsbrowse", {
+            const response = await fetch(baseURL + "/itemsbrowse", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -33,7 +36,7 @@ const BrowseItems = () => {
     const getLatestItem = async () => {
         const body = { currentUserID };
         try {
-            const response = await fetch("http://localhost:4000/auth/itemsbrowselatest", {
+            const response = await fetch(baseURL + "/auth/itemsbrowselatest", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
