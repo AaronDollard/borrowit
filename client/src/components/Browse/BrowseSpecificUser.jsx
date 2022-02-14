@@ -2,12 +2,11 @@ import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link, VStack } from
 import React, { Fragment, useEffect } from 'react'
 import { useState, useContext } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
-import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const BrowseSpecificUser = () => {
     const [users, setUsers] = useState([]);
     const [usersItems, setClickedUserItems] = useState([]);
-    const { baseURL, setBaseURL } = useContext(ProdDevMode);
+    const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
 
     var userID = window.location.pathname;
     //console.log(userID.split('/')[2]); //Split the url to get the item ID
