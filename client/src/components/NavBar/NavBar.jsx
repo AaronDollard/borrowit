@@ -12,7 +12,7 @@ import Modal from 'react-modal';
 import { Form } from "formik";
 import useSocket from '../Hooks/useSocket';
 import socket from '../../Socket/socket';
-import { urlContext } from '../Contexts/ProdDevMode';
+import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const Home = () => {
   useSocket();
@@ -27,7 +27,7 @@ const Home = () => {
   const currentUserID = user.userid;
   console.log("Current Logged User ID", currentUserID, "NavBar Debug")
   const currentUser = user.username;
-  const { baseURL, setBaseURL } = useContext(urlContext);
+  const { baseURL, setBaseURL } = useContext(ProdDevMode);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

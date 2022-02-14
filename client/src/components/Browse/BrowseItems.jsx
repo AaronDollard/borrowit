@@ -3,14 +3,14 @@ import React, { Fragment, useContext, useEffect } from 'react'
 import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from '../Contexts/AccountContext';
-import { urlContext } from '../Contexts/ProdDevMode';
+import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const BrowseItems = () => {
     const [items, setItems] = useState([]);
     const [latestItems, setLatestItems] = useState([]);
 
     const { user, setUser } = useContext(AccountContext);
-    const { baseURL, setBaseURL } = useContext(urlContext);
+    const { baseURL, setBaseURL } = useContext(ProdDevMode);
 
     const currentUserID = user.userid;
 

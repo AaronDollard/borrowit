@@ -3,7 +3,7 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
 import Modal from 'react-modal';
-import { urlContext } from '../Contexts/ProdDevMode';
+import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const Dashboard = () => {
     const [usersItems, setLoggedUserItems] = useState([]);
@@ -31,7 +31,7 @@ const Dashboard = () => {
 
     const { user, setUser } = useContext(AccountContext);
     const currentUserID = user.userid;
-    const { baseURL, setBaseURL } = useContext(urlContext);
+    const { baseURL, setBaseURL } = useContext(ProdDevMode);
 
     const [modalIsOpen, setIsOpen] = useState(false);
     function openModal() {
