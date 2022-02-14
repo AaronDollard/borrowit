@@ -6,13 +6,12 @@ import { useNavigate } from "react-router";
 import { AccountContext } from '../Contexts/AccountContext'
 import * as Yup from "yup";
 import TextField from "./TextField";
-import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const SignUp = () => {
     const { setUser } = useContext(AccountContext);
     const { error, setError } = useState(null);
     const navigate = useNavigate();
-    const { baseURL, setBaseURL } = useContext(ProdDevMode);
+    const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
     return (
         <Formik
             initialValues={{ username: "", password: "" }}

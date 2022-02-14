@@ -11,8 +11,6 @@ const UserContext = ({ children }) => {
 
     const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
 
-
-
     useEffect(() => {
         fetch(baseURL + "/auth/login", {
             credentials: "include",
