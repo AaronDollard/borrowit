@@ -9,7 +9,7 @@ const UserContext = ({ children }) => {
     const [user, setUser] = useState({ loggedIn: null });
     //const { baseURL, setBaseURL } = useContext(ProdDevMode);
 
-    const setBaseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
+    const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
 
 
 
