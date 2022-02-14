@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 
 export const ProdDevMode = createContext();
 
-const urlContext = ({ children }) => {
+const UrlContext = ({ children }) => {
     const [baseURL, setBaseURL] = useState({});
 
 
@@ -16,4 +16,4 @@ const urlContext = ({ children }) => {
     </ProdDevMode.Provider>
 }
 
-export default urlContext;
+export default UrlContext;
