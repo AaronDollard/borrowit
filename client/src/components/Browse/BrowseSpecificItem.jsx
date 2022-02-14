@@ -5,7 +5,6 @@ import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from "../Contexts/AccountContext"
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
-import { ProdDevMode } from '../Contexts/ProdDevMode';
 
 const BrowseSpecificItem = () => {
     const [items, setItems] = useState([]);
@@ -22,7 +21,7 @@ const BrowseSpecificItem = () => {
     const currentUserID = user.userid;
     console.log("Current Logged User ID", currentUserID, "NavBar Debug")
     const currentUser = user.username;
-    const { baseURL, setBaseURL } = useContext(ProdDevMode);
+    const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
     const borrowerid = user.userid;
     var lenderid;
     var id;
