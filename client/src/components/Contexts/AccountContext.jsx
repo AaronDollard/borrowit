@@ -1,13 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { ProdDevMode } from '../Contexts/ProdDevMode';
+import { urlContext } from '../Contexts/ProdDevMode';
 
 export const AccountContext = createContext();
 
 const UserContext = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState({ loggedIn: null });
-    const { baseURL, setBaseURL } = useContext(ProdDevMode);
+    const { baseURL, setBaseURL } = useContext(urlContext);
 
     useEffect(() => {
         fetch(baseURL + "/auth/login", {
