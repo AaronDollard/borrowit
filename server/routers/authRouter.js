@@ -4,9 +4,11 @@ const validateForm = require("../controllers/validateForm");
 const { handleLogin, attemptLogin, attemptSignUp } = require("../controllers/authController");
 const { addItem, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer, getLatestItem, dismissOffer } = require("../controllers/itemController");
 const db = require("../db");
+const rateLimiter = require("../controllers/rateLimiter");
 
-router.route("/login").get(handleLogin).post(validateForm, attemptLogin) //Validation for login page
-router.post("/register", validateForm, attemptSignUp); //Validation for signup page
+//60 seconds and 3 attemps to login
+router.route("/login").get(handleLogin).post(validateForm, rateLimiter(60, 3), attemptLogin) //Validation for login page
+router.post("/register", validateForm, rateLimiter(20, 3), attemptSignUp); //Validation for signup page
 
 
 router.post("/items", addItem); //Post a new listing for an item

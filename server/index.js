@@ -1,3 +1,5 @@
+require("dotenv").config();
+const port = process.env.PORT || 4000
 const express = require("express");
 const { sessionMiddleware, wrap, corsConfig } = require("./controllers/serverController");
 const { Server } = require("socket.io");
@@ -5,9 +7,8 @@ const app = express();
 const helmet = require("helmet");
 const cors = require("cors");
 const authRouter = require("./routers/authRouter");
-const { userAuthorized } = require("./controllers/socketController");
+const { userAuthorized, addContact, initializeUser, onDisconnect, dm } = require("./controllers/socketController");
 const server = require("http").createServer(app);
-require("dotenv").config();
 const io = new Server(server, {
     cors: corsConfig
 });
@@ -19,18 +20,24 @@ app.use(express.json());
 app.use(sessionMiddleware);
 
 //Route below are used for authentication
-app.use("/auth", authRouter)
+app.use("/auth", authRouter);
+app.set("trust proxy", 1);
 
 io.use(wrap(sessionMiddleware))
 io.use(userAuthorized);
 io.on("connect", socket => {
-    console.log("socket is working - hello")
-    console.log("UserID: ", socket.user.userid)
-    console.log(socket.id)
-    console.log(socket.request.session.user.username)
+    initializeUser(socket);
+
+    socket.on("add_contact", (contactName, cb) => {
+        addContact(socket, contactName, cb)
+    });
+
+    socket.on("dm", message => dm(socket, message));
+
+    socket.on("disconnecting", () => onDisconnect(socket));
 })
 
-const port = process.env.PORT || 4000
+
 server.listen(port, () => {
     console.log(`Server listening on port ${port}`)
 })

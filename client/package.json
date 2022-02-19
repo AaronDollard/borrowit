@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",
+    "@chakra-ui/modal": "^1.10.7",
     "@chakra-ui/react": "^1.7.3",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
@@ -21,7 +22,8 @@
     "react-router-dom": "^6.1.1",
     "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
-    "socket.io-client": "^4.4.0",
+    "react-social-icons": "^5.11.0",
+    "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
     "web-vitals": "^1.1.2",
     "yup": "^0.32.11"

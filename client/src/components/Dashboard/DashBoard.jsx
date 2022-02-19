@@ -1,24 +1,24 @@
-import { StarIcon } from '@chakra-ui/icons';
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Button, Grid, GridItem, Heading, HStack, Image, Link, Stack, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
+import { ContactContext } from "../Communication/ChatMain";
 import Modal from 'react-modal';
+import socket from '../../Socket/socket';
+import { useNavigate } from "react-router";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const [usersItems, setLoggedUserItems] = useState([]);
     const [incomingOffers, setIncomingOffers] = useState([]);
     const [outgoingOffers, setOutgoingOffers] = useState([]);
 
     const [offerstatusA, setStatusAccept] = useState("ACCEPTED");
     const [offerstatusD, setStatusDecline] = useState("DECLINED");
-
     const [offerDismissed, setofferDismissed] = useState("DISMISSED");
 
     var offerstatusID = 0;
     const [counter, setcounter] = useState(1000);
-
-    const [buttonState, setbuttonState] = useState("");
-
+    //const [buttonState, setbuttonState] = useState("");
 
     const [incomingCount, setincomingCount] = useState("");
     const [outgoingCount, setoutgoingCount] = useState("");
@@ -28,9 +28,11 @@ const Dashboard = () => {
 
     const [loaded, setLoaded] = useState("NOTLOADED");
 
-    const { user, setUser } = useContext(AccountContext);
+    const { user } = useContext(AccountContext);
+    var { setContactList } = useContext(ContactContext);
+
     const currentUserID = user.userid;
-    const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
+
 
     const [modalIsOpen, setIsOpen] = useState(false);
     function openModal() {
@@ -40,12 +42,11 @@ const Dashboard = () => {
         setIsOpen(false);
     }
 
-
-    // console.log(currentUserID, "Dashboard DEBUG")
+    console.log(currentUserID, "Dashboard DEBUG")
     const getLoggedUserItems = async () => {
         try {
             const body = { currentUserID };
-            const response = await fetch(baseURL + "/auth/myitems", {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/myitems`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -56,7 +57,7 @@ const Dashboard = () => {
             const userItemData = await response.json();
             setLoggedUserItems(userItemData);
             for (var i = 0; i < userItemData.length; i += 1) {
-                console.log(userItemData[i]); //Print all of the items to the console for debugging
+                // console.log(userItemData[i]); //Print all of the items to the console for debugging
             }
         } catch (err) {
             console.error(err.message)
@@ -66,7 +67,7 @@ const Dashboard = () => {
     const getIncomingOffers = async () => {
         try {
             const body = { currentUserID };
-            const response = await fetch(baseURL + "/auth/myincomingitems", {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/myincomingitems`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -76,9 +77,9 @@ const Dashboard = () => {
 
             const incomingOfferData = await response.json();
             setIncomingOffers(incomingOfferData);
-            // for (var i = 0; i < incomingOfferData.length; i += 1) {
-            //     console.log(incomingOfferData[i]);
-            // }
+            for (var i = 0; i < incomingOfferData.length; i += 1) {
+                console.log(incomingOfferData[i]);
+            }
             setincomingCount(incomingOfferData.length);
         } catch (err) {
             console.error(err.message)
@@ -93,20 +94,20 @@ const Dashboard = () => {
             var countDeclined = 0;
 
             const body = { currentUserID };
-            const response = await fetch(baseURL + "/auth/myoutgoingitems", {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/myoutgoingitems`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
             // console.log("OUTGOING OFFER BODY", body)
-            // console.log("OUTGOING OFFER RESPONSE", response)
+            console.log("OUTGOING OFFER RESPONSE", response)
 
             const outgoingOfferData = await response.json();
 
             setOutgoingOffers(outgoingOfferData);
 
             for (var i = 0; i < outgoingOfferData.length; i += 1) {
-                //console.log(outgoingOfferData[i]);
+                console.log(outgoingOfferData[i]);
 
                 if (outgoingOffers[i].offerstatus == "PENDING") {
                     countPending = countPending + 1;
@@ -149,7 +150,7 @@ const Dashboard = () => {
         console.log("Offerstatusid: ", responseToOffer, responseToOfferID)
         try {
             const body = { responseToOffer, responseToOfferID };
-            const response = await fetch(baseURL + "/auth/offerresponse", {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/offerresponse`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -166,7 +167,7 @@ const Dashboard = () => {
         console.log("Dismiss Offer: ", responseToOffer, responseToOfferID)
         try {
             const body = { responseToOffer, responseToOfferID };
-            const response = await fetch(baseURL + "/auth/dismissoffer", {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/dismissoffer`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -176,7 +177,6 @@ const Dashboard = () => {
             console.error(err.message)
         }
     };
-
 
     useEffect(() => {
         getLoggedUserItems();
@@ -214,8 +214,6 @@ const Dashboard = () => {
                         </Grid >
                     </AccordionPanel>
                 </AccordionItem>
-
-
 
                 <AccordionItem>
                     <AccordionButton>
@@ -266,7 +264,6 @@ const Dashboard = () => {
                     </AccordionPanel>
                 </AccordionItem>
 
-
                 <AccordionItem>
                     <AccordionButton>
                         <Heading fontFamily={"Dongle"}>Your Wishlist</Heading><AccordionIcon />
@@ -282,7 +279,6 @@ const Dashboard = () => {
                             <Badge colorScheme='red'>Declined {declinedCount}</Badge>
                         )}
                     </AccordionButton>
-
 
                     <AccordionPanel pb={4}>
                         <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
@@ -316,7 +312,6 @@ const Dashboard = () => {
                                                 <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
                                             </Box>
 
-
                                             {item.offerstatus == "PENDING" && (
                                                 <Button ><Link href={'/browse/' + item.id}>View</Link></Button>
                                             )}
@@ -324,8 +319,14 @@ const Dashboard = () => {
                                             {item.offerstatus == "ACCEPTED" && (
 
                                                 <Stack direction='row' spacing={4}>
-                                                    <Button >Contact</Button>
-                                                    <Button >Complete</Button>
+                                                    <Button onClick={values => [
+                                                        socket.emit("add_contact", values = item.username, ({ done, newContact }) => {
+                                                            if (done) {
+                                                                setContactList = c => [newContact, ...c];
+                                                            }
+                                                            return;
+                                                        })
+                                                    ]}>Contact</Button>
                                                 </Stack>
 
                                             )}
@@ -337,9 +338,7 @@ const Dashboard = () => {
                                                     negativeOne(counter)
                                                 }} value={offerDismissed}>Dismiss</Button>
                                             )}
-
                                         </GridItem>
-
                                     )}
                                 </Fragment>
                             ))

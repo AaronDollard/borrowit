@@ -9,9 +9,9 @@ import TextField from "./TextField";
 
 const SignUp = () => {
     const { setUser } = useContext(AccountContext);
-    const { error, setError } = useState(null);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
+
     return (
         <Formik
             initialValues={{ username: "", password: "" }}
@@ -28,7 +28,7 @@ const SignUp = () => {
             onSubmit={(values, actions) => {
                 const vals = { ...values };
                 actions.resetForm();
-                fetch(baseURL + "/auth/register", {
+                fetch(`${process.env.REACT_APP_SERVER_URL}/auth/register`, {
                     method: "POST",
                     credentials: "include",
                     headers: {

@@ -8,9 +8,9 @@ import TextField from "./TextField";
 
 const SignIn = () => {
     const { setUser } = useContext(AccountContext);
-    const { error, setError } = useState(null);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
+
     return (
         <Formik
             initialValues={{ username: "", password: "" }}
@@ -27,7 +27,7 @@ const SignIn = () => {
             onSubmit={(values, actions) => {
                 const vals = { ...values };
                 actions.resetForm();
-                fetch(baseURL + "/auth/login", {
+                fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
                     method: "POST",
                     credentials: "include",
                     headers: {
@@ -47,8 +47,10 @@ const SignIn = () => {
                     .then(data => {
                         if (!data) return;
                         setUser({ ...data });
+
                         if (data.status) {
                             setError(data.status);
+
                         } else if (data.loggedIn) {
                             navigate("/browse");
                         }
@@ -64,7 +66,7 @@ const SignIn = () => {
                 spacing="1rem"
             >
                 <Heading>Log In</Heading>
-                <Text>{error}</Text>
+                <Text as="p" color="red.500">{error}</Text>
                 <TextField
                     name="username"
                     placeholder="Enter username"

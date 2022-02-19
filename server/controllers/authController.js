@@ -11,6 +11,7 @@ module.exports.handleLogin = (req, res) => {
 }
 
 module.exports.attemptLogin = async (req, res) => {
+    console.log("ojojojojoj");
     const potentialUser = await db.query(
         "SELECT id, username, passhashed, userid FROM users u WHERE u.username=$1",
         [req.body.username]

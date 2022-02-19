@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
-import { Box, Flex, Avatar, HStack, VStack, Heading, Text, Link, IconButton, Button, Menu, MenuButton, MenuList, MenuItem, MenuDivider, useDisclosure, useColorModeValue, Stack, Img } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon, MinusIcon } from '@chakra-ui/icons';
+import { Box, Flex, Avatar, HStack, VStack, Heading, Text, Link, IconButton, Button, Menu, MenuButton, MenuList, MenuItem, MenuDivider, useColorModeValue, Stack, Img } from '@chakra-ui/react';
+import { useDisclosure } from "@chakra-ui/hooks";
+import { HamburgerIcon, CloseIcon, AddIcon, MinusIcon, ChatIcon } from '@chakra-ui/icons';
 import { Input } from '@chakra-ui/input'
 import ToggleColourMode from "../ToggleColourMode"
 
@@ -8,7 +9,16 @@ import { useContext } from 'react'
 import { AccountContext } from "../Contexts/AccountContext"
 import { useState } from 'react';
 
-import Modal from 'react-modal';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react"
+
 import { Form } from "formik";
 import useSocket from '../Hooks/useSocket';
 import socket from '../../Socket/socket';
@@ -59,7 +69,11 @@ const Home = () => {
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <Flex h={16}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          width='100%'>
+
           <IconButton
             size={'md'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -67,10 +81,11 @@ const Home = () => {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack>
-            <Img boxSize='60px' src="https://i.postimg.cc/SK4yrq8z/image.png"></Img>
+
+          {/* <HStack>
+            <Img boxSize='60px' src=""></Img>
             <Text fontStyle={"italic"} fontWeight={"bold"} textAlign={"center"}>Borrowit<br />Lendit</Text>
-          </HStack>
+          </HStack> */}
 
           <HStack
             spacing={2}
@@ -99,6 +114,7 @@ const Home = () => {
 
             <Menu>
               <HStack>
+                <Link href='/chat'><Button><ChatIcon /></Button></Link>
                 <ToggleColourMode />
 
                 <MenuButton
@@ -136,28 +152,31 @@ const Home = () => {
             <Stack as={'nav'} spacing={4}>
               <Link href='/dashboard'>Dashboard</Link>
               <Link href='/browse'>Browse</Link>
+              <Link href='/chat'>Contacts</Link>
             </Stack>
           </Box>
         ) : null}
       </Box>
 
-      <Modal style={{
-        overlay: {
-          width: '100%',
-          height: "100%",
-        },
-        content: {
-          position: 'absolute',
-          top: '25%',
-          left: '20%',
-          right: '20%',
-          bottom: '25%',
-          border: '1px solid #ccc',
-        }
+      {/* <Modal isOpen={commModalIsOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalBody>
+            <Heading>Chat</Heading>
+            <ModalCloseButton onClick={closeCommModal} />
+            <Text>Organise collecting items by chatting with other users.</Text>
+            <ModalFooter>
+              <Button>Submit</Button>
+            </ModalFooter>
+          </ModalBody>
+        </ModalContent>
+      </Modal> */}
 
-      }} isOpen={modalIsOpen} onRequestClose={closeModal}>
-        <VStack spacing="1rem">
-          <Heading fontFamily={"Dongle"} > Add to your catalog</Heading>
+      <Modal isOpen={modalIsOpen}>
+        <ModalOverlay />
+        <ModalContent p='10px'>
+          <ModalHeader> Add to your catalog</ModalHeader>
+          <ModalCloseButton onClick={closeModal} />
           <p>Enter the details of the item you wish to add to your catalog. Click ADD when finished.</p>
           <form onSubmit={onSubmitCreateListing}>
             <label for="name">Item Name</label>
@@ -212,7 +231,7 @@ const Home = () => {
 
             <button class="btn btn-primary">Add</button>
           </form>
-        </VStack>
+        </ModalContent>
       </Modal>
     </>
   );
