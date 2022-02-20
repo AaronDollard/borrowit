@@ -47,11 +47,11 @@ const SignIn = () => {
                     .then(data => {
                         if (!data) return;
                         setUser({ ...data });
-
                         if (data.status) {
                             setError(data.status);
 
                         } else if (data.loggedIn) {
+                            console.log(data);
                             navigate("/browse");
                         }
                     });
@@ -89,7 +89,7 @@ const SignIn = () => {
                     <Button onClick={() => navigate("/register")}>Create Account</Button>
                 </ButtonGroup>
             </VStack>
-        </Formik>
+        </Formik >
     );
 };
 

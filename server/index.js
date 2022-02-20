@@ -21,7 +21,7 @@ app.use(sessionMiddleware);
 
 //Route below are used for authentication
 app.use("/auth", authRouter);
-app.set("trust proxy", 1);
+//app.set("trust proxy", 1);
 
 io.use(wrap(sessionMiddleware))
 io.use(userAuthorized);
@@ -36,7 +36,6 @@ io.on("connect", socket => {
 
     socket.on("disconnecting", () => onDisconnect(socket));
 })
-
 
 server.listen(port, () => {
     console.log(`Server listening on port ${port}`)
