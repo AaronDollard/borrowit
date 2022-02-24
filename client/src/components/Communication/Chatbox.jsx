@@ -10,17 +10,20 @@ import { MessagesContext } from "./ChatMain";
 const Chatbox = ({ userid }) => {
     const { setMessages } = useContext(MessagesContext);
     const { socket } = useContext(SocketContext);
+
     return (
         <Formik
-            initialValues={{ message: "" }}
+
             validationSchema={Yup.object({
-                message: Yup.string().min(1).max(255),
+                message: Yup.string().min(1).max(1000),
             })}
             onSubmit={(values, actions) => {
-                const message = { to: userid, from: null, content: values.message };
-                socket.emit("dm", message);
-                setMessages(prevMsgs => [message, ...prevMsgs]);
-                actions.resetForm();
+                if (values.message !== "") {
+                    const message = { to: userid, from: null, content: values.message };
+                    socket.emit("dm", message);
+                    setMessages(prevMsgs => [message, ...prevMsgs]);
+                    actions.resetForm();
+                }
             }}
         >
             <HStack as={Form} w="100%" pb="1.4rem" px="1.4rem">
