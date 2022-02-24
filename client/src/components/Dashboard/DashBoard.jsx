@@ -2,9 +2,11 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
 import { ContactContext } from "../Communication/ChatMain";
+import { SocketContext } from '../Views';
 import Modal from 'react-modal';
-import socket from '../../Socket/socket';
 import { useNavigate } from "react-router";
+//import socket from '../../Socket/socket';
+
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -25,6 +27,8 @@ const Dashboard = () => {
     const [pendingCount, setpendingCount] = useState("");
     const [acceptedCount, setacceptedCount] = useState("");
     const [declinedCount, setdeclinedCount] = useState("");
+
+    const { socket } = useContext(SocketContext);
 
     const [loaded, setLoaded] = useState("NOTLOADED");
 
@@ -319,14 +323,14 @@ const Dashboard = () => {
                                             {item.offerstatus == "ACCEPTED" && (
 
                                                 <Stack direction='row' spacing={4}>
-                                                    <Button onClick={values => [
+                                                    <Button onClick={values => {
                                                         socket.emit("add_contact", values = item.username, ({ done, newContact }) => {
                                                             if (done) {
                                                                 setContactList = c => [newContact, ...c];
                                                             }
                                                             return;
                                                         })
-                                                    ]}>Contact</Button>
+                                                    }}>Contact</Button>
                                                 </Stack>
 
                                             )}

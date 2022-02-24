@@ -3,11 +3,14 @@ import { createContext, useState, useEffect, useContext } from "react";
 export const AccountContext = createContext();
 
 const UserContext = ({ children }) => {
-    const [user, setUser] = useState({ loggedIn: null });
+    const [user, setUser] = useState({ loggedIn: null, token: localStorage.getItem("token") });
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
             credentials: "include",
+            headers: {
+                authorization: `Bearer ${user.token}`,
+            },
         })
             .catch(err => {
                 setUser({ loggedIn: false });

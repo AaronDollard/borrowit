@@ -52,6 +52,8 @@ const SignIn = () => {
 
                         } else if (data.loggedIn) {
                             console.log(data);
+                            console.log(process.env.REACT_APP_SERVER_URL)
+                            localStorage.setItem("token", data.token);
                             navigate("/browse");
                         }
                     });

@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const validateForm = require("../controllers/validateForm");
-const { handleLogin, attemptLogin, attemptSignUp } = require("../controllers/authController");
+const validateForm = require("../controllers/express/validateForm");
+const { handleLogin, attemptSignIn, attemptSignUp } = require("../controllers/authController");
 const { addItem, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer, getLatestItem, dismissOffer } = require("../controllers/itemController");
 const db = require("../db");
-const rateLimiter = require("../controllers/rateLimiter");
+const rateLimiter = require("../controllers/express/rateLimiter");
 
 //60 seconds and 3 attemps to login
-router.route("/login").get(handleLogin).post(validateForm, rateLimiter(60, 5), attemptLogin) //Validation for login page
+router.route("/login").get(handleLogin).post(validateForm, rateLimiter(60, 5), attemptSignIn) //Validation for login page
 router.post("/register", validateForm, rateLimiter(20, 5), attemptSignUp); //Validation for signup page
 
 

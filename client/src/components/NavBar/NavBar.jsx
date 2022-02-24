@@ -19,12 +19,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react"
 
-import { Form } from "formik";
-import useSocket from '../Hooks/useSocket';
-import socket from '../../Socket/socket';
-
 const Home = () => {
-  useSocket();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [condition, setCondition] = useState("");
@@ -34,7 +29,8 @@ const Home = () => {
 
   const { user, setUser } = useContext(AccountContext);
   const currentUserID = user.userid;
-  console.log("Current Logged User ID", currentUserID, "NavBar Debug")
+  console.log("Current token ID", user, "NavBar Debug")
+  console.log("Current Logged User ID", user.username, "NavBar Debug")
   const currentUser = user.username;
   const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
 

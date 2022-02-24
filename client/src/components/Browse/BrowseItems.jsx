@@ -9,7 +9,7 @@ const BrowseItems = () => {
     const [latestItems, setLatestItems] = useState([]);
 
     const { user } = useContext(AccountContext);
-
+    console.log(user.username)
     const currentUserID = user.userid;
 
     const getItems = async () => {

@@ -1,10 +1,9 @@
 
 const redisClient = require("../../redis");
-const addContact = require("./addContact");
 const parseContactList = require("./parseContactList");
 
 const initializeUser = async socket => {
-    socket.user = { ...socket.request.session.user };
+    //socket.user = { ...socket.request.session.user };
     socket.join(socket.user.userid);
     await redisClient.hset(
         `userid:${socket.user.username}`,

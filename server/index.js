@@ -1,7 +1,7 @@
 require("dotenv").config();
 const port = process.env.PORT || 4000
 const express = require("express");
-const { sessionMiddleware, wrap, corsConfig } = require("./controllers/serverController");
+const { corsConfig } = require("./controllers/serverController");
 const { Server } = require("socket.io");
 const app = express();
 const helmet = require("helmet");
@@ -17,13 +17,13 @@ const io = new Server(server, {
 app.use(helmet());
 app.use(cors(corsConfig));
 app.use(express.json());
-app.use(sessionMiddleware);
+
 
 //Route below are used for authentication
 app.use("/auth", authRouter);
 app.set("trust proxy", 1);
 
-io.use(wrap(sessionMiddleware))
+
 io.use(userAuthorized);
 io.on("connect", socket => {
     initializeUser(socket);
