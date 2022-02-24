@@ -135,6 +135,7 @@ const Home = () => {
 
                 <MenuItem onClick={() => {
                   if (!user.loggedIn) return;
+                  localStorage.removeItem("token");
                   setUser({ loggedIn: false });
                 }}>Logout
                 </MenuItem>

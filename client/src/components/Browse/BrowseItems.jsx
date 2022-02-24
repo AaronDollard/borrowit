@@ -7,6 +7,7 @@ import { AccountContext } from '../Contexts/AccountContext';
 const BrowseItems = () => {
     const [items, setItems] = useState([]);
     const [latestItems, setLatestItems] = useState([]);
+    const [pageLoaded, setPageLoaded] = useState("false");
 
     const { user } = useContext(AccountContext);
     console.log(user.username)
@@ -50,9 +51,18 @@ const BrowseItems = () => {
         }
     };
 
+    const loadPage = async () => {
+        if (user.userid === undefined) {
+            window.location.reload(true);
+        }
+        else return;
+    };
+
     useEffect(() => {
         getItems();
         getLatestItem();
+
+        loadPage();
     }, []);
 
     return (

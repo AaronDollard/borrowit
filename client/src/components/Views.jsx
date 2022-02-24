@@ -15,23 +15,20 @@ import BrowseSpecificUser from './Browse/BrowseSpecificUser'
 import ChatMain from './Communication/ChatMain'
 import useSocketSetup from "../Socket/useSocketSetup";
 import socketConnection from "../Socket/socket";
+
 export const SocketContext = createContext();
 
 const Views = () => {
     //The below part render the login and signup components only if the user is logged out
     const { user } = useContext(AccountContext)
 
-
-
     const [contactList, setContactList] = useState([]);
     const [messages, setMessages] = useState([]);
-    const [contactIndex, setContactIndex] = useState(0);
-
-
     const [socket, setSocket] = useState(() => socketConnection(user));
+
     useEffect(() => {
         setSocket(() => socketConnection(user));
-    }, [user]);
+    }, []);
 
     useSocketSetup(setContactList, setMessages, socket);
 
@@ -41,26 +38,32 @@ const Views = () => {
         : (
             <>
                 <SocketContext.Provider value={{ socket }}>
+
+
                     {user.loggedIn === true && (
-                        <NavBar />
+                        <>
+                            <NavBar />
+                            <Routes>
+                                <Route element={<PrivateRoutes />}>
+                                    <Route path="/dashboard" element={<Dashboard />} />
+                                    <Route path="/chat" element={<ChatMain />} />
+                                    <Route path="/browse" element={<Browse />} />
+                                    <Route path="/browse/:itemid" element={<BrowseSpecificItem />} />
+                                    <Route path="/users/:username" element={<BrowseSpecificUser />} />
+                                </Route>
+                            </Routes>
+                        </>
                     )}
 
-                    <Routes>
-                        <Route path="/" element={<SignIn />} />
-                        <Route path="/register" element={<SignUp />} />
-
-
-                        <Route element={<PrivateRoutes />}>
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/chat" element={<ChatMain />} />
-                            <Route path="/browse" element={<Browse />} />
-                            <Route path="/browse/:itemid" element={<BrowseSpecificItem />} />
-                            <Route path="/users/:username" element={<BrowseSpecificUser />} />
-                        </Route>
-
-
-                        <Route path="*" element={<SignUp />} />
-                    </Routes>
+                    {user.loggedIn === false && (
+                        <>
+                            <Routes>
+                                <Route path="/" element={<SignIn />} />
+                                <Route path="/register" element={<SignUp />} />
+                                <Route path="*" element={<SignIn />} />
+                            </Routes>
+                        </>
+                    )}
                     <Footer />
                 </SocketContext.Provider>
             </>
