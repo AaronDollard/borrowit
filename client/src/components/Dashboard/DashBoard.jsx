@@ -19,7 +19,7 @@ const Dashboard = () => {
     const [offerDismissed, setofferDismissed] = useState("DISMISSED");
 
     var offerstatusID = 0;
-    const [counter, setcounter] = useState(1000);
+    var [counter, setcounter] = useState(1000);
     //const [buttonState, setbuttonState] = useState("");
 
     const [incomingCount, setincomingCount] = useState("");

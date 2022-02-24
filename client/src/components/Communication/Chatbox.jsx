@@ -13,7 +13,7 @@ const Chatbox = ({ userid }) => {
 
     return (
         <Formik
-
+            initialValues={{ message: "" }}
             validationSchema={Yup.object({
                 message: Yup.string().min(1).max(1000),
             })}
