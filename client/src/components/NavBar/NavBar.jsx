@@ -4,7 +4,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { HamburgerIcon, CloseIcon, AddIcon, MinusIcon, ChatIcon } from '@chakra-ui/icons';
 import { Input } from '@chakra-ui/input'
 import ToggleColourMode from "../ToggleColourMode"
-
+import { useNavigate } from "react-router";
 import { useContext } from 'react'
 import { AccountContext } from "../Contexts/AccountContext"
 import { useState } from 'react';
@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react"
 
 const Home = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [condition, setCondition] = useState("");
@@ -137,6 +138,7 @@ const Home = () => {
                   if (!user.loggedIn) return;
                   localStorage.removeItem("token");
                   setUser({ loggedIn: false });
+                  navigate("/");
                 }}>Logout
                 </MenuItem>
               </MenuList>
