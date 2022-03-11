@@ -158,7 +158,7 @@ const Home = () => {
           <ModalHeader> Add to your catalog</ModalHeader>
           <ModalCloseButton onClick={closeModal} />
           <p>Enter the details of the item you wish to add to your catalog. Click ADD when finished.</p>
-          <form onSubmit={onSubmitCreateListing}>
+          <form onSubmit={onSubmitCreateListing()}>
             <label for="name">Item Name</label>
             <input
               required
