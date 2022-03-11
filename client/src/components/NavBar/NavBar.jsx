@@ -80,6 +80,11 @@ const Home = () => {
             onClick={isOpen ? onClose : onOpen}
           />
 
+          {/* <HStack>
+            <Img boxSize='60px' src=""></Img>
+            <Text fontStyle={"italic"} fontWeight={"bold"} textAlign={"center"}>Borrowit<br />Lendit</Text>
+          </HStack> */}
+
           <HStack
             as={'nav'}
             spacing={4}
@@ -158,7 +163,7 @@ const Home = () => {
           <ModalHeader> Add to your catalog</ModalHeader>
           <ModalCloseButton onClick={closeModal} />
           <p>Enter the details of the item you wish to add to your catalog. Click ADD when finished.</p>
-          <form onSubmit={onSubmitCreateListing()}>
+          <form onSubmit={onSubmitCreateListing}>
             <label for="name">Item Name</label>
             <input
               required
