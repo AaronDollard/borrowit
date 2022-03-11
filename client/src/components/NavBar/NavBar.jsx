@@ -85,7 +85,6 @@ const Home = () => {
           </HStack> */}
 
           <HStack
-            spacing={2}
             as={'nav'}
             spacing={4}
             display={{ base: 'none', md: 'flex' }}>
