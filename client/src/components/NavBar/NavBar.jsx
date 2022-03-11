@@ -33,7 +33,7 @@ const Home = () => {
   console.log("Current token ID", user, "NavBar Debug")
   console.log("Current Logged User ID", user.username, "NavBar Debug")
   const currentUser = user.username;
-  const baseURL = process.env.REACT_APP_SERVER_URL === 'production' ? "" : "http://localhost:4000";
+  const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
