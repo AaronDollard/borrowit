@@ -33,7 +33,7 @@ const Home = () => {
   console.log("Current token ID", user, "NavBar Debug")
   console.log("Current Logged User ID", user.username, "NavBar Debug")
   const currentUser = user.username;
-  const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
+  const baseURL = process.env.REACT_APP_SERVER_URL === 'production' ? "" : "http://localhost:4000";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -57,6 +57,7 @@ const Home = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
+      console.log(response);
       console.log(body, "logging on navbar")
     } catch (err) {
       console.log(err.message)
@@ -78,11 +79,6 @@ const Home = () => {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-
-          {/* <HStack>
-            <Img boxSize='60px' src=""></Img>
-            <Text fontStyle={"italic"} fontWeight={"bold"} textAlign={"center"}>Borrowit<br />Lendit</Text>
-          </HStack> */}
 
           <HStack
             as={'nav'}
@@ -155,20 +151,6 @@ const Home = () => {
           </Box>
         ) : null}
       </Box>
-
-      {/* <Modal isOpen={commModalIsOpen}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalBody>
-            <Heading>Chat</Heading>
-            <ModalCloseButton onClick={closeCommModal} />
-            <Text>Organise collecting items by chatting with other users.</Text>
-            <ModalFooter>
-              <Button>Submit</Button>
-            </ModalFooter>
-          </ModalBody>
-        </ModalContent>
-      </Modal> */}
 
       <Modal isOpen={modalIsOpen}>
         <ModalOverlay />

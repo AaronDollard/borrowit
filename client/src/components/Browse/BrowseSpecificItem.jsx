@@ -146,7 +146,7 @@ const BrowseSpecificItem = () => {
                                 {Array(5)
                                     .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
                                     .map((_, i) => (
-                                        <StarIcon color={'teal.500'}
+                                        <StarIcon
                                             key={i}
                                             color={i < item.rating ? 'teal.500' : 'gray.300'}
                                         />
