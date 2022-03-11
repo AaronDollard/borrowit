@@ -37,11 +37,10 @@ const Views = () => {
         // <Loading class='center-screen'></Loading><Text>Loading Borrowit...</Text> 
         : (
             <>
-                <SocketContext.Provider value={{ socket }}>
 
-
-                    {user.loggedIn === true && (
-                        <>
+                {user.loggedIn === true && (
+                    <>
+                        <SocketContext.Provider value={{ socket }}>
                             <NavBar />
                             <Routes>
                                 <Route element={<PrivateRoutes />}>
@@ -52,20 +51,21 @@ const Views = () => {
                                     <Route path="/users/:username" element={<BrowseSpecificUser />} />
                                 </Route>
                             </Routes>
-                        </>
-                    )}
+                        </SocketContext.Provider>
+                    </>
+                )}
 
-                    {user.loggedIn === false && (
-                        <>
-                            <Routes>
-                                <Route path="/" element={<SignIn />} />
-                                <Route path="/register" element={<SignUp />} />
-                                <Route path="*" element={<SignIn />} />
-                            </Routes>
-                        </>
-                    )}
-                    <Footer />
-                </SocketContext.Provider>
+                {user.loggedIn === false && (
+                    <>
+                        <Routes>
+                            <Route path="/" element={<SignIn />} />
+                            <Route path="/register" element={<SignUp />} />
+                            <Route path="*" element={<SignIn />} />
+                        </Routes>
+                    </>
+                )}
+                <Footer />
+
             </>
         );
 
