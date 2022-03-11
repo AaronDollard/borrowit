@@ -33,7 +33,7 @@ const Home = () => {
   console.log("Current token ID", user, "NavBar Debug")
   console.log("Current Logged User ID", user.username, "NavBar Debug")
   const currentUser = user.username;
-  const baseURL = process.env.NODE_ENV === 'production' ? "" : "http://localhost:4000";
+  const baseURL = process.env.REACT_APP_SERVER_URL === 'production' ? "" : "http://localhost:4000";
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -163,7 +163,7 @@ const Home = () => {
           <ModalHeader> Add to your catalog</ModalHeader>
           <ModalCloseButton onClick={closeModal} />
           <p>Enter the details of the item you wish to add to your catalog. Click ADD when finished.</p>
-          <form onSubmit={onSubmitCreateListing}>
+          <form>
             <label for="name">Item Name</label>
             <input
               required
@@ -214,7 +214,7 @@ const Home = () => {
                 onChange={e => !setGiveaway(true)} />
             </HStack>
 
-            <button class="btn btn-primary">Add</button>
+            <button onClick={onSubmitCreateListing} class="btn btn-primary">Add</button>
           </form>
         </ModalContent>
       </Modal>
