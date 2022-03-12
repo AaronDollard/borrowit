@@ -19,10 +19,11 @@ const Dashboard = () => {
     const [offerstatusA, setStatusAccept] = useState("ACCEPTED");
     const [offerstatusD, setStatusDecline] = useState("DECLINED");
     const [offerDismissed, setofferDismissed] = useState("DISMISSED");
+    const [offerReviewed, setofferReviewed] = useState("REVIEWED");
     const [reviewItem, setReviewItem] = useState("");
     const [reviewOwner, setReviewOwner] = useState("");
-    const [reviewValue, setReviewValue] = React.useState('1')
-
+    const [reviewID, setReviewID] = useState("");
+    const [reviewValue, setReviewValue] = React.useState('GOOD')
     const [reviewText, setReviewTextValue] = React.useState('')
     let handleInputChange = (e) => {
         let inputValue = e.target.value
@@ -65,6 +66,9 @@ const Dashboard = () => {
 
     const itemNameReview = async (e) => {
         setReviewItem(e);
+    }
+    const itemReviewID = async (e) => {
+        setReviewID(e);
     }
 
     function closeModal() {
@@ -390,17 +394,19 @@ const Dashboard = () => {
                                             {item.offerstatus == "ACCEPTED" && (
 
                                                 <Stack direction='row' spacing={4}>
-                                                    <Button onClick={e => {
-                                                        socket.emit("add_contact", e = item.username, ({ done, newContact }) => {
-                                                            if (done) {
-                                                                setContactList = c => [newContact, ...c];
-                                                            }
-                                                            offerIDResponse(item.offerid)
-                                                            offerResponse("CONTACTED")
+                                                    <Link href='/chat'>
+                                                        <Button onClick={e => {
+                                                            socket.emit("add_contact", e = item.username, ({ done, newContact }) => {
+                                                                if (done) {
+                                                                    setContactList = c => [newContact, ...c];
+                                                                }
+                                                                offerIDResponse(item.offerid)
+                                                                offerResponse("CONTACTED")
+                                                                return;
+                                                            })
                                                             navigate("/chat");
-                                                            return;
-                                                        })
-                                                    }}>Contact</Button>
+                                                        }}>Contact</Button>
+                                                    </Link>
                                                 </Stack>
 
                                             )}
@@ -480,10 +486,11 @@ const Dashboard = () => {
                                                     }} value={offerDismissed}>Complete</Button>
 
                                                     <Button onClick={e => {
-                                                        offerIDResponse(item.offerid);
+                                                        //offerIDResponse(item.offerid);
                                                         itemNameReview(item.itemname);
+                                                        itemReviewID(item.offerid);
                                                         openModal(item.username);
-                                                        dismissOffer("REVIEWED");
+                                                        //dismissOffer("REVIEWED");
                                                         negativeOne(counter)
                                                     }} value={offerDismissed}>Review</Button>
                                                 </HStack>
@@ -597,12 +604,17 @@ const Dashboard = () => {
                 <ModalContent p='10px'>
                     <ModalCloseButton onClick={closeModal} />
                     <ModalHeader>Review {reviewOwner}</ModalHeader>
-                    <RadioGroup onChange={setReviewValue} value={reviewValue}>
-                        <Stack>
-                            <p>How would you rate {reviewOwner}?</p>
-                            <Radio size='lg' value='GOOD'>👍</Radio>
-                            <Radio size='lg' value='BAD'>👎</Radio>
-                        </Stack>
+                    <p>How would you rate {reviewOwner}?</p>
+                    <RadioGroup defaultValue={'GOOD'} onChange={setReviewValue} value={reviewValue}>
+                        <HStack gap={'20px'}>
+                            <Box>
+                                <Radio size='lg' value='GOOD'>👍</Radio>
+                            </Box>
+
+                            <Box >
+                                <Radio size='lg' value='BAD'>👎</Radio>
+                            </Box>
+                        </HStack>
                     </RadioGroup>
 
                     <p>Any additional thoughts?</p>
@@ -610,8 +622,11 @@ const Dashboard = () => {
                         onChange={handleInputChange} placeholder='Write a small review based on your experience..' m='5px'></Textarea>
 
                     <Button onClick={e => {
-                        reviewUser()
-                        closeModal()
+                        reviewUser();
+                        offerIDResponse(reviewID)
+                        dismissOffer(offerReviewed);
+                        negativeOne(counter);
+                        closeModal();
                     }}>Submit</Button>
                 </ModalContent>
             </Modal>
