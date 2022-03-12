@@ -206,6 +206,10 @@ const BrowseSpecificItem = () => {
                                 <Text>Your request as been accepted. Go to your dashboard to get in contact with the lender.</Text>
                             )}
 
+                            {status === "CONTACTED" && (
+                                <Text>You have already opened a chat with the lender about this item.</Text>
+                            )}
+
                         </GridItem>
 
                         {/* Checks to make sure the user owns the item */}
