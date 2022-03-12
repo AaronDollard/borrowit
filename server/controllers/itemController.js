@@ -193,6 +193,21 @@ module.exports.makeOffer = async (req, res) => {
     }
 };
 
+//Create a review for a user
+module.exports.reviewUser = async (req, res) => {
+    try {
+        console.log("reviewUser - itemController Debug");
+        const { reviewItem, reviewOwner, currentUserID, reviewValue, reviewText } = req.body;
+
+        const reviewUserQuery = await db.query
+            ("INSERT INTO reviews ( reviewee, reviewer, itemborrowed, review, outcome) VALUES($1, $2, $3, $4, $5) RETURNING *",
+                [reviewOwner, currentUserID, reviewItem, reviewText, reviewValue]
+            );
+        res.json(reviewUserQuery.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
 
 module.exports.findOfferStatus = async (req, res) => {
     try {

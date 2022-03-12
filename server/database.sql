@@ -43,5 +43,16 @@ CREATE TABLE offers(
       FOREIGN KEY(borrowerid) 
       REFERENCES users(userid));
 
+CREATE TABLE reviews(
+    id SERIAL PRIMARY KEY NOT NULL,
+    reviewee VARCHAR NOT NULL,
+    reviewer VARCHAR NOT NULL,
+    itemborrowed VARCHAR NOT NULL,
+    review VARCHAR,
+    outcome VARCHAR NOT NULL,
+    CONSTRAINT fk_items
+      FOREIGN KEY(reviewer) 
+      REFERENCES users(userid));
+
 SELECT * FROM items;
 SELECT * FROM users;

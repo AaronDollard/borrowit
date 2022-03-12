@@ -1,10 +1,12 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Button, Grid, GridItem, Heading, HStack, Image, Link, Stack, VStack } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Button, Checkbox, Grid, GridItem, Heading, HStack, Image, Link, Stack, Textarea, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
 import { ContactContext } from "../Communication/ChatMain";
 import { SocketContext } from '../Views';
-import Modal from 'react-modal';
 import { useNavigate } from "react-router";
+import { Radio, RadioGroup } from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
+
 //import socket from '../../Socket/socket';
 
 
@@ -17,8 +19,22 @@ const Dashboard = () => {
     const [offerstatusA, setStatusAccept] = useState("ACCEPTED");
     const [offerstatusD, setStatusDecline] = useState("DECLINED");
     const [offerDismissed, setofferDismissed] = useState("DISMISSED");
+    const [reviewItem, setReviewItem] = useState("");
+    const [reviewOwner, setReviewOwner] = useState("");
+    const [reviewValue, setReviewValue] = React.useState('1')
+
+    const [reviewText, setReviewTextValue] = React.useState('')
+    let handleInputChange = (e) => {
+        let inputValue = e.target.value
+        setReviewTextValue(inputValue)
+    }
+
 
     var offerstatusID = 0;
+
+    // var reviewItem;
+    // var reviewOwner;
+
     var [counter, setcounter] = useState(1000);
     //const [buttonState, setbuttonState] = useState("");
 
@@ -28,6 +44,8 @@ const Dashboard = () => {
     const [acceptedCount, setacceptedCount] = useState("");
     const [declinedCount, setdeclinedCount] = useState("");
     const [contactedCount, setcontactedCount] = useState("");
+
+
 
     const { socket } = useContext(SocketContext);
 
@@ -40,9 +58,15 @@ const Dashboard = () => {
 
 
     const [modalIsOpen, setIsOpen] = useState(false);
-    function openModal() {
+    function openModal(e) {
+        setReviewOwner(e);
         setIsOpen(true);
     }
+
+    const itemNameReview = async (e) => {
+        setReviewItem(e);
+    }
+
     function closeModal() {
         setIsOpen(false);
     }
@@ -189,6 +213,20 @@ const Dashboard = () => {
             console.error(err.message)
         }
     };
+
+
+    const reviewUser = async (e) => {
+        try {
+            const body = { reviewItem, reviewOwner, currentUserID, reviewValue, reviewText };
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/reviewuser`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
 
     useEffect(() => {
         getLoggedUserItems();
@@ -434,12 +472,60 @@ const Dashboard = () => {
 
 
                                             {item.offerstatus == "CONTACTED" && (
+                                                <HStack>
+                                                    <Button onClick={e => {
+                                                        offerIDResponse(item.offerid)
+                                                        dismissOffer("COMPLETED");
+                                                        negativeOne(counter)
+                                                    }} value={offerDismissed}>Complete</Button>
+
+                                                    <Button onClick={e => {
+                                                        offerIDResponse(item.offerid);
+                                                        itemNameReview(item.itemname);
+                                                        openModal(item.username);
+                                                        dismissOffer("REVIEWED");
+                                                        negativeOne(counter)
+                                                    }} value={offerDismissed}>Review</Button>
+                                                </HStack>
+                                            )}
+                                        </GridItem>
+                                    )}
+                                </Fragment>
+                            ))
+                            }
+                        </Grid >
+
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                            {outgoingOffers.map(item => (
+                                <Fragment>
+                                    {item.offerstatus === "REVIEWED" && (
+                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
+                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
+                                            <Box alignItems='center'>
+
+
+                                                {item.offerstatus == "REVIEWED" && (
+                                                    <Badge colorScheme='purple'>{item.offerstatus}</Badge>
+                                                )}
+
+
+
+                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
+                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
+                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                            </Box>
+
+                                            {item.offerstatus == "REVIEWED" && (
                                                 <Button onClick={e => {
                                                     offerIDResponse(item.offerid)
-                                                    dismissOffer("COMPLETED")
+                                                    dismissOffer("COMPLETED");
                                                     negativeOne(counter)
                                                 }} value={offerDismissed}>Complete</Button>
                                             )}
+
                                         </GridItem>
                                     )}
                                 </Fragment>
@@ -472,7 +558,6 @@ const Dashboard = () => {
 
                                         </GridItem>
                                     )}
-
                                 </Fragment>
                             ))
                             }
@@ -495,10 +580,8 @@ const Dashboard = () => {
                                                 {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
                                                 <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
                                             </Box>
-
                                         </GridItem>
                                     )}
-
                                 </Fragment>
                             ))
                             }
@@ -508,14 +591,29 @@ const Dashboard = () => {
 
             </Accordion>
 
-            {/* An error can occur when responding to an offer, to try prevent mistakes from this error and catch it this modal has been implemented */}
-            <Modal style={{ overlay: { width: '100%', height: "100%" }, content: { position: 'absolute', top: '40%', left: '20%', right: '20%', bottom: '40%', border: '1px solid #ccc' } }}
-                isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <VStack spacing="1rem">
-                    <Heading>Oops!</Heading>
-                    <p>A small issue has occured. We're working hard on fixing this. Please try again.</p>
-                    <button onClick={closeModal}>Okay</button>
-                </VStack>
+
+            <Modal isOpen={modalIsOpen}>
+                <ModalOverlay />
+                <ModalContent p='10px'>
+                    <ModalCloseButton onClick={closeModal} />
+                    <ModalHeader>Review {reviewOwner}</ModalHeader>
+                    <RadioGroup onChange={setReviewValue} value={reviewValue}>
+                        <Stack>
+                            <p>How would you rate {reviewOwner}?</p>
+                            <Radio size='lg' value='GOOD'>👍</Radio>
+                            <Radio size='lg' value='BAD'>👎</Radio>
+                        </Stack>
+                    </RadioGroup>
+
+                    <p>Any additional thoughts?</p>
+                    <Textarea value={reviewText}
+                        onChange={handleInputChange} placeholder='Write a small review based on your experience..' m='5px'></Textarea>
+
+                    <Button onClick={e => {
+                        reviewUser()
+                        closeModal()
+                    }}>Submit</Button>
+                </ModalContent>
             </Modal>
         </div >
     )

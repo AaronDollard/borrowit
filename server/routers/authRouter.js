@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const validateForm = require("../controllers/express/validateForm");
 const { handleLogin, attemptSignIn, attemptSignUp } = require("../controllers/authController");
-const { addItem, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer, getLatestItem, dismissOffer, findOfferStatus } = require("../controllers/itemController");
+const { addItem, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer, getLatestItem, dismissOffer, findOfferStatus, reviewUser } = require("../controllers/itemController");
 const db = require("../db");
 const rateLimiter = require("../controllers/express/rateLimiter");
 
@@ -25,7 +25,8 @@ router.route("/myitems").post(getLoggedUserItems); //Display a list of items tha
 router.route("/myincomingitems").post(getIncomingOffers); //Recieve a list of incoming offers.
 router.route("/myoutgoingitems").post(getOutgoingOffers); //Recieve a list of outgoing offers.
 
-router.route("/findOfferStatus").post(findOfferStatus); //
+router.route("/findOfferStatus").post(findOfferStatus); //Find the status of offers on Dashboard
+router.route("/reviewuser").post(reviewUser); //Review for users
 
 router.route("/usersitems/:id").post(getClickedUserItems); //Display the clicked profile items details
 
