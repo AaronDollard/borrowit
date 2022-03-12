@@ -126,6 +126,7 @@ const Dashboard = () => {
             var countAccepted = 0;
             var countDeclined = 0;
             var countContacted = 0;
+            var countReviewed = 0;
 
             const body = { currentUserID };
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/myoutgoingitems`, {
@@ -173,6 +174,7 @@ const Dashboard = () => {
             setacceptedCount(countAccepted);
             setdeclinedCount(countDeclined);
             setcontactedCount(countContacted);
+            setcountReviewed(countReviewed);
             setoutgoingCount(outgoingOfferData.length);
             counter = outgoingOfferData.length;
         } catch (err) {
