@@ -18,7 +18,6 @@ app.use(helmet());
 app.use(cors(corsConfig));
 app.use(express.json());
 
-
 //Route below are used for authentication
 app.use("/auth", authRouter);
 app.set("trust proxy", 1);

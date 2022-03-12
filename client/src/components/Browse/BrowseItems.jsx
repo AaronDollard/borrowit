@@ -51,6 +51,7 @@ const BrowseItems = () => {
         }
     };
 
+
     const loadPage = async () => {
         if (user.userid === undefined) {
             window.location.reload(true);

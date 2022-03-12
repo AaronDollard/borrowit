@@ -1,13 +1,18 @@
 import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link, VStack, Flex, Avatar, HStack, Text, IconButton, Menu, MenuButton, MenuList, MenuItem, MenuDivider } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import React, { Fragment, useContext, useEffect } from 'react'
 import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from "../Contexts/AccountContext"
-import Modal from 'react-modal';
+import { useNavigate } from "react-router";
+
 
 const BrowseSpecificItem = () => {
+    const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [offerstatus, setPeriod] = useState("PENDING");
+    const [loaded, setLoaded] = useState("NOTLOADED");
+    const [status, setStatus] = useState("");
     const { user, setUser } = useContext(AccountContext);
 
     const [name, setName] = useState("");
@@ -26,12 +31,16 @@ const BrowseSpecificItem = () => {
     var id;
 
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalOfferIsOpen, setIsMakeOfferOpen] = useState(false);
 
     function openModal() {
         setIsOpen(true);
     }
     function closeModal() {
         setIsOpen(false);
+    }
+    function openMakeOfferModal() {
+        setIsMakeOfferOpen(true);
     }
 
     const getSpecificItem = async () => {
@@ -52,6 +61,9 @@ const BrowseSpecificItem = () => {
                 console.log(itemData[i]);
             }
             setItems(itemData);
+            console.log(loaded)
+            console.log(status)
+            setLoaded("LOADED");
         } catch (err) {
             console.error(err.message)
         }
@@ -71,6 +83,7 @@ const BrowseSpecificItem = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
+            openMakeOfferModal();
             console.log(body, "logging on BrowseSpecificItem")
         } catch (err) {
             console.log(err.message)
@@ -94,8 +107,29 @@ const BrowseSpecificItem = () => {
         } catch (err) {
             console.log(err.message)
         }
-
     }
+
+    const findOfferStatus = async () => {
+        try {
+            lenderid = items[0].itemowner; //Get the itemowner id
+            id = items[0].id; //Get the itemo id
+
+            const body = { id, lenderid, borrowerid };
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/findOfferStatus`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            const offerCurrentStatus = await response.json();
+
+            setStatus(offerCurrentStatus.offerstatus);
+            console.log(offerCurrentStatus.offerstatus, "Offer Status Response")
+
+        } catch (err) {
+            console.error(err.message)
+        }
+    };
 
     const onSubmitUpdateListing = async (e) => {
         var itemID = window.location.pathname;
@@ -119,7 +153,8 @@ const BrowseSpecificItem = () => {
 
     useEffect(() => {
         getSpecificItem();
-    }, []);
+        findOfferStatus();
+    }, [status, loaded]);
 
     return (
         <>
@@ -155,9 +190,22 @@ const BrowseSpecificItem = () => {
                             </Box>
 
                             {/* Checks to see if the logged in user is not the person who owns the item. This is to prevent borrowing ones own items */}
-                            {user.userid !== item.itemowner && (
+                            {user.userid !== item.itemowner && status !== "PENDING" && status !== "DECLINED" && status !== "ACCEPTED" && (
                                 <Button onClick={makeOffer} >Make Offer</Button>
                             )}
+
+                            {status === "PENDING" && (
+                                <Text>You have already sent a request for this item..</Text>
+                            )}
+
+                            {status === "DECLINED" && (
+                                <Text>Your request has been declined. Check your dashboard to clear the offer...</Text>
+                            )}
+
+                            {status === "ACCEPTED" && (
+                                <Text>Your request as been accepted. Go to your dashboard to get in contact with the lender.</Text>
+                            )}
+
                         </GridItem>
 
                         {/* Checks to make sure the user owns the item */}
@@ -233,16 +281,26 @@ const BrowseSpecificItem = () => {
                     </Fragment>
                 ))
                 }
-
-                <Modal style={{ overlay: { width: '100%', height: "100%" }, content: { position: 'absolute', top: '40%', left: '20%', right: '20%', bottom: '40%', border: '1px solid #ccc' } }}
-                    isOpen={modalIsOpen} onRequestClose={closeModal}>
-                    <VStack spacing="1rem">
-                        <Heading>Gone forever!</Heading>
-                        <p>Your offer has been permanently deleted!</p>
-                        <Button><Link href={'/dashboard'}>Okay</Link></Button>
-                    </VStack>
-                </Modal>
             </Grid >
+
+            <Modal isOpen={modalIsOpen}>
+                <ModalOverlay />
+                <ModalContent p='10px'>
+                    <ModalCloseButton onClick={closeModal} />
+                    <ModalHeader>Gone forever!</ModalHeader>
+                    <p>Your offer has been permanently deleted!</p>
+                    <Link href='/browse'><Button>Ok</Button></Link>
+                </ModalContent>
+            </Modal>
+
+            <Modal isOpen={modalOfferIsOpen} >
+                <ModalOverlay />
+                <ModalContent p='10px'>
+                    <ModalHeader>Your offer has been sent!</ModalHeader>
+                    <p>You should recieve an answer soon...</p>
+                    <Link href='/browse'><Button>Ok</Button></Link>
+                </ModalContent>
+            </Modal>
         </>
     )
 }

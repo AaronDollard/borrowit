@@ -193,6 +193,23 @@ module.exports.makeOffer = async (req, res) => {
     }
 };
 
+
+module.exports.findOfferStatus = async (req, res) => {
+    try {
+        console.log("findOfferStatus - itemController Debug");
+        const { id, lenderid, borrowerid } = req.body;
+
+        const findOfferStatus = await db.query
+            (`SELECT * FROM offers AS o 
+            WHERE o.lenderid = $1 AND o.borrowerid = $2 and o.itemid = $3`,
+                [lenderid, borrowerid, id]
+            );
+        res.json(findOfferStatus.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
 //make an offer
 module.exports.getIncomingOffers = async (req, res) => {
     try {

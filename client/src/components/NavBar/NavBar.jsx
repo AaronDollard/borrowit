@@ -8,16 +8,7 @@ import { useNavigate } from "react-router";
 import { useContext } from 'react'
 import { AccountContext } from "../Contexts/AccountContext"
 import { useState } from 'react';
-
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 
 const Home = () => {
   const navigate = useNavigate();

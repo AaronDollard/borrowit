@@ -23,7 +23,7 @@ export const Footer = () => {
                     spacing={4}
                     justify={{ base: 'center', md: 'space-between' }}
                     align={{ base: 'center', md: 'center' }}>
-                    <Text>© 2020 Borrowit. All rights reserved</Text>
+                    <Text>© 2022 Borrowit. All rights reserved</Text>
                     <Stack direction={'row'} spacing={6}>
                         <SocialIcon url="https://www.linkedin.com/in/aarondollard/" style={{ height: 30, width: 30 }} />
                         <SocialIcon url="https://github.com/AaronDollard" style={{ height: 30, width: 30 }} />
