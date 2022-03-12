@@ -206,7 +206,7 @@ const Dashboard = () => {
                             {usersItems.map(item => (
                                 <Fragment>
                                     <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                                        <Link href={'/browse/' + item.id}>
+                                        <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
                                             <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
                                             <Box padding={"10px"}>
                                                 <Box display='flex' mt='2' alignItems='center'>

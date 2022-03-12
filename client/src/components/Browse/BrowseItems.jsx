@@ -3,6 +3,7 @@ import React, { Fragment, useContext, useEffect } from 'react'
 import { useState } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from '../Contexts/AccountContext';
+import '../../styles/styles.css'
 
 const BrowseItems = () => {
     const [items, setItems] = useState([]);
@@ -62,7 +63,6 @@ const BrowseItems = () => {
     useEffect(() => {
         getItems();
         getLatestItem();
-
         loadPage();
     }, []);
 
@@ -71,7 +71,7 @@ const BrowseItems = () => {
             <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
                 {latestItems.map(item => (
                     <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' align="cenleftter">
-                        <Link href={'/browse/' + item.id}>
+                        <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
                             <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
 
                             <Box padding={"10px"}>
@@ -107,7 +107,7 @@ const BrowseItems = () => {
                 {items.map(itemm => (
                     <Fragment>
                         <GridItem key={itemm.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' align="cenleftter" mb='10px'>
-                            <Link href={'/browse/' + itemm.id}>
+                            <Link style={{ textDecoration: 'none' }} href={'/browse/' + itemm.id}>
                                 <Image boxSize='sm' objectFit='cover' src={itemm.photo} alt={itemm.imagealt} />
 
                                 <Box padding={"10px"}>
