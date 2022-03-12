@@ -45,7 +45,7 @@ const Dashboard = () => {
     const [acceptedCount, setacceptedCount] = useState("");
     const [declinedCount, setdeclinedCount] = useState("");
     const [contactedCount, setcontactedCount] = useState("");
-
+    const [countReviewed, setcountReviewed] = useState("");
 
 
     const { socket } = useContext(SocketContext);
@@ -161,6 +161,11 @@ const Dashboard = () => {
                 if (outgoingOffers[i].offerstatus == "CONTACTED") {
                     countContacted = countContacted + 1;
                     console.log("CONTACTED", countContacted)
+                }
+
+                if (outgoingOffers[i].offerstatus == "REVIEWED") {
+                    countReviewed = countReviewed + 1;
+                    console.log("REVIEWED", countReviewed)
                 }
             }
 
@@ -337,6 +342,10 @@ const Dashboard = () => {
                         {contactedCount >= 1 && (
                             <Badge colorScheme='blue'>Contacted {contactedCount}</Badge>
                         )}
+
+                        {countReviewed >= 1 && (
+                            <Badge colorScheme='purple'>Reviewed {countReviewed}</Badge>
+                        )}
                     </AccordionButton>
 
                     <AccordionPanel pb={4}>
@@ -394,19 +403,20 @@ const Dashboard = () => {
                                             {item.offerstatus == "ACCEPTED" && (
 
                                                 <Stack direction='row' spacing={4}>
-                                                    <Link href='/chat'>
-                                                        <Button onClick={e => {
-                                                            socket.emit("add_contact", e = item.username, ({ done, newContact }) => {
-                                                                if (done) {
-                                                                    setContactList = c => [newContact, ...c];
-                                                                }
-                                                                offerIDResponse(item.offerid)
-                                                                offerResponse("CONTACTED")
-                                                                return;
-                                                            })
+
+                                                    <Button onClick={e => {
+                                                        socket.emit("add_contact", e = item.username, ({ done, newContact }) => {
+                                                            if (done) {
+                                                                setContactList = c => [newContact, ...c];
+                                                            }
+                                                            offerIDResponse(item.offerid);
+                                                            offerResponse("CONTACTED");
                                                             navigate("/chat");
-                                                        }}>Contact</Button>
-                                                    </Link>
+                                                            return;
+                                                        })
+
+                                                    }}>Contact</Button>
+
                                                 </Stack>
 
                                             )}
@@ -430,8 +440,6 @@ const Dashboard = () => {
                                                 {item.offerstatus == "DECLINED" && (
                                                     <Badge colorScheme='red'>{item.offerstatus}</Badge>
                                                 )}
-
-
 
                                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
 
