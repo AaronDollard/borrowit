@@ -61,7 +61,7 @@ const Chat = ({ userid }) => {
         >
             <TabPanels>
                 <TabPanel>
-                    <Text>Nobody has contacted you about anything yet... 😭 <br /> Get borrowing!</Text>
+                    <Text>Nobody has contacted you about anything yet... 😭 <br /> Get lending and borrowing!</Text>
                 </TabPanel>
             </TabPanels>
         </VStack>
