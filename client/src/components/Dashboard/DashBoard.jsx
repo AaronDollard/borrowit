@@ -27,6 +27,7 @@ const Dashboard = () => {
     const [pendingCount, setpendingCount] = useState("");
     const [acceptedCount, setacceptedCount] = useState("");
     const [declinedCount, setdeclinedCount] = useState("");
+    const [contactedCount, setcontactedCount] = useState("");
 
     const { socket } = useContext(SocketContext);
 
@@ -96,6 +97,7 @@ const Dashboard = () => {
             var countPending = 0;
             var countAccepted = 0;
             var countDeclined = 0;
+            var countContacted = 0;
 
             const body = { currentUserID };
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/myoutgoingitems`, {
@@ -127,11 +129,17 @@ const Dashboard = () => {
                     countDeclined = countDeclined + 1;
                     console.log("DECLINED", countDeclined)
                 }
+
+                if (outgoingOffers[i].offerstatus == "CONTACTED") {
+                    countContacted = countContacted + 1;
+                    console.log("CONTACTED", countContacted)
+                }
             }
 
             setpendingCount(countPending);
             setacceptedCount(countAccepted);
             setdeclinedCount(countDeclined);
+            setcontactedCount(countContacted);
             setoutgoingCount(outgoingOfferData.length);
             counter = outgoingOfferData.length;
         } catch (err) {
@@ -282,52 +290,74 @@ const Dashboard = () => {
                         {declinedCount >= 1 && (
                             <Badge colorScheme='red'>Declined {declinedCount}</Badge>
                         )}
+
+                        {contactedCount >= 1 && (
+                            <Badge colorScheme='blue'>Contacted {contactedCount}</Badge>
+                        )}
                     </AccordionButton>
 
                     <AccordionPanel pb={4}>
                         <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
-                                    {item.offerstatus != "DISMISSED" && (
+                                    {item.offerstatus === "PENDING" && (
                                         <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
                                             {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
-                                            <Box display='flex' mt='2' alignItems='center'>
+                                            <Box alignItems='center'>
+
+                                                {item.offerstatus == "PENDING" && (
+                                                    <Badge colorScheme='orange'>{item.offerstatus}</Badge>
+                                                )}
+
                                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                                <Box display='flex' mt='1' alignItems='right'>
 
-                                                    {item.offerstatus == "PENDING" && (
-                                                        <Badge colorScheme='orange'>{item.offerstatus}</Badge>
-                                                    )}
-
-                                                    {item.offerstatus == "ACCEPTED" && (
-                                                        <Badge colorScheme='green'>{item.offerstatus}</Badge>
-                                                    )}
-
-                                                    {item.offerstatus == "DECLINED" && (
-                                                        <Badge colorScheme='red'>{item.offerstatus}</Badge>
-                                                    )}
-                                                </Box>
-                                            </Box>
-
-                                            <Box>
                                                 <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                                <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
+                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
+                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
                                             </Box>
 
                                             {item.offerstatus == "PENDING" && (
                                                 <Button ><Link href={'/browse/' + item.id}>View</Link></Button>
                                             )}
+                                        </GridItem>
+                                    )}
+                                </Fragment>
+                            ))
+                            }
+                        </Grid >
+
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                            {outgoingOffers.map(item => (
+                                <Fragment>
+                                    {item.offerstatus === "ACCEPTED" && (
+                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
+                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
+                                            <Box alignItems='center'>
+
+                                                {item.offerstatus == "ACCEPTED" && (
+                                                    <Badge colorScheme='green'>{item.offerstatus}</Badge>
+                                                )}
+
+                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
+                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
+                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                            </Box>
+
 
                                             {item.offerstatus == "ACCEPTED" && (
 
                                                 <Stack direction='row' spacing={4}>
-                                                    <Button onClick={values => {
-                                                        socket.emit("add_contact", values = item.username, ({ done, newContact }) => {
+                                                    <Button onClick={e => {
+                                                        socket.emit("add_contact", e = item.username, ({ done, newContact }) => {
                                                             if (done) {
                                                                 setContactList = c => [newContact, ...c];
                                                             }
+                                                            offerIDResponse(item.offerid)
+                                                            offerResponse("CONTACTED")
                                                             navigate("/chat");
                                                             return;
                                                         })
@@ -336,6 +366,36 @@ const Dashboard = () => {
 
                                             )}
 
+                                        </GridItem>
+                                    )}
+                                </Fragment>
+                            ))
+                            }
+                        </Grid >
+
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                            {outgoingOffers.map(item => (
+                                <Fragment>
+                                    {item.offerstatus === "DECLINED" && (
+                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
+                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
+                                            <Box alignItems='center'>
+
+
+                                                {item.offerstatus == "DECLINED" && (
+                                                    <Badge colorScheme='red'>{item.offerstatus}</Badge>
+                                                )}
+
+
+
+                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
+                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
+                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                            </Box>
+
                                             {item.offerstatus == "DECLINED" && (
                                                 <Button onClick={e => {
                                                     offerIDResponse(item.offerid)
@@ -343,12 +403,49 @@ const Dashboard = () => {
                                                     negativeOne(counter)
                                                 }} value={offerDismissed}>Dismiss</Button>
                                             )}
+
                                         </GridItem>
                                     )}
                                 </Fragment>
                             ))
                             }
                         </Grid >
+
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                            {outgoingOffers.map(item => (
+                                <Fragment>
+                                    {item.offerstatus === "CONTACTED" && (
+                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
+                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
+                                            <Box alignItems='center'>
+
+                                                {item.offerstatus == "CONTACTED" && (
+                                                    <Badge colorScheme='blue'>{item.offerstatus}</Badge>
+                                                )}
+
+                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
+                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
+                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                            </Box>
+
+
+                                            {item.offerstatus == "CONTACTED" && (
+                                                <Button onClick={e => {
+                                                    offerIDResponse(item.offerid)
+                                                    dismissOffer("COMPLETED")
+                                                    negativeOne(counter)
+                                                }} value={offerDismissed}>Complete</Button>
+                                            )}
+                                        </GridItem>
+                                    )}
+                                </Fragment>
+                            ))
+                            }
+                        </Grid >
+
                     </AccordionPanel>
                 </AccordionItem>
 
@@ -360,16 +457,42 @@ const Dashboard = () => {
                                 <Fragment>
                                     {item.offerstatus === "DISMISSED" && (
                                         <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                            <Box display='flex' mt='2' alignItems='center'>
+                                            <Box>
                                                 {item.offerstatus == "DISMISSED" && (
                                                     <Badge colorScheme='gray'>Declined</Badge>
                                                 )}
                                             </Box>
 
                                             <Box>
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                                <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                            </Box>
+
+                                        </GridItem>
+                                    )}
+
+                                </Fragment>
+                            ))
+                            }
+                        </Grid>
+
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                            {outgoingOffers.map(item => (
+                                <Fragment>
+                                    {item.offerstatus === "COMPLETED" && (
+                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
+                                            <Box>
+                                                {item.offerstatus == "COMPLETED" && (
+                                                    <Badge colorScheme='blue'>Completed</Badge>
+                                                )}
+                                            </Box>
+
+                                            <Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
                                             </Box>
 
                                         </GridItem>
