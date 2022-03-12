@@ -152,8 +152,8 @@ const BrowseSpecificItem = () => {
     }
 
     useEffect(() => {
-        getSpecificItem();
         findOfferStatus();
+        getSpecificItem();
     }, [status, loaded]);
 
     return (
