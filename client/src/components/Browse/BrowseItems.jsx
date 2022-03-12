@@ -71,32 +71,34 @@ const BrowseItems = () => {
             <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
                 {latestItems.map(item => (
                     <Fragment>
-                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' align="cenleftter">
-                            <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                        <Link href={'/browse/' + item.id}>
+                            <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' align="cenleftter">
+                                <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
 
-                            <Box padding={"10px"}>
-                                <Box display='flex' mt='2' alignItems='center'>
-                                    <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                    <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
-                                </Box>
+                                <Box padding={"10px"}>
+                                    <Box display='flex' mt='2' alignItems='center'>
+                                        <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                        <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
+                                    </Box>
 
-                                <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
-                                <Box display='flex' mt='2'>
-                                    {Array(5)
-                                        .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
-                                        .map((_, i) => (
-                                            <StarIcon
-                                                key={i}
-                                                color={i < item.rating ? 'teal.500' : 'gray.300'}
-                                            />
-                                        ))}
-                                    < Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
+                                    <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
+                                    <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                    <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+                                    <Box display='flex' mt='2'>
+                                        {Array(5)
+                                            .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
+                                            .map((_, i) => (
+                                                <StarIcon
+                                                    key={i}
+                                                    color={i < item.rating ? 'teal.500' : 'gray.300'}
+                                                />
+                                            ))}
+                                        < Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
+                                    </Box>
+
                                 </Box>
-                                <Button><Link href={'/browse/' + item.id}>View</Link></Button>
-                            </Box>
-                        </GridItem>
+                            </GridItem>
+                        </Link>
                     </Fragment>
                 ))
                 }
@@ -106,32 +108,34 @@ const BrowseItems = () => {
             <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
                 {items.map(itemm => (
                     <Fragment>
-                        <GridItem key={itemm.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' align="cenleftter" mb='10px'>
-                            <Image boxSize='sm' objectFit='cover' src={itemm.photo} alt={itemm.imagealt} />
+                        <Link href={'/browse/' + itemm.id}>
+                            <GridItem key={itemm.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' align="cenleftter" mb='10px'>
+                                <Image boxSize='sm' objectFit='cover' src={itemm.photo} alt={itemm.imagealt} />
 
-                            <Box padding={"10px"}>
-                                <Box display='flex' mt='2' alignItems='center'>
-                                    <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{itemm.itemname}</Box>
-                                    <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{itemm.condition}</Box>
-                                </Box>
+                                <Box padding={"10px"}>
+                                    <Box display='flex' mt='2' alignItems='center'>
+                                        <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{itemm.itemname}</Box>
+                                        <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{itemm.condition}</Box>
+                                    </Box>
 
-                                <Box mt='1' lineHeight='tight' isTruncated>{itemm.descr}</Box>
-                                <Badge borderRadius='full' px='2' colorScheme='teal'>{itemm.giveaway}</Badge>
-                                <Box as='span' color='gray.600' fontSize='sm'>{itemm.lendlength}</Box>
-                                <Box display='flex' mt='2'>
-                                    {Array(5)
-                                        .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
-                                        .map((_, i) => (
-                                            <StarIcon
-                                                key={i}
-                                                color={i < itemm.rating ? 'teal.500' : 'gray.300'}
-                                            />
-                                        ))}
-                                    < Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + itemm.username}>{itemm.username}</Link></Box>
+                                    <Box mt='1' lineHeight='tight' isTruncated>{itemm.descr}</Box>
+                                    <Badge borderRadius='full' px='2' colorScheme='teal'>{itemm.giveaway}</Badge>
+                                    <Box as='span' color='gray.600' fontSize='sm'>{itemm.lendlength}</Box>
+                                    <Box display='flex' mt='2'>
+                                        {Array(5)
+                                            .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
+                                            .map((_, i) => (
+                                                <StarIcon
+                                                    key={i}
+                                                    color={i < itemm.rating ? 'teal.500' : 'gray.300'}
+                                                />
+                                            ))}
+                                        < Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + itemm.username}>{itemm.username}</Link></Box>
+                                    </Box>
+
                                 </Box>
-                                <Button><Link href={'/browse/' + itemm.id}>View</Link></Button>
-                            </Box>
-                        </GridItem>
+                            </GridItem>
+                        </Link>
                     </Fragment>
                 ))
                 }
