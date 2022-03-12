@@ -328,6 +328,7 @@ const Dashboard = () => {
                                                             if (done) {
                                                                 setContactList = c => [newContact, ...c];
                                                             }
+                                                            navigate("/chat");
                                                             return;
                                                         })
                                                     }}>Contact</Button>

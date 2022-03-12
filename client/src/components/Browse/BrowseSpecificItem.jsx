@@ -289,7 +289,7 @@ const BrowseSpecificItem = () => {
                     <ModalCloseButton onClick={closeModal} />
                     <ModalHeader>Gone forever!</ModalHeader>
                     <p>Your offer has been permanently deleted!</p>
-                    <Link href='/browse'><Button>Ok</Button></Link>
+                    <Link href='/dashboard'><Button>Ok</Button></Link>
                 </ModalContent>
             </Modal>
 
