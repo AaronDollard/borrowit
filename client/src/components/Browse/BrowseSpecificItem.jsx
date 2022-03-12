@@ -190,7 +190,7 @@ const BrowseSpecificItem = () => {
                             </Box>
 
                             {/* Checks to see if the logged in user is not the person who owns the item. This is to prevent borrowing ones own items */}
-                            {user.userid !== item.itemowner && status !== "PENDING" && status !== "DECLINED" && status !== "ACCEPTED" && (
+                            {user.userid !== item.itemowner && status !== "PENDING" && status !== "DECLINED" && status !== "ACCEPTED" && status !== "CONTACTED" && (
                                 <Button onClick={makeOffer} >Make Offer</Button>
                             )}
 
