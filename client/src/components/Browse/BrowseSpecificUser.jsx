@@ -66,34 +66,35 @@ const BrowseSpecificUser = () => {
                         {usersItems.map(item => (
                             <Fragment>
                                 <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                                    <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
-                                    <Box padding={"10px"}>
-                                        <Box display='flex' mt='2' alignItems='center'>
-                                            <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                            <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
+                                    <Link href={'/browse/' + item.itemid}>
+                                        <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                        <Box padding={"10px"}>
+                                            <Box display='flex' mt='2' alignItems='center'>
+                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
+                                            </Box>
+
+                                            <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
+                                            <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                            <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+
+                                            {userID !== item.itemowner && (
+                                                <>
+                                                    <Box display='flex' mt='2'>
+                                                        {Array(5)
+                                                            .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
+                                                            .map((_, i) => (
+                                                                <StarIcon
+                                                                    key={i}
+                                                                    color={i < item.rating ? 'teal.500' : 'gray.300'}
+                                                                />
+                                                            ))}
+                                                        < Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
+                                                    </Box>
+                                                </>
+                                            )}
                                         </Box>
-
-                                        <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                        <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                        <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
-
-                                        {userID !== item.itemowner && (
-                                            <>
-                                                <Box display='flex' mt='2'>
-                                                    {Array(5)
-                                                        .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
-                                                        .map((_, i) => (
-                                                            <StarIcon
-                                                                key={i}
-                                                                color={i < item.rating ? 'teal.500' : 'gray.300'}
-                                                            />
-                                                        ))}
-                                                    < Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                                                </Box>
-                                                <Button><Link href={'/browse/' + item.itemid}>View</Link></Button>
-                                            </>
-                                        )}
-                                    </Box>
+                                    </Link>
                                 </GridItem>
                             </Fragment>
                         ))
