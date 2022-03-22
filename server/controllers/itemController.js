@@ -209,6 +209,27 @@ module.exports.reviewUser = async (req, res) => {
     }
 };
 
+
+//Gets reviews for a user
+module.exports.getUserReview = async (req, res) => {
+    try {
+        console.log("GetReviewUser - itemController Debug");
+        const { userID } = req.body;
+
+        const reviewQuery = await db.query
+            (`SELECT username, itemborrowed, review, outcome
+            FROM reviews
+            JOIN  users ON reviews.reviewer = users.userid
+            WHERE reviews.reviewee = $1`,
+                [userID]
+            );
+        res.json(reviewQuery.rows);
+        console.log(reviewQuery)
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
 module.exports.findOfferStatus = async (req, res) => {
     try {
         console.log("findOfferStatus - itemController Debug");

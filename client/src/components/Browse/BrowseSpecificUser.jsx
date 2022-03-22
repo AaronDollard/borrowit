@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link, VStack } from '@chakra-ui/react';
+import { Badge, Text, Box, Button, Grid, GridItem, Heading, Image, Link, VStack, HStack } from '@chakra-ui/react';
 import React, { Fragment, useEffect } from 'react'
 import { useState, useContext } from 'react';
 import { StarIcon } from '@chakra-ui/icons'
@@ -6,6 +6,7 @@ import { StarIcon } from '@chakra-ui/icons'
 const BrowseSpecificUser = () => {
     const [users, setUsers] = useState([]);
     const [usersItems, setClickedUserItems] = useState([]);
+    const [reviews, setClickedUserReviews] = useState([]);
 
     var userID = window.location.pathname;
     //console.log(userID.split('/')[2]); //Split the url to get the item ID
@@ -48,9 +49,31 @@ const BrowseSpecificUser = () => {
         }
     };
 
+    const getReviews = async () => {
+        try {
+            const body = { userID };
+            console.log(userID)
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/getuserreview/:id`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            console.log(response)
+
+            const userReviewData = await response.json();
+            setClickedUserReviews(userReviewData);
+            for (var i = 0; i < userReviewData.length; i += 1) {
+                console.log(userReviewData[i]); //Print all of the items to the console for debugging
+            }
+        } catch (err) {
+            console.error(err.message)
+        }
+    };
+
     useEffect(() => {
         getSpecificUser();
         getClickedUserItems();
+        getReviews();
     }, []);
 
     return (
@@ -99,8 +122,32 @@ const BrowseSpecificUser = () => {
                             </Fragment>
                         ))
                         }
+
                     </Grid>
+
                     <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>{user.username}'s Reviews</Heading>
+                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(1, 1fr)' gap={1} >
+                        {reviews.map(review => (
+                            <Fragment>
+                                <GridItem key={review.id} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
+                                    <HStack>
+                                        <Text fontSize='xl'>{review.username}</Text>
+                                        <Text fontSize='xl'>{review.itemborrowed}</Text>
+                                        <Text fontSize='xl'>
+                                            {review.outcome == "GOOD" && (
+                                                <Text>👍</Text>
+                                            )}
+                                            {review.outcome == "BAD" && (
+                                                <Text>👎</Text>
+                                            )}
+                                        </Text>
+                                    </HStack>
+                                    <Text fontSize='lg'>{review.review}</Text>
+                                </GridItem>
+                            </Fragment>
+                        ))
+                        }
+                    </Grid>
                 </Fragment>
             ))
             }
