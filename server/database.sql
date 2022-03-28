@@ -7,15 +7,22 @@ DELETE borrowit;
 INSERT INTO users(username, passhashed) values ($1, $2);
 
 
+
+INSERT INTO users(username, passhashed, userid, userrole) values('BorrowitAdmin', '$2b$10$V.R2Z3RhuM5hus6lfDLAZuQfiTAho0WM.CZtHVjmAUYMhmmEyux6q', 1, 'admin');
+
+DROP TABLE reviews;
 DROP TABLE items;
 DROP TABLE offers;
 DROP TABLE users;
+
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(20) not NULL UNIQUE,
     email VARCHAR(70),
     firstname VARCHAR(70),
     surname VARCHAR(70),
+    home VARCHAR(70),
+    userrole VARCHAR(70),
     passhashed VARCHAR(150) not NULL,
     userid VARCHAR NOT NULL UNIQUE);
 

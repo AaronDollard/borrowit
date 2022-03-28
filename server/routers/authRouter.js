@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const validateForm = require("../controllers/express/validateForm");
 const { handleLogin, attemptSignIn, attemptSignUp } = require("../controllers/authController");
-const { addItem, getUserReview, getItem, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer, getLatestItem, dismissOffer, findOfferStatus, reviewUser } = require("../controllers/itemController");
+const { addItem, getUserReview, getItem, getUsers, getLoggedUserItems, getSpecificItem, getSpecificUser, getClickedUserItems, makeOffer, getIncomingOffers, getOutgoingOffers, offerResponse, updateItem, deleteOffer, getLatestItem, dismissOffer, findOfferStatus, reviewUser } = require("../controllers/itemController");
 const db = require("../db");
 const rateLimiter = require("../controllers/express/rateLimiter");
 
@@ -30,7 +30,7 @@ router.route("/reviewuser").post(reviewUser); //Review for users
 router.route("/getuserreview/:id").post(getUserReview); //Gets reviews for user
 
 router.route("/usersitems/:id").post(getClickedUserItems); //Display the clicked profile items details
-
+router.route("/getusers").post(getUsers); //Get users for admins
 
 router.post("/offers", makeOffer); //Post a new listing for an item.
 router.post("/offerresponse", offerResponse); //The response from a user to an offer

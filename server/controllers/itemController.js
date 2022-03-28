@@ -230,6 +230,23 @@ module.exports.getUserReview = async (req, res) => {
     }
 };
 
+//Get users for admins
+module.exports.getUsers = async (req, res) => {
+    try {
+        console.log("GetUsers - itemController Debug");
+
+        const getUserQuery = await db.query
+            (`SELECT username, email, firstname, surname, home, userrole, userid 
+            FROM users`
+            );
+        res.json(getUserQuery.rows);
+        console.log(getUserQuery)
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+
 module.exports.findOfferStatus = async (req, res) => {
     try {
         console.log("findOfferStatus - itemController Debug");

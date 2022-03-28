@@ -22,10 +22,11 @@ const handleLogin = async (req, res) => {
                 return;
             }
 
-            username = decoded.username,
-                userid = decoded.userid,
+            username = decoded.username
+            userid = decoded.userid
+            userrole = decoded.userrole
 
-                res.json({ loggedIn: true, token, userid, username });
+            res.json({ loggedIn: true, token, userid, username, userrole });
         })
         .catch(() => {
             res.json({ loggedIn: false });

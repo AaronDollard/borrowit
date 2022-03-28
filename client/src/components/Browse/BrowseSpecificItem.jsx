@@ -190,7 +190,7 @@ const BrowseSpecificItem = () => {
                             </Box>
 
                             {/* Checks to see if the logged in user is not the person who owns the item. This is to prevent borrowing ones own items */}
-                            {user.userid !== item.itemowner && status !== "PENDING" && status !== "DECLINED" && status !== "ACCEPTED" && status !== "CONTACTED" && (
+                            {user.userid !== item.itemowner && status !== "PENDING" && status !== "DECLINED" && status !== "ACCEPTED" && status !== "CONTACTED" && status !== "REVIEWED" && (
                                 <Button onClick={makeOffer} >Make Offer</Button>
                             )}
 
@@ -210,10 +210,13 @@ const BrowseSpecificItem = () => {
                                 <Text>You have already opened a chat with the lender about this item.</Text>
                             )}
 
+                            {status === "REVIEWED" && (
+                                <Text>You have already opened a chat with the lender about this item.</Text>
+                            )}
                         </GridItem>
 
                         {/* Checks to make sure the user owns the item */}
-                        {user.userid === item.itemowner && (
+                        {user.userid === item.itemowner | user.userrole === 'admin' ? (
                             <GridItem maxW='sm' overflow='hidden'>
                                 <VStack spacing="1rem">
                                     <Heading>Update your listing</Heading>
@@ -274,17 +277,16 @@ const BrowseSpecificItem = () => {
                                     </form>
 
                                     <Box textAlign="center">
-                                        <Heading>Delete your listing</Heading>
+                                        <Heading>Delete listing?</Heading>
                                         <Text fontSize='sm' fontWeight={"thin"}>If you wish to delete your listing permenantly click the button below.
                                             Be aware that this CANNOT be undone.</Text>
                                         <Button colorScheme='red' onClick={deleteOffer}>Delete</Button>
                                     </Box>
                                 </VStack>
                             </GridItem>
-                        )}
+                        ) : <></>}
                     </Fragment>
-                ))
-                }
+                ))}
             </Grid >
 
             <Modal isOpen={modalIsOpen}>

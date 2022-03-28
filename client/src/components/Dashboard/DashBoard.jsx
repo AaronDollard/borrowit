@@ -365,7 +365,7 @@ const Dashboard = () => {
 
                                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
 
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                                 {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
                                                 {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
                                                 {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
@@ -395,7 +395,7 @@ const Dashboard = () => {
 
                                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
 
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                                 {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
                                                 {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
                                                 {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
@@ -445,7 +445,7 @@ const Dashboard = () => {
 
                                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
 
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                                 {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
                                                 {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
                                                 {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
@@ -480,7 +480,7 @@ const Dashboard = () => {
 
                                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
 
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                                 {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
                                                 {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
                                                 {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
@@ -529,7 +529,7 @@ const Dashboard = () => {
 
                                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
 
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
+                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                                 {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
                                                 {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
                                                 {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}

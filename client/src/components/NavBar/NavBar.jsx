@@ -80,8 +80,18 @@ const Home = () => {
             as={'nav'}
             spacing={4}
             display={{ base: 'none', md: 'flex' }}>
-            <Link href='/dashboard'>Dashboard</Link>
+            {user.userrole === "user" && (
+              <>
+                <Link href='/dashboard'>Dashboard</Link>
+              </>
+            )}
             <Link href='/browse'>Browse</Link>
+            {user.userrole === "admin" && (
+              <>
+                <Link href='/administration'>Admin Dashboard</Link>
+              </>
+            )}
+
             <Input
               label="Search"
               color={"gray"}
@@ -90,15 +100,19 @@ const Home = () => {
           </HStack>
 
           <Flex alignItems={'center'}>
-            <Button
-              onClick={openModal} //Add the item modal
-              variant={'solid'}
-              colorScheme={'teal'}
-              size={'sm'}
-              mr={4}
-              leftIcon={<AddIcon />}>
-              New Listing
-            </Button>
+            {user.userrole === "user" && (
+              <>
+                <Button
+                  onClick={openModal} //Add the item modal
+                  variant={'solid'}
+                  colorScheme={'teal'}
+                  size={'sm'}
+                  mr={4}
+                  leftIcon={<AddIcon />}>
+                  New Listing
+                </Button>
+              </>
+            )}
 
             <Menu>
               <HStack>
@@ -120,10 +134,14 @@ const Home = () => {
               </HStack>
 
               <MenuList>
-                <MenuItem>Hello, {currentUser}!</MenuItem>
-                <MenuItem><Link href={'/users/' + user.username}>My Profile</Link></MenuItem>
-                {/* <MenuItem>My Account</MenuItem> */}
-                <MenuDivider />
+                {user.userrole === "user" && (
+                  <>
+                    <MenuItem>Hello, {currentUser}!</MenuItem>
+                    <MenuItem><Link href={'/users/' + user.username}>My Profile</Link></MenuItem>
+                    {/* <MenuItem>My Account</MenuItem> */}
+                    <MenuDivider />
+                  </>
+                )}
 
                 <MenuItem onClick={() => {
                   if (!user.loggedIn) return;
@@ -140,8 +158,17 @@ const Home = () => {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-              <Link href='/dashboard'>Dashboard</Link>
+              {user.userrole === "user" && (
+                <>
+                  <Link href='/dashboard'>Dashboard</Link>
+                </>
+              )}
               <Link href='/browse'>Browse</Link>
+              {user.userrole === "admin" && (
+                <>
+                  <Link href='/administration'>Admin Dashboard</Link>
+                </>
+              )}
               <Link href='/chat'>Contacts</Link>
             </Stack>
           </Box>

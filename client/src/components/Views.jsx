@@ -15,6 +15,7 @@ import BrowseSpecificUser from './Browse/BrowseSpecificUser'
 import ChatMain from './Communication/ChatMain'
 import useSocketSetup from "../Socket/useSocketSetup";
 import socketConnection from "../Socket/socket";
+import Administration from './Administration/Administration'
 
 export const SocketContext = createContext();
 
@@ -40,7 +41,6 @@ const Views = () => {
                 <SocketContext.Provider value={{ socket }}>
                     {user.loggedIn === true && (
                         <>
-
                             <NavBar />
                             <Routes>
                                 <Route element={<PrivateRoutes />}>
@@ -49,9 +49,13 @@ const Views = () => {
                                     <Route path="/browse" element={<Browse />} />
                                     <Route path="/browse/:itemid" element={<BrowseSpecificItem />} />
                                     <Route path="/users/:username" element={<BrowseSpecificUser />} />
+                                    {user.userrole === "admin" && (
+                                        <>
+                                            <Route path="/administration" element={<Administration />} />
+                                        </>
+                                    )}
                                 </Route>
                             </Routes>
-
                         </>
                     )}
 

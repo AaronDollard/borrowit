@@ -1,6 +1,5 @@
 import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link } from '@chakra-ui/react';
-import React, { Fragment, useContext, useEffect } from 'react'
-import { useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from '../Contexts/AccountContext';
 import '../../styles/styles.css'

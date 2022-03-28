@@ -131,7 +131,7 @@ const BrowseSpecificUser = () => {
                             <Fragment>
                                 <GridItem key={review.id} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
                                     <HStack>
-                                        <Text fontSize='xl'>{review.username}</Text>
+                                        <Text fontSize='xl'><Link href={'/users/' + review.username}>{review.username}</Link></Text>
                                         <Text fontSize='xl'>{review.itemborrowed}</Text>
                                         <Text fontSize='xl'>
                                             {review.outcome == "GOOD" && (

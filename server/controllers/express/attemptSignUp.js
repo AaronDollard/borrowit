@@ -14,15 +14,16 @@ const attemptRegister = async (req, res) => {
     if (existingUser.rowCount === 0) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newUserQuery = await db.query(
-            "INSERT INTO users(username, passhashed, userid) values($1,$2,$3) RETURNING id, username, userid",
-            [req.body.username, hashedPassword, uuidv4()],
+            "INSERT INTO users(username, passhashed, userid, userrole) values($1,$2,$3,$4) RETURNING id, username, userid, userrole",
+            [req.body.username, hashedPassword, uuidv4(), 'user'],
             console.log("Entered into database")
         );
         jwtSign(
             {
                 username: req.body.username,
                 id: newUserQuery.rows[0].id,
-                userid: newUserQuery.rows[0].userid
+                userid: newUserQuery.rows[0].userid,
+                userrole: newUserQuery.rows[0].userrole
             },
             process.env.JWT_SECRET,
             { expiresIn: "7d" },
