@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link } from '@chakra-ui/react';
+import { Badge, Box, Button, Grid, GridItem, Heading, Image, Link, Input } from '@chakra-ui/react';
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from '../Contexts/AccountContext';
@@ -65,6 +65,20 @@ const BrowseItems = () => {
         loadPage();
     }, []);
 
+
+
+    const [search, setNewSearch] = useState("");
+    const handleSearchChange = (e) => {
+        setNewSearch(e.target.value);
+    };
+    const filtered = !search
+        ? items
+        : items.filter((itemm) =>
+            itemm.itemname.toLowerCase().includes(search.toLowerCase())
+        );
+
+
+
     return (
         <>
             <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
@@ -102,8 +116,11 @@ const BrowseItems = () => {
             </Grid >
 
             <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>Browse all items</Heading>
+            <Input alignContent={'center'} maxW={'2xl'} type="search" value={search} onChange={handleSearchChange} className="input" margin={'10px'} label="Search" color={"gray"} background={"white"} placeholder='Search for an item'></Input>
+
             <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
-                {items.map(itemm => (
+
+                {filtered.map((itemm) => (
                     <Fragment>
                         <GridItem key={itemm.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' align="cenleftter" mb='10px'>
                             <Link style={{ textDecoration: 'none' }} href={'/browse/' + itemm.id}>
@@ -134,8 +151,7 @@ const BrowseItems = () => {
                             </Link>
                         </GridItem>
                     </Fragment>
-                ))
-                }
+                ))}
             </Grid>
         </>
     )

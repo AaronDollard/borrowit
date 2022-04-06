@@ -60,28 +60,16 @@ const Home = () => {
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          width='100%'>
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'} width='100%'>
 
-          <IconButton
-            size={'md'}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={'Open Menu'}
-            display={{ md: 'none' }}
-            onClick={isOpen ? onClose : onOpen}
-          />
+          <IconButton size={'md'} icon={isOpen ? <CloseIcon /> : <HamburgerIcon />} aria-label={'Open Menu'} display={{ md: 'none' }} onClick={isOpen ? onClose : onOpen} />
 
           {/* <HStack>
             <Img boxSize='60px' src=""></Img>
             <Text fontStyle={"italic"} fontWeight={"bold"} textAlign={"center"}>Borrowit<br />Lendit</Text>
           </HStack> */}
 
-          <HStack
-            as={'nav'}
-            spacing={4}
-            display={{ base: 'none', md: 'flex' }}>
+          <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
             {user.userrole === "user" && (
               <>
                 <Link href='/dashboard'>Dashboard</Link>
@@ -94,25 +82,12 @@ const Home = () => {
               </>
             )}
 
-            <Input
-              label="Search"
-              color={"gray"}
-              background={"white"}
-              placeholder='Search for an item'></Input>
           </HStack>
 
           <Flex alignItems={'center'}>
             {user.userrole === "user" && (
               <>
-                <Button
-                  onClick={openModal}
-                  variant={'solid'}
-                  colorScheme={'teal'}
-                  size={'sm'}
-                  mr={4}
-                  leftIcon={<AddIcon />}>
-                  New Listing
-                </Button>
+                <Button onClick={openModal} variant={'solid'} colorScheme={'teal'} size={'sm'} mr={4} leftIcon={<AddIcon />}>New Listing</Button>
               </>
             )}
 
