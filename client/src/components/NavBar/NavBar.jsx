@@ -64,21 +64,23 @@ const Home = () => {
 
           <IconButton size={'md'} icon={isOpen ? <CloseIcon /> : <HamburgerIcon />} aria-label={'Open Menu'} display={{ md: 'none' }} onClick={isOpen ? onClose : onOpen} />
 
-          {/* <HStack>
-            <Img boxSize='60px' src=""></Img>
-            <Text fontStyle={"italic"} fontWeight={"bold"} textAlign={"center"}>Borrowit<br />Lendit</Text>
-          </HStack> */}
+          <HStack>
+            <Img boxSize='60px' src="https://s00152905-project1.s3.eu-west-1.amazonaws.com/image.png"></Img>
+            {/* <Text fontStyle={"italic"} fontWeight={"bold"}>Borrowit</Text> */}
+          </HStack>
 
-          <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
+          <HStack as={'nav'} spacing={4}>
             {user.userrole === "user" && (
               <>
-                <Link href='/dashboard'>Dashboard</Link>
+                <Link href='/dashboard'><Button size='md' v variant={'ghost'} colorScheme={'teal'}>Dashboard</Button></Link>
               </>
             )}
-            <Link href='/browse'>Browse</Link>
+
+            <Link href='/browse'><Button size='md' variant={'ghost'} colorScheme={'teal'}>Browse</Button></Link>
+
             {user.userrole === "admin" && (
               <>
-                <Link href='/administration'>Admin Dashboard</Link>
+                <Link href='/administration'><Button size='md' variant={'ghost'} colorScheme={'teal'} >Admin Dashboard</Button></Link>
               </>
             )}
 
