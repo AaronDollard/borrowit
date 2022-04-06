@@ -8,12 +8,12 @@ INSERT INTO users(username, passhashed) values ($1, $2);
 
 
 
-INSERT INTO users(username, passhashed, userid, userrole) values('BorrowitAdmin', '$2b$10$V.R2Z3RhuM5hus6lfDLAZuQfiTAho0WM.CZtHVjmAUYMhmmEyux6q', 1, 'admin');
 
 DROP TABLE reviews;
 DROP TABLE items;
 DROP TABLE offers;
 DROP TABLE users;
+
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
@@ -23,8 +23,13 @@ CREATE TABLE users(
     surname VARCHAR(70),
     home VARCHAR(70),
     userrole VARCHAR(70),
+    socials VARCHAR(70),
+    phone VARCHAR(70),
+    profilepic VARCHAR(70),
     passhashed VARCHAR(150) not NULL,
     userid VARCHAR NOT NULL UNIQUE);
+
+INSERT INTO users(username, passhashed, userid, userrole, profilepic) values('BorrowitAdmin', '$2b$10$V.R2Z3RhuM5hus6lfDLAZuQfiTAho0WM.CZtHVjmAUYMhmmEyux6q', 1, 'admin', 'https://bit.ly/3Jeit5F');
 
 CREATE TABLE items(
     id SERIAL PRIMARY KEY,

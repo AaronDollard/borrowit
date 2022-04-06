@@ -6,7 +6,6 @@ import { Badge, Box, Button, Grid, GridItem, Heading, HStack, Image, Link, Text 
 const Administration = () => {
     const [items, setItems] = useState([]);
     const [users, setUsers] = useState([]);
-    const [pageLoaded, setPageLoaded] = useState("false");
 
     const { user } = useContext(AccountContext);
     console.log(user.username)
@@ -48,6 +47,25 @@ const Administration = () => {
         }
     };
 
+    const banUser = async (userid) => {
+        const body = { userid };
+        console.log(body)
+        try {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/banuser`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+
+            const userData = await response.json();
+            for (var i = 0; i < userData.length; i += 1) {
+                console.log(userData[i]);
+            }
+            setUsers(userData);
+        } catch (err) {
+            console.error(err.message)
+        }
+    };
+
     const loadPage = async () => {
         if (user.userid === undefined) {
             window.location.reload(true);
@@ -73,10 +91,12 @@ const Administration = () => {
                         </Link>
                     </GridItem>
 
-                    <GridItem>
-                        <Text style={{ textDecoration: 'none' }} mr={{ md: 6 }} align='right'>
-                            Ban
-                        </Text>
+                    <GridItem align='right'>
+                        <Button colorScheme='teal' size='xs' mr={{ md: 6 }} onClick={e => {
+                            banUser(user.userid)
+                        }}>
+                            SUSPEND USER
+                        </Button>
                     </GridItem>
                 </Grid>
             ))
@@ -84,21 +104,24 @@ const Administration = () => {
 
 
             <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>Manage Items</Heading>
-            <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
-                {items.map(item => (
-                    <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' align="cenleftter">
-                        <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
+            {items.map(item => (
+                <Grid templateRows='repeat(1, 1fr)' ml={{ md: 6 }} templateColumns='repeat(2, 1fr)' maxWidth='sm' borderWidth='1px' >
 
-                            <Box padding={"10px"}>
-                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                <Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                            </Box>
+                    <GridItem key={item.id}>
+                        <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
+                            <Box fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+
                         </Link>
                     </GridItem>
 
-                ))
-                }
-            </Grid >
+                    <GridItem>
+                        <Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
+                    </GridItem>
+                </Grid >
+            ))
+
+            }
+
 
         </div>
     )

@@ -14,8 +14,8 @@ const attemptRegister = async (req, res) => {
     if (existingUser.rowCount === 0) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newUserQuery = await db.query(
-            "INSERT INTO users(username, passhashed, userid, userrole) values($1,$2,$3,$4) RETURNING id, username, userid, userrole",
-            [req.body.username, hashedPassword, uuidv4(), 'user'],
+            "INSERT INTO users(username, passhashed, userid, userrole, profilepic, email, firstname, surname, home, socials, phone) values($1,$2,$3,$4,$5, $6, $7, $8, $9, $10, $11) RETURNING id, username, userid, userrole, profilepic, email, firstname, surname, home, socials, phone",
+            [req.body.username, hashedPassword, uuidv4(), 'user', 'https://bit.ly/3Jeit5F', '', '', '', '', 'No linked socials..', ''],
             console.log("Entered into database")
         );
         jwtSign(
@@ -23,7 +23,14 @@ const attemptRegister = async (req, res) => {
                 username: req.body.username,
                 id: newUserQuery.rows[0].id,
                 userid: newUserQuery.rows[0].userid,
-                userrole: newUserQuery.rows[0].userrole
+                userrole: newUserQuery.rows[0].userrole,
+                profilepic: newUserQuery.rows[0].profilepic,
+                email: newUserQuery.rows[0].email,
+                firstname: newUserQuery.rows[0].firstname,
+                surname: newUserQuery.rows[0].surname,
+                home: newUserQuery.rows[0].home,
+                socials: newUserQuery.rows[0].socials,
+                phone: newUserQuery.rows[0].phone
             },
             process.env.JWT_SECRET,
             { expiresIn: "7d" },

@@ -7,7 +7,7 @@ require("dotenv").config();
 const attemptLogin = async (req, res) => {
     console.log("Attempted Login - Backend");
     const potentialUser = await db.query(
-        "SELECT id, username, passhashed, userid, userrole FROM users u WHERE u.username=$1",
+        "SELECT id, username, passhashed, userid, userrole, profilepic, email, firstname, surname, home, socials, phone FROM users u WHERE u.username=$1",
         [req.body.username]
     );
 
@@ -24,7 +24,14 @@ const attemptLogin = async (req, res) => {
                     username: req.body.username,
                     id: potentialUser.rows[0].id,
                     userid: potentialUser.rows[0].userid,
-                    userrole: potentialUser.rows[0].userrole
+                    userrole: potentialUser.rows[0].userrole,
+                    profilepic: potentialUser.rows[0].profilepic,
+                    email: potentialUser.rows[0].email,
+                    firstname: potentialUser.rows[0].firstname,
+                    surname: potentialUser.rows[0].surname,
+                    home: potentialUser.rows[0].home,
+                    socials: potentialUser.rows[0].socials,
+                    phone: potentialUser.rows[0].phone
                 },
                 process.env.JWT_SECRET,
                 { expiresIn: "7d" },

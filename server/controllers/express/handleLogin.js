@@ -25,8 +25,15 @@ const handleLogin = async (req, res) => {
             username = decoded.username
             userid = decoded.userid
             userrole = decoded.userrole
+            profilepic = decoded.profilepic
+            email = decoded.email
+            firstname = decoded.firstname
+            surname = decoded.surname
+            home = decoded.home
+            socials = decoded.socials
+            phone = decoded.phone
 
-            res.json({ loggedIn: true, token, userid, username, userrole });
+            res.json({ loggedIn: true, token, userid, username, userrole, profilepic, email, firstname, surname, home, socials, phone });
         })
         .catch(() => {
             res.json({ loggedIn: false });

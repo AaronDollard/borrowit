@@ -151,7 +151,8 @@ module.exports.getSpecificUser = async (req, res) => {
         console.log("getSpecificUser - itemController Debug");
         const { userID } = req.body;
         console.log(userID)
-        const getSpecificUser = await db.query("SELECT * FROM users WHERE username = $1",
+
+        const getSpecificUser = await db.query("SELECT id, email, socials, phone, profilepic, firstname, home, surname, userid, username FROM users WHERE username = $1",
             [userID]);
         res.json(getSpecificUser.rows);
     } catch (err) {
@@ -230,6 +231,31 @@ module.exports.getUserReview = async (req, res) => {
     }
 };
 
+//Update the profile of a user
+module.exports.updateUserProfile = async (req, res) => {
+    try {
+        console.log("updateUser - itemController Debug");
+        const { fname, sname, email, home, socials, phone, profilepic, currentUserID } = req.body;
+
+        console.log(currentUserID)
+        const updateProfile = await db.query
+            (`UPDATE users SET 
+            firstname = $1, 
+            surname = $2, 
+            email = $3, 
+            home = $4, 
+            socials = $5, 
+            phone = $6, 
+            profilepic = $7 
+            WHERE userid = $8`,
+                [fname, sname, email, home, socials, phone, profilepic, currentUserID]
+            );
+        res.json(updateProfile.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
 //Get users for admins
 module.exports.getUsers = async (req, res) => {
     try {
@@ -246,6 +272,16 @@ module.exports.getUsers = async (req, res) => {
     }
 };
 
+
+//Get users for admins to ban
+module.exports.banUsers = async (req, res) => {
+    try {
+        console.log("BanUsers - itemController Debug");
+
+    } catch (err) {
+        console.error(err.message);
+    }
+};
 
 module.exports.findOfferStatus = async (req, res) => {
     try {

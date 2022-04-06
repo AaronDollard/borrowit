@@ -158,7 +158,7 @@ const BrowseSpecificItem = () => {
 
     return (
         <>
-            <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(2, 1fr)' gap={1} >
+            <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(3, 1fr)'>
                 {items.map(item => (
                     <Fragment>
                         <Box padding={"10px"}>
@@ -215,75 +215,82 @@ const BrowseSpecificItem = () => {
                             )}
                         </GridItem>
 
+
+                        <GridItem></GridItem>
                         {/* Checks to make sure the user owns the item */}
                         {user.userid === item.itemowner | user.userrole === 'admin' ? (
-                            <GridItem maxW='sm' overflow='hidden'>
-                                <VStack spacing="1rem">
-                                    <Heading>Update your listing</Heading>
+                            <>
+                                <GridItem maxW='sm' overflow='hidden'>
+                                    <VStack spacing="1rem">
+                                        <Heading>Update your listing</Heading>
 
-                                    <form onSubmit={onSubmitUpdateListing}>
-                                        <label for="name">Item Name</label>
-                                        <input
-                                            required
-                                            type="text"
-                                            className="form-control"
-                                            placeholder={item.itemname}
-                                            value={name}
-                                            onChange={e => setName(e.target.value)} />
-
-                                        <label for="description">Item Description</label>
-                                        <input
-                                            required
-                                            type="text"
-                                            className="form-control"
-                                            placeholder={item.descr}
-                                            value={description}
-                                            onChange={e => setDescription(e.target.value)} />
-
-                                        <label for="condition">Item Condition</label>
-                                        <select required className="form-control" onChange={e => setCondition(e.target.value)}>
-                                            <option value={condition} selected disabled hidden>-- Select Condition --</option>
-                                            <option value="Used">Used</option>
-                                            <option value="Good Condition">Good</option>
-                                            <option value="New">New</option>
-                                        </select>
-
-                                        <label for="period">Lending Period</label>
-                                        <select required className="form-control" onChange={e => setPeriodLength(e.target.value)}>
-                                            <option value={period} selected disabled hidden>-- Select Lending Length --</option>
-                                            <option value="Couple Days (1 - 2)">1 to 2 days</option>
-                                            <option value="Few Days (3 - 4)">3 to 4 days</option>
-                                            <option value="One Week">1 week</option>
-                                        </select>
-
-                                        <label for="photo">Photo</label>
-                                        <HStack>
+                                        <form onSubmit={onSubmitUpdateListing}>
+                                            <label for="name">Item Name</label>
                                             <input
-                                                placeholder={item.photo}
+                                                required
                                                 type="text"
                                                 className="form-control"
-                                                onChange={e => setPhoto(e.target.value)} />
-                                        </HStack>
+                                                placeholder={item.itemname}
+                                                value={name}
+                                                onChange={e => setName(e.target.value)} />
 
-                                        <HStack>
-                                            <label for="giveaway">Give away item for good?</label>
+                                            <label for="description">Item Description</label>
                                             <input
-                                                type="checkbox"
-                                                value={giveaway}
-                                                onChange={e => !setGiveaway(true)} />
-                                        </HStack>
+                                                required
+                                                type="text"
+                                                className="form-control"
+                                                placeholder={item.descr}
+                                                value={description}
+                                                onChange={e => setDescription(e.target.value)} />
 
-                                        <button class="btn btn-primary">Update Listing</button>
-                                    </form>
+                                            <label for="condition">Item Condition</label>
+                                            <select required className="form-control" onChange={e => setCondition(e.target.value)}>
+                                                <option value={condition} selected disabled hidden>-- Select Condition --</option>
+                                                <option value="Used">Used</option>
+                                                <option value="Good Condition">Good</option>
+                                                <option value="New">New</option>
+                                            </select>
 
+                                            <label for="period">Lending Period</label>
+                                            <select required className="form-control" onChange={e => setPeriodLength(e.target.value)}>
+                                                <option value={period} selected disabled hidden>-- Select Lending Length --</option>
+                                                <option value="Couple Days (1 - 2)">1 to 2 days</option>
+                                                <option value="Few Days (3 - 4)">3 to 4 days</option>
+                                                <option value="One Week">1 week</option>
+                                            </select>
+
+                                            <label for="photo">Photo</label>
+                                            <HStack>
+                                                <input
+                                                    placeholder={item.photo}
+                                                    type="text"
+                                                    className="form-control"
+                                                    onChange={e => setPhoto(e.target.value)} />
+                                            </HStack>
+
+                                            <HStack>
+                                                <label for="giveaway">Give away item for good?</label>
+                                                <input
+                                                    type="checkbox"
+                                                    value={giveaway}
+                                                    onChange={e => !setGiveaway(true)} />
+                                            </HStack>
+
+                                            <button class="btn btn-primary">Update Listing</button>
+                                        </form>
+                                    </VStack>
+                                </GridItem>
+
+
+                                <GridItem>
                                     <Box textAlign="center">
                                         <Heading>Delete listing?</Heading>
                                         <Text fontSize='sm' fontWeight={"thin"}>If you wish to delete your listing permenantly click the button below.
                                             Be aware that this CANNOT be undone.</Text>
                                         <Button colorScheme='red' onClick={deleteOffer}>Delete</Button>
                                     </Box>
-                                </VStack>
-                            </GridItem>
+                                </GridItem>
+                            </>
                         ) : <></>}
                     </Fragment>
                 ))}

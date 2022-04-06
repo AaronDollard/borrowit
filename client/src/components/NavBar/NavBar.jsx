@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Box, Flex, Avatar, HStack, VStack, Heading, Text, Link, IconButton, Button, Menu, MenuButton, MenuList, MenuItem, MenuDivider, useColorModeValue, Stack, Img } from '@chakra-ui/react';
+import { Box, Flex, Avatar, HStack, VStack, Heading, Text, Link, IconButton, Button, Menu, Image, MenuButton, MenuList, MenuItem, MenuDivider, useColorModeValue, Stack, Img } from '@chakra-ui/react';
 import { useDisclosure } from "@chakra-ui/hooks";
 import { HamburgerIcon, CloseIcon, AddIcon, MinusIcon, ChatIcon } from '@chakra-ui/icons';
 import { Input } from '@chakra-ui/input'
@@ -21,8 +21,10 @@ const Home = () => {
 
   const { user, setUser } = useContext(AccountContext);
   const currentUserID = user.userid;
+  const currentPP = user.profilepic;
+
   console.log("Current token ID", user, "NavBar Debug")
-  console.log("Current Logged User ID", user.username, "NavBar Debug")
+  //console.log("Current Logged User ID", user.username, "NavBar Debug")
   const currentUser = user.username;
   const baseURL = process.env.REACT_APP_SERVER_URL;
 
@@ -103,7 +105,7 @@ const Home = () => {
             {user.userrole === "user" && (
               <>
                 <Button
-                  onClick={openModal} //Add the item modal
+                  onClick={openModal}
                   variant={'solid'}
                   colorScheme={'teal'}
                   size={'sm'}
@@ -119,18 +121,11 @@ const Home = () => {
                 <Link href='/chat'><Button><ChatIcon /></Button></Link>
                 <ToggleColourMode />
 
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}>
-                  <Avatar
-                    size={'md'}
-                    src={
-                      'https://bit.ly/3G8EroR'
-                    } />
+                <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
+                  <Avatar size={'md'} src={`${currentPP}`} />
                 </MenuButton>
+
+
               </HStack>
 
               <MenuList>
