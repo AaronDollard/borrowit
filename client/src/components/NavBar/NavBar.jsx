@@ -1,14 +1,12 @@
-import { ReactNode } from 'react';
-import { Box, Flex, Avatar, HStack, VStack, Heading, Text, Link, IconButton, Button, Menu, Image, MenuButton, MenuList, MenuItem, MenuDivider, useColorModeValue, Stack, Img } from '@chakra-ui/react';
+import { Box, Flex, Avatar, HStack, Link, IconButton, Button, Menu, MenuButton, MenuList, MenuItem, MenuDivider, useColorModeValue, Stack, Img } from '@chakra-ui/react';
 import { useDisclosure } from "@chakra-ui/hooks";
-import { HamburgerIcon, CloseIcon, AddIcon, MinusIcon, ChatIcon } from '@chakra-ui/icons';
-import { Input } from '@chakra-ui/input'
+import { HamburgerIcon, CloseIcon, AddIcon, ChatIcon } from '@chakra-ui/icons';
 import ToggleColourMode from "../ToggleColourMode"
 import { useNavigate } from "react-router";
 import { useContext } from 'react'
 import { AccountContext } from "../Contexts/AccountContext"
 import { useState } from 'react';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton } from "@chakra-ui/react"
 
 const Home = () => {
   const navigate = useNavigate();
@@ -65,7 +63,7 @@ const Home = () => {
           <IconButton size={'md'} icon={isOpen ? <CloseIcon /> : <HamburgerIcon />} aria-label={'Open Menu'} display={{ md: 'none' }} onClick={isOpen ? onClose : onOpen} />
 
           <HStack>
-            <Img boxSize='60px' src="https://s00152905-project1.s3.eu-west-1.amazonaws.com/image.png"></Img>
+            <Link href='/browse'><Img boxSize='60px' src="https://s00152905-project1.s3.eu-west-1.amazonaws.com/image.png"></Img></Link>
             {/* <Text fontStyle={"italic"} fontWeight={"bold"}>Borrowit</Text> */}
           </HStack>
 

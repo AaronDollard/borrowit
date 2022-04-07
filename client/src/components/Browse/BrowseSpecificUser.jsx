@@ -2,7 +2,7 @@ import { Badge, Text, Box, Button, Grid, GridItem, Heading, Image, Link, VStack,
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 import React, { Fragment, useEffect } from 'react'
 import { useState, useContext } from 'react';
-import { StarIcon, EmailIcon, AtSignIcon, PhoneIcon } from '@chakra-ui/icons'
+import { StarIcon } from '@chakra-ui/icons'
 import { AccountContext } from '../Contexts/AccountContext';
 
 const BrowseSpecificUser = () => {
@@ -279,12 +279,9 @@ const BrowseSpecificUser = () => {
                         <Button onClick={onSubmitUpdateProfile} variant={'solid'} colorScheme={'teal'} size={'sm'} mr={4}>Update Profile</Button>
                         {/* <button class="btn btn-primary">Update Profile</button> */}
                     </form>
-
                 </ModalContent>
             </Modal>
-
         </div >
-
     )
 }
 

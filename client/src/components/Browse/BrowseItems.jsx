@@ -21,7 +21,7 @@ const BrowseItems = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
-            // console.log(response)
+
             const itemData = await response.json();
             for (var i = 0; i < itemData.length; i += 1) {
                 console.log(itemData[i]);
@@ -40,7 +40,7 @@ const BrowseItems = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
-            // console.log(response)
+
             const itemData = await response.json();
             for (var i = 0; i < itemData.length; i += 1) {
                 console.log(itemData[i]);
@@ -50,7 +50,6 @@ const BrowseItems = () => {
             console.error(err.message)
         }
     };
-
 
     const loadPage = async () => {
         if (user.userid === undefined) {
@@ -65,8 +64,6 @@ const BrowseItems = () => {
         loadPage();
     }, []);
 
-
-
     const [search, setNewSearch] = useState("");
     const handleSearchChange = (e) => {
         setNewSearch(e.target.value);
@@ -76,8 +73,6 @@ const BrowseItems = () => {
         : items.filter((itemm) =>
             itemm.itemname.toLowerCase().includes(search.toLowerCase())
         );
-
-
 
     return (
         <>

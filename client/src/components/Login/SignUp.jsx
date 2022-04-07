@@ -14,12 +14,16 @@ const SignUp = () => {
 
     return (
         <Formik
-            initialValues={{ username: "", password: "" }}
+            initialValues={{ username: "", email: "", password: "" }}
             validationSchema={Yup.object({
                 username: Yup.string()
                     .required("Username required!")
                     .min(6, "Username too short!")
                     .max(20, "Username too long!"),
+
+                email: Yup.string()
+                    .required("Email required!"),
+
                 password: Yup.string()
                     .required("Password required!")
                     .min(6, "Password too short!")
@@ -72,6 +76,13 @@ const SignUp = () => {
                     placeholder="Enter username"
                     autoComplete="off"
                     label="Username"
+                />
+
+                <TextField
+                    name="email"
+                    placeholder="Enter email"
+                    autoComplete="off"
+                    label="Email"
                 />
 
                 <TextField
