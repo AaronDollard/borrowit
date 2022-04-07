@@ -17,8 +17,8 @@ const attemptRegister = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: "borrowit400@gmail.com",
-                pass: "Spidermancool18"
+                user: process.env.GOOGLE_USER,
+                pass: process.env.GOOGLE_PASSWORD
             }
         });
 
@@ -28,12 +28,12 @@ const attemptRegister = async (req, res) => {
             subject: "Borrowit Registration",
             html: `<h3> Hi ${req.body.username}, </h3>
 
-            <p>Thank you for registering an account with Borrowit.</p>
-            <p>We hope you enjoy borrowing and lending items with other users.</p>
-            <p>We hope you enjoy saving money and our application.</p>
+            <p>Thank you for registering an account with Borrowit.ie!</p>
+            <p>We hope you enjoy borrowing and lending items with other users and saving money and enviornemnt in the process.</p>
             
-            <p>Cheers,</p>
-            <p>The Borrowit Team</p>`
+            <p>Cheers,<br>
+            The Borrowit Team
+            </p>`
         };
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
