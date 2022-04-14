@@ -1,6 +1,6 @@
+const express = require("express");
 require("dotenv").config();
 const port = process.env.PORT || 4000
-const express = require("express");
 const { corsConfig } = require("./controllers/serverController");
 const { Server } = require("socket.io");
 const app = express();
