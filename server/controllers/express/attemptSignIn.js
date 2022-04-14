@@ -34,7 +34,7 @@ const attemptLogin = async (req, res) => {
                     phone: potentialUser.rows[0].phone
                 },
                 process.env.JWT_SECRET,
-                { expiresIn: "7d" },
+                { expiresIn: "1d" },
             )
                 .then(token => {
                     res.json({ loggedIn: true, token });
