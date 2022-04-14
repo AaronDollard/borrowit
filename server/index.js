@@ -5,7 +5,7 @@ const { corsConfig } = require("./controllers/serverController");
 const { Server } = require("socket.io");
 const app = express();
 const helmet = require("helmet");
-var cors = require("cors");
+const cors = require("cors");
 const authRouter = require("./routers/authRouter");
 const { userAuthorized, addContact, initializeUser, onDisconnect, dm } = require("./controllers/socketController");
 const server = require("http").createServer(app);
@@ -15,7 +15,6 @@ const io = new Server(server, {
 
 //Middleware
 app.use(helmet());
-app.use(cors())
 app.use(cors(corsConfig));
 app.use(express.json());
 
