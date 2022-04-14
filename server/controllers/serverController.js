@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const corsConfig = {
-    origin: "*",
+    origin: process.env.CLIENT_URL,
     credentials: true,
 }
 
