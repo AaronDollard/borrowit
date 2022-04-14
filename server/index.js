@@ -10,9 +10,7 @@ const authRouter = require("./routers/authRouter");
 const { userAuthorized, addContact, initializeUser, onDisconnect, dm } = require("./controllers/socketController");
 const server = require("http").createServer(app);
 const io = new Server(server, {
-    cors: {
-        origin: '*',
-    }
+    cors: corsConfig
 });
 
 //Middleware

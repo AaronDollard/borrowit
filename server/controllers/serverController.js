@@ -1,8 +1,7 @@
 require("dotenv").config();
 
 const corsConfig = {
-    origin: process.env.CLIENT_URL,
-    credentials: true,
+    origin: process.env.CLIENT_URL
 }
 
 module.exports = { corsConfig }
