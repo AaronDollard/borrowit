@@ -33,6 +33,7 @@ const SignUp = () => {
                 const vals = { ...values };
                 actions.resetForm();
                 fetch(`${process.env.REACT_APP_SERVER_URL}/auth/register`, {
+                    mode: "no-cors",
                     method: "POST",
                     credentials: "include",
                     headers: {

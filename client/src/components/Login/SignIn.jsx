@@ -28,6 +28,7 @@ const SignIn = () => {
                 const vals = { ...values };
                 actions.resetForm();
                 fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
+                    mode: "no-cors",
                     method: "POST",
                     credentials: "include",
                     headers: {
