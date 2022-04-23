@@ -26,7 +26,7 @@ const attemptRegister = async (req, res) => {
             from: "borrowit400@gmail.com",
             to: req.body.email,
             subject: "Borrowit Registration",
-            html: `<h3> Hi ${req.body.username}, </h3>
+            html: `<h3>Hi ${req.body.username},</h3>
 
             <p>Thank you for registering an account with Borrowit.ie!</p>
             <p>We hope you enjoy borrowing and lending items with other users and saving money and enviornemnt in the process. Please note, Borrowit has full authority over the any items information you upload. If the items you upload are deemed unacceptable or harmful to others, Borrowit reserves the right to delete or alter the information that you provide on the item/items in question. With that out of the way, we wish for you to enjoy our free service and have fun lending and borrowing with like minded people.</p>
