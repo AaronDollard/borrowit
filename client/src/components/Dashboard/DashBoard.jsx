@@ -46,7 +46,6 @@ const Dashboard = () => {
     const [contactedCount, setcontactedCount] = useState("");
     const [countReviewed, setcountReviewed] = useState("");
 
-
     const { socket } = useContext(SocketContext);
 
     const [loaded, setLoaded] = useState("NOTLOADED");
@@ -261,7 +260,6 @@ const Dashboard = () => {
                                                     <Badge colorScheme='teal'>{item.giveaway}</Badge>
                                                     <Box ml='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                                 </Box>
-
                                                 {/* <Box lineHeight='tight' isTruncated>{item.descr}</Box> */}
                                             </Box>
                                         </Link>
@@ -287,14 +285,14 @@ const Dashboard = () => {
                             {incomingOffers.map(item => (
                                 <Fragment>
                                     <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                                        <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />                                        <Box display='flex' mt='2' alignItems='center'>
-                                            <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                        </Box>
-                                        <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                        <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
-                                        <br />
-                                        <Stack direction='row' spacing={4}>
-                                            <Button><Link href={'/browse/' + item.id}>View</Link></Button>
+                                        <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
+                                            <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />                                        <Box display='flex' mt='2' alignItems='center'>
+                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                            </Box>
+                                            <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                            <Box as='span' color='gray.600' fontSize='sm'>{item.username}</Box>
+                                        </Link>
+                                        <Stack direction='column' >
                                             <Button
                                                 onClick={e => {
                                                     offerIDResponse(item.offerid)

@@ -1,4 +1,4 @@
-import { Box, Flex, Avatar, HStack, Link, IconButton, Button, Menu, MenuButton, MenuList, MenuItem, MenuDivider, useColorModeValue, Stack, Img } from '@chakra-ui/react';
+import { Box, Text, Flex, Avatar, HStack, Link, IconButton, Button, Menu, MenuButton, MenuList, MenuItem, MenuDivider, useColorModeValue, Stack, Img } from '@chakra-ui/react';
 import { useDisclosure } from "@chakra-ui/hooks";
 import { HamburgerIcon, CloseIcon, AddIcon, ChatIcon } from '@chakra-ui/icons';
 import ToggleColourMode from "../ToggleColourMode"
@@ -67,7 +67,7 @@ const Home = () => {
 
           <HStack>
             <Link href='/browse'><Img boxSize='60px' src="https://s00152905-project1.s3.eu-west-1.amazonaws.com/image.png"></Img></Link>
-            {/* <Text fontStyle={"italic"} fontWeight={"bold"}>Borrowit</Text> */}
+            <Text align={'center'} fontWeight={'bold'} fontSize='md' color='teal'>Borrowing & Lending <br />Application</Text>
           </HStack>
 
           <HStack as={'nav'} spacing={4}>
