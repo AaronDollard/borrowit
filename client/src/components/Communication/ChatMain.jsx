@@ -7,7 +7,7 @@ import { AccountContext } from "../Contexts/AccountContext";
 import socketConnection from "../../Socket/socket";
 
 
-export const SocketContext = createContext();
+// export const SocketContext = createContext();
 export const ContactContext = createContext("");
 export const MessagesContext = createContext();
 
@@ -18,9 +18,6 @@ const ChatMain = () => {
     const [contactIndex, setContactIndex] = useState(0);
     const [socket, setSocket] = useState(() => socketConnection(user));
 
-
-
-
     useEffect(() => {
         setSocket(() => socketConnection(user));
     }, []);
@@ -30,23 +27,23 @@ const ChatMain = () => {
 
     return (
         <ContactContext.Provider value={{ contactList, setContactList }}>
-            <SocketContext.Provider value={{ socket }}>
-                <Grid templateColumns="repeat(10, 1fr)"
-                    h='90vh'
-                    as={Tabs}
-                    onChange={(index => setContactIndex(index))}>
+            {/* <SocketContext.Provider value={{ socket }}> */}
+            <Grid templateColumns="repeat(10, 1fr)"
+                h='90vh'
+                as={Tabs}
+                onChange={(index => setContactIndex(index))}>
 
-                    <GridItem colSpan="3" borderRight="1px solid gray">
-                        <Sidebar />
-                    </GridItem>
+                <GridItem colSpan="3" borderRight="1px solid gray">
+                    <Sidebar />
+                </GridItem>
 
-                    <GridItem colSpan="7" maxH="90vh">
-                        <MessagesContext.Provider value={{ messages, setMessages }}>
-                            <Chat userid={contactList[contactIndex]?.userid} />
-                        </MessagesContext.Provider>
-                    </GridItem>
-                </Grid>
-            </SocketContext.Provider>
+                <GridItem colSpan="7" maxH="90vh">
+                    <MessagesContext.Provider value={{ messages, setMessages }}>
+                        <Chat userid={contactList[contactIndex]?.userid} />
+                    </MessagesContext.Provider>
+                </GridItem>
+            </Grid>
+            {/* </SocketContext.Provider> */}
         </ContactContext.Provider >
     );
 };

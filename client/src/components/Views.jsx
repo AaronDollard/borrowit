@@ -13,16 +13,31 @@ import '../styles/styles.css'
 import BrowseSpecificItem from './Browse/BrowseSpecificItem'
 import BrowseSpecificUser from './Browse/BrowseSpecificUser'
 import ChatMain from './Communication/ChatMain'
-import useSocketSetup from "../Socket/useSocketSetup";
 import socketConnection from "../Socket/socket";
 import Administration from './Administration/Administration'
+import useSocketSetup from '../Socket/useSocketSetup'
 
+export const SocketContext = createContext();
 
 
 const Views = () => {
     //The below part render the login and signup components only if the user is logged out
     const { user } = useContext(AccountContext)
 
+
+    const [contactList, setContactList] = useState([]);
+    const [messages, setMessages] = useState([]);
+    const [contactIndex, setContactIndex] = useState(0);
+
+
+    const [socket, setSocket] = useState(() => socketConnection(user));
+
+
+    useEffect(() => {
+        setSocket(() => socketConnection(user));
+    }, []);
+
+    useSocketSetup(setContactList, setMessages, socket);
 
     //If user is logged in render routers otherwise render login
     return user.loggedIn === null ? <></>
@@ -32,20 +47,22 @@ const Views = () => {
                 {user.loggedIn === true && (
                     <>
                         <NavBar />
-                        <Routes>
-                            <Route element={<PrivateRoutes />}>
-                                <Route path="/dashboard" element={<Dashboard />} />
-                                <Route path="/chat" element={<ChatMain />} />
-                                <Route path="/browse" element={<Browse />} />
-                                <Route path="/browse/:itemid" element={<BrowseSpecificItem />} />
-                                <Route path="/users/:username" element={<BrowseSpecificUser />} />
-                                {user.userrole === "admin" && (
-                                    <>
-                                        <Route path="/administration" element={<Administration />} />
-                                    </>
-                                )}
-                            </Route>
-                        </Routes>
+                        <SocketContext.Provider value={{ socket }}>
+                            <Routes>
+                                <Route element={<PrivateRoutes />}>
+                                    <Route path="/dashboard" element={<Dashboard />} />
+                                    <Route path="/chat" element={<ChatMain />} />
+                                    <Route path="/browse" element={<Browse />} />
+                                    <Route path="/browse/:itemid" element={<BrowseSpecificItem />} />
+                                    <Route path="/users/:username" element={<BrowseSpecificUser />} />
+                                    {user.userrole === "admin" && (
+                                        <>
+                                            <Route path="/administration" element={<Administration />} />
+                                        </>
+                                    )}
+                                </Route>
+                            </Routes>
+                        </SocketContext.Provider>
                     </>
                 )}
 

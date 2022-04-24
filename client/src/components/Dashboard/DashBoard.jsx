@@ -2,7 +2,7 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
 import { ContactContext } from "../Communication/ChatMain";
-import { SocketContext } from '../Communication/ChatMain';
+import { SocketContext } from '../Views';
 import { useNavigate } from "react-router";
 import { Radio, RadioGroup } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
@@ -389,7 +389,7 @@ const Dashboard = () => {
                                             {item.offerstatus == "ACCEPTED" && (
 
                                                 <Stack direction='row' spacing={4}>
-                                                    <Button onClick={(e) => {
+                                                    <Button onClick={e => {
                                                         socket.emit("add_contact", e = item.username, ({ done, newContact }) => {
                                                             if (done) {
                                                                 setContactList = c => [newContact, ...c];
