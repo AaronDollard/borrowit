@@ -7,6 +7,7 @@ import { useContext } from 'react'
 import { AccountContext } from "../Contexts/AccountContext"
 import { useState } from 'react';
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton } from "@chakra-ui/react"
+import { SocketContext } from '../Views';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ const Home = () => {
   const baseURL = process.env.REACT_APP_SERVER_URL;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { socket } = useContext(SocketContext);
 
   // Add item modal
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -113,11 +116,13 @@ const Home = () => {
                   </>
                 )}
 
-                <MenuItem onClick={() => {
+                <MenuItem onClick={(e) => {
                   if (!user.loggedIn) return;
+                  socket.on("disconnect");
                   localStorage.removeItem("token");
                   setUser({ loggedIn: false });
                   navigate("/");
+                  window.location.reload(false);
                 }}>Logout
                 </MenuItem>
               </MenuList>

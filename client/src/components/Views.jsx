@@ -46,8 +46,8 @@ const Views = () => {
             <>
                 {user.loggedIn === true && (
                     <>
-                        <NavBar />
                         <SocketContext.Provider value={{ socket }}>
+                            <NavBar />
                             <Routes>
                                 <Route element={<PrivateRoutes />}>
                                     <Route path="/dashboard" element={<Dashboard />} />
