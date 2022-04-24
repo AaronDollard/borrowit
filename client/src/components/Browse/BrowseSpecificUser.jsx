@@ -9,9 +9,7 @@ const BrowseSpecificUser = () => {
     const [users, setUsers] = useState([]);
     const [usersItems, setClickedUserItems] = useState([]);
     const [reviews, setClickedUserReviews] = useState([]);
-
     const { user } = useContext(AccountContext);
-
     const [fname, setFName] = useState(user.firstname);
     const [sname, setSName] = useState(user.surname);
     const [email, setEmail] = useState(user.email);
@@ -123,90 +121,76 @@ const BrowseSpecificUser = () => {
         <div>
             {users.map(user => (
                 <Fragment>
-                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(3, 1fr)' gap={1} >
+                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(2, 1fr)' gap={1} >
                         <GridItem padding={"10px"}>
-                            <Image borderRadius='full' src={user.profilepic} alt={user.username} />
+                            <Box display='flex'>
+                                <Image boxSize={'300px'} objectFit='cover' border={'2px'} borderRadius='full' src={user.profilepic} alt={user.username} />
+                                <VStack pl={'5'} align={'left'}>
+                                    <Heading>{user.username}'s Profile</Heading>
+                                    {user.firstname !== "" && user.surname !== "" && (
+                                        <Text fontSize='xl'>👤 - {user.firstname} {user.surname}</Text>
+                                    )}
+                                    {user.firstname === "" || user.surname === "" && (
+                                        <Text fontSize='xl'>👤 - {user.firstname} {user.surname}</Text>
+                                    )}
+
+                                    {user.email !== "" && user.email !== null && (
+                                        <Text fontSize='xl'>📧 - {user.email}</Text>
+                                    )}
+                                    {user.email === "" && (
+                                        <Text fontSize='xl'>📧 - No email given..</Text>
+                                    )}
+
+                                    {user.socials !== "" && user.socials !== null && (
+                                        <Text fontSize='xl'>＠ - {user.socials}</Text>
+                                    )}
+                                    {user.socials === "" || user.socials === null && (
+                                        <Text fontSize='xl'>＠ - No socials given..</Text>
+                                    )}
+
+                                    {user.phone !== "" && user.phone !== null && (
+                                        <Text fontSize='xl'>📞 - +353 {user.phone}</Text>
+                                    )}
+                                    {user.phone === "" && (
+                                        <Text fontSize='xl'>📞 - No phone number given..</Text>
+                                    )}
+
+                                    {user.home !== "" && user.home !== null && (
+                                        <Text fontSize='xl'>🌎 - {user.home}</Text>
+                                    )}
+                                    {user.home === "" && (
+                                        <Text fontSize='xl'>🌎 - No hometown given..</Text>
+                                    )}
+
+                                    {currentUserID === user.userid && (
+                                        <Button size='sm' onClick={openModal}>Edit Profile</Button>
+                                    )}
+                                </VStack>
+                            </Box>
                         </GridItem>
-
-                        <GridItem>
-                            <Heading>{user.username}'s Profile</Heading>
-                            <VStack align={'left'}>
-                                {user.firstname !== "" && user.surname !== "" && (
-                                    <Text fontSize='xl'>👤 - {user.firstname} {user.surname}</Text>
-                                )}
-                                {user.firstname === "" || user.surname === "" && (
-                                    <Text fontSize='xl'>👤 - {user.firstname} {user.surname}</Text>
-                                )}
-
-                                {user.email !== "" && user.email !== null && (
-                                    <Text fontSize='xl'>📧 - {user.email}</Text>
-                                )}
-                                {user.email === "" && (
-                                    <Text fontSize='xl'>📧 - No email given..</Text>
-                                )}
-
-                                {user.socials !== "" && user.socials !== null && (
-                                    <Text fontSize='xl'>＠ - {user.socials}</Text>
-                                )}
-                                {user.socials === "" || user.socials === null && (
-                                    <Text fontSize='xl'>＠ - No socials given..</Text>
-                                )}
-
-                                {user.phone !== "" && user.phone !== null && (
-                                    <Text fontSize='xl'>📞 - +353 {user.phone}</Text>
-                                )}
-                                {user.phone === "" && (
-                                    <Text fontSize='xl'>📞 - No phone number given..</Text>
-                                )}
-
-                                {user.home !== "" && user.home !== null && (
-                                    <Text fontSize='xl'>🌎 - {user.home}</Text>
-                                )}
-                                {user.home === "" && (
-                                    <Text fontSize='xl'>🌎 - No hometown given..</Text>
-                                )}
-
-                            </VStack>
-
-                            {currentUserID === user.userid && (
-                                <Button margin={'10px'} size='sm' onClick={openModal}>Edit Profile</Button>
-                            )}
-                        </GridItem >
                     </Grid>
 
 
                     <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>{user.username}'s Catalog</Heading>
-                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
+                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)'>
                         {usersItems.map(item => (
                             <Fragment>
-                                <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                                    <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.itemid}>
+                                <GridItem key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} maxW='300px' borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                    <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
                                         <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
+
                                         <Box padding={"10px"}>
                                             <Box display='flex' mt='2' alignItems='center'>
-                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                                <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
+                                                <Badge colorScheme='teal'>{item.giveaway}</Badge>
+                                                <Box ml='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                             </Box>
 
-                                            <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                            <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                            <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
+                                            <Box lineHeight='tight' isTruncated>{item.descr}</Box>
+                                            < Box color='gray.600'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
 
-                                            {userID !== item.itemowner && (
-                                                <>
-                                                    <Box display='flex' mt='2'>
-                                                        {Array(5)
-                                                            .fill('') //NEED TO IMPLEMENT USER.RATING TO THIS PART OF THE CODE
-                                                            .map((_, i) => (
-                                                                <StarIcon
-                                                                    key={i}
-                                                                    color={i < item.rating ? 'teal.500' : 'gray.300'}
-                                                                />
-                                                            ))}
-                                                        < Box as='span' color='gray.600' fontSize='sm'><Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                                                    </Box>
-                                                </>
-                                            )}
+                                            <Box display='flex' >
+                                                <Box as='span' color='gray.600' fontSize='sm'>{item.condition}</Box>
+                                            </Box>
                                         </Box>
                                     </Link>
                                 </GridItem>
@@ -217,13 +201,14 @@ const BrowseSpecificUser = () => {
                     </Grid>
 
                     <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>{user.username}'s Reviews</Heading>
-                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(1, 1fr)' gap={1} >
+                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(3, 1fr)' gap={1} >
                         {reviews.map(review => (
                             <Fragment>
-                                <GridItem key={review.id} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                                    <HStack>
-                                        <Text fontSize='xl'><Link href={'/users/' + review.username}>{review.username}</Link></Text>
+                                <GridItem key={review.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
+                                    <HStack pl={2}>
                                         <Text fontSize='xl'>{review.itemborrowed}</Text>
+                                        <Text fontSize='sm'><Link href={'/users/' + review.username}>Borrowed by {review.username}</Link></Text>
+
                                         <Text fontSize='xl'>
                                             {review.outcome == "GOOD" && (
                                                 <Text>👍</Text>
@@ -233,7 +218,7 @@ const BrowseSpecificUser = () => {
                                             )}
                                         </Text>
                                     </HStack>
-                                    <Text fontSize='lg'>{review.review}</Text>
+                                    <Text pl={2} fontSize='lg'>{review.review}</Text>
                                 </GridItem>
                             </Fragment>
                         ))

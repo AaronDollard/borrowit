@@ -15,7 +15,6 @@ const Dashboard = () => {
     const [usersItems, setLoggedUserItems] = useState([]);
     const [incomingOffers, setIncomingOffers] = useState([]);
     const [outgoingOffers, setOutgoingOffers] = useState([]);
-
     const [offerstatusA, setStatusAccept] = useState("ACCEPTED");
     const [offerstatusD, setStatusDecline] = useState("DECLINED");
     const [offerDismissed, setofferDismissed] = useState("DISMISSED");
@@ -251,22 +250,19 @@ const Dashboard = () => {
                 <AccordionItem>
                     <AccordionButton><Heading fontFamily={"Dongle"}>My Catalog</Heading><AccordionIcon /></AccordionButton>
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(7, 1fr)' gap={1} >
                             {usersItems.map(item => (
                                 <Fragment>
-                                    <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
+                                    <GridItem p={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                         <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
-                                            <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
-                                            <Box padding={"10px"}>
+                                            <Image borderRadius='lg' boxSize={'200px'} objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                            <Box>
                                                 <Box display='flex' mt='2' alignItems='center'>
-                                                    <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                                    <Box as='span' ml='2' color='gray.600' lineHeight='tight' fontSize='sm'>{item.condition}</Box>
+                                                    <Badge colorScheme='teal'>{item.giveaway}</Badge>
+                                                    <Box ml='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                                 </Box>
-                                                <Box>
-                                                    <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box>
-                                                    <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                                    <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box>
-                                                </Box>
+
+                                                {/* <Box lineHeight='tight' isTruncated>{item.descr}</Box> */}
                                             </Box>
                                         </Link>
                                     </GridItem>
@@ -290,10 +286,8 @@ const Dashboard = () => {
                         <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' gap={1} >
                             {incomingOffers.map(item => (
                                 <Fragment>
-                                    <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                        {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
-                                        <Box mt='1' fontWeight='semibold' lineHeight='tight' isTruncated>Offer from <Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                                        <Box display='flex' mt='2' alignItems='center'>
+                                    <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                        <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />                                        <Box display='flex' mt='2' alignItems='center'>
                                             <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                         </Box>
                                         <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
@@ -351,28 +345,23 @@ const Dashboard = () => {
                     </AccordionButton>
 
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "PENDING" && (
-                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
-                                            <Box alignItems='center'>
-
+                                        <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                            <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                            <Box>
                                                 {item.offerstatus == "PENDING" && (
                                                     <Badge colorScheme='orange'>{item.offerstatus}</Badge>
                                                 )}
 
-                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-
-                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
-                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
-                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                                <Box fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                             </Box>
 
                                             {item.offerstatus == "PENDING" && (
-                                                <Button ><Link href={'/browse/' + item.id}>View</Link></Button>
+                                                <Button><Link href={'/browse/' + item.id}>View</Link></Button>
                                             )}
                                         </GridItem>
                                     )}
@@ -381,31 +370,25 @@ const Dashboard = () => {
                             }
                         </Grid >
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "ACCEPTED" && (
-                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
-                                            <Box alignItems='center'>
+                                        <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                            <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />
 
+                                            <Box alignItems='center'>
                                                 {item.offerstatus == "ACCEPTED" && (
                                                     <Badge colorScheme='green'>{item.offerstatus}</Badge>
                                                 )}
 
-                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-
-                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
-                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
-                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                                <Box fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                             </Box>
-
 
                                             {item.offerstatus == "ACCEPTED" && (
 
                                                 <Stack direction='row' spacing={4}>
-
                                                     <Button onClick={e => {
                                                         socket.emit("add_contact", e = item.username, ({ done, newContact }) => {
                                                             if (done) {
@@ -418,11 +401,8 @@ const Dashboard = () => {
                                                         })
 
                                                     }}>Contact</Button>
-
                                                 </Stack>
-
                                             )}
-
                                         </GridItem>
                                     )}
                                 </Fragment>
@@ -430,25 +410,17 @@ const Dashboard = () => {
                             }
                         </Grid >
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "DECLINED" && (
-                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
-                                            <Box alignItems='center'>
-
-
+                                        <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                            <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />                                            <Box alignItems='center'>
                                                 {item.offerstatus == "DECLINED" && (
                                                     <Badge colorScheme='red'>{item.offerstatus}</Badge>
                                                 )}
-
-                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-
-                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
-                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
-                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                                <Box fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                             </Box>
 
                                             {item.offerstatus == "DECLINED" && (
@@ -458,7 +430,6 @@ const Dashboard = () => {
                                                     negativeOne(counter)
                                                 }} value={offerDismissed}>Dismiss</Button>
                                             )}
-
                                         </GridItem>
                                     )}
                                 </Fragment>
@@ -466,24 +437,17 @@ const Dashboard = () => {
                             }
                         </Grid >
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "CONTACTED" && (
-                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
-                                            <Box alignItems='center'>
-
+                                        <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                            <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />                                            <Box alignItems='center'>
                                                 {item.offerstatus == "CONTACTED" && (
                                                     <Badge colorScheme='blue'>{item.offerstatus}</Badge>
                                                 )}
-
-                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-
-                                                <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
-                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
-                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                                <Box fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                             </Box>
 
 
@@ -493,7 +457,7 @@ const Dashboard = () => {
                                                         offerIDResponse(item.offerid)
                                                         dismissOffer("COMPLETED");
                                                         negativeOne(counter)
-                                                    }} value={offerDismissed}>Complete</Button>
+                                                    }} value={offerDismissed}>Close</Button>
 
                                                     <Button onClick={e => {
                                                         //offerIDResponse(item.offerid);
@@ -512,27 +476,17 @@ const Dashboard = () => {
                             }
                         </Grid >
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "REVIEWED" && (
-                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                            {/* <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} /> */}
-                                            <Box alignItems='center'>
-
-
+                                        <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                            <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />                                            <Box alignItems='center'>
                                                 {item.offerstatus == "REVIEWED" && (
                                                     <Badge colorScheme='purple'>{item.offerstatus}</Badge>
                                                 )}
-
-
-
                                                 <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-
                                                 <Box mt='1' lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
-                                                {/* <Box mt='1' lineHeight='tight' isTruncated>{item.descr}</Box> */}
-                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge> */}
-                                                {/* <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
                                             </Box>
 
                                             {item.offerstatus == "REVIEWED" && (
@@ -560,19 +514,15 @@ const Dashboard = () => {
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "DISMISSED" && (
-                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                            <Box>
+                                        <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                            <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />                                            <Box>
                                                 {item.offerstatus == "DISMISSED" && (
                                                     <Badge colorScheme='gray'>Declined</Badge>
                                                 )}
                                             </Box>
-
                                             <Box>
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                                <Box lineHeight='tight' isTruncated>{item.itemname}</Box>
                                             </Box>
-
                                         </GridItem>
                                     )}
                                 </Fragment>
@@ -584,18 +534,16 @@ const Dashboard = () => {
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "COMPLETED" && (
-                                        <GridItem key={item.id} mt={{ base: 4, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden' padding={"10px"}>
-                                            <Box>
+                                        <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                            <Image borderRadius='lg' boxSize='150px' objectFit='cover' src={item.photo} alt={item.imagealt} />                                            <Box>
                                                 {item.offerstatus == "COMPLETED" && (
                                                     <Badge colorScheme='blue'>Completed</Badge>
                                                 )}
                                             </Box>
 
                                             <Box>
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                                <Box mt='1' lineHeight='tight' isTruncated>{item.username}</Box>
-                                                {/* <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                                <Box as='span' color='gray.600' fontSize='sm'>{item.lendlength}</Box> */}
+                                                <Box lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                                <Box lineHeight='tight' isTruncated>{item.username}</Box>
                                             </Box>
                                         </GridItem>
                                     )}

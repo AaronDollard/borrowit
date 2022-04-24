@@ -306,7 +306,7 @@ module.exports.getIncomingOffers = async (req, res) => {
         const { currentUserID } = req.body;
 
         const getIncomingOffers = await db.query
-            (`SELECT users.username, i.itemname, i.descr, i.lendlength, i,giveaway, i.itemowner, i.id, offers.id AS offerID FROM items AS i 
+            (`SELECT users.username, i.itemname, i.descr, i.photo, i.lendlength, i,giveaway, i.itemowner, i.id, offers.id AS offerID FROM items AS i 
             JOIN offers ON i.id = offers.itemid 
             JOIN users ON offers.borrowerid = users.userid 
             WHERE i.itemowner = $1 AND offers.offerstatus = 'PENDING'`,
@@ -328,7 +328,7 @@ module.exports.getOutgoingOffers = async (req, res) => {
         const { currentUserID } = req.body;
 
         const getOutgoingOffers = await db.query
-            (`SELECT users.username, i.itemname, i.descr, i.lendlength, i,giveaway, i.itemowner, i.id, offers.offerstatus, offers.id AS offerID FROM items AS i 
+            (`SELECT users.username, i.itemname, i.descr, i.photo, i.lendlength, i,giveaway, i.itemowner, i.id, offers.offerstatus, offers.id AS offerID FROM items AS i 
             JOIN offers ON i.id = offers.itemid 
             JOIN users ON offers.lenderid = users.userid 
             WHERE offers.borrowerid = $1`,
