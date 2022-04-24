@@ -39,7 +39,7 @@ const attemptRegister = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newUserQuery = await db.query(
-            "INSERT INTO users(username, passhashed, userid, userrole, profilepic, email, firstname, surname, home, socials, phone) values($1,$2,$3,$4,$5, $6, $7, $8, $9, $10, $11) RETURNING id, username, userid, userrole, profilepic, email, firstname, surname, home, socials, phone",
+            "INSERT INTO users(username, passhashed, userid, userrole, profilepic, email, firstname, surname, home, socials, phone) values($1,$2,$3,$4,$5, $6, $7, $8, $9, $10, $11) RETURNING username, userid, userrole, profilepic, email, firstname, surname, home, socials, phone",
             [req.body.username, hashedPassword, uuidv4(), 'user', 'https://bit.ly/3Jeit5F', req.body.email, '', '', '', 'No linked socials..', ''],
             console.log("Entered into database"),
         );

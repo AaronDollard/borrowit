@@ -13,7 +13,7 @@ const handleLogin = async (req, res) => {
     jwtVerify(token, process.env.JWT_SECRET)
         .then(async decoded => {
             const potentialUser = await db.query(
-                "SELECT username FROM users u WHERE u.username = $1",
+                "SELECT id, username, userid, userrole, profilepic, email, firstname, surname, home, socials, phone FROM users u WHERE u.username = $1",
                 [decoded.username]
             );
 
