@@ -57,14 +57,7 @@ const attemptRegister = async (req, res) => {
                 username: req.body.username,
                 id: newUserQuery.rows[0].id,
                 userid: newUserQuery.rows[0].userid,
-                userrole: newUserQuery.rows[0].userrole,
-                profilepic: newUserQuery.rows[0].profilepic,
-                email: newUserQuery.rows[0].email,
-                firstname: newUserQuery.rows[0].firstname,
-                surname: newUserQuery.rows[0].surname,
-                home: newUserQuery.rows[0].home,
-                socials: newUserQuery.rows[0].socials,
-                phone: newUserQuery.rows[0].phone
+                userrole: newUserQuery.rows[0].userrole
             },
             process.env.JWT_SECRET,
             { expiresIn: "7d" },
