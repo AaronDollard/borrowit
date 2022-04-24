@@ -102,7 +102,7 @@ const BrowseItems = () => {
             </Grid >
 
             <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>Browse all items</Heading>
-            <Input alignContent={'center'} maxW={'2xl'} type="search" value={search} onChange={handleSearchChange} className="input" margin={'10px'} label="Search" color={"gray"} background={"white"} placeholder='Search for an item'></Input>
+            <Input alignContent={'center'} maxW={'2xl'} type="search" value={search} onChange={handleSearchChange} className="input" margin={'10px'} label="Search" color={"gray"} placeholder='Search for an item'></Input>
 
             <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={5} >
 
