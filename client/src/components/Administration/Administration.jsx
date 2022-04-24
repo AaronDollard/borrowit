@@ -85,7 +85,7 @@ const Administration = () => {
             <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>Manage Users</Heading>
             {users.map(user => (
                 <Grid templateRows='repeat(1, 1fr)' ml={{ md: 6 }} templateColumns='repeat(2, 1fr)' maxWidth='sm' borderWidth='1px'>
-                    <GridItem key={user.id}>
+                    <GridItem pl={2} key={user.id}>
                         <Link style={{ textDecoration: 'none' }} href={'/users/' + user.username}>
                             <Heading size="sm">{user.username}</Heading>
                         </Link>
@@ -107,7 +107,7 @@ const Administration = () => {
             {items.map(item => (
                 <Grid templateRows='repeat(1, 1fr)' ml={{ md: 6 }} templateColumns='repeat(2, 1fr)' maxWidth='sm' borderWidth='1px' >
 
-                    <GridItem key={item.id}>
+                    <GridItem pl={2} key={item.id}>
                         <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
                             <Box fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
 
