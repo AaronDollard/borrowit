@@ -13,16 +13,14 @@ const handleLogin = async (req, res) => {
     jwtVerify(token, process.env.JWT_SECRET)
         .then(async decoded => {
             const potentialUser = await db.query(
-                `SELECT username, userrole, profilepic, email, firstname, surname, home, socials, phone
-                FROM users u WHERE u.username = $1`,
-                [decoded.username, decoded.userid, decoded.userrole, decoded.profilepic, decoded.email, decoded.firstname, decoded.surname, decoded.home, decoded.socials, decoded.phone]
+                "SELECT username FROM users u WHERE u.username = $1",
+                [decoded.username]
             );
 
             if (potentialUser.rowCount === 0) {
                 res.json({ loggedIn: false, token: null });
                 return;
             }
-
 
             username = decoded.username
             userid = decoded.userid
