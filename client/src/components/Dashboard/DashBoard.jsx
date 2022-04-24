@@ -2,7 +2,7 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import { AccountContext } from '../Contexts/AccountContext';
 import { ContactContext } from "../Communication/ChatMain";
-import { SocketContext } from '../Views';
+import { SocketContext } from '../Communication/ChatMain';
 import { useNavigate } from "react-router";
 import { Radio, RadioGroup } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
@@ -47,7 +47,7 @@ const Dashboard = () => {
     const [countReviewed, setcountReviewed] = useState("");
 
 
-    const { socket } = useContext(SocketContext);
+    const socket = useContext(SocketContext);
 
     const [loaded, setLoaded] = useState("NOTLOADED");
 

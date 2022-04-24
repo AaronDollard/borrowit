@@ -17,59 +17,48 @@ import useSocketSetup from "../Socket/useSocketSetup";
 import socketConnection from "../Socket/socket";
 import Administration from './Administration/Administration'
 
-export const SocketContext = createContext();
+
 
 const Views = () => {
     //The below part render the login and signup components only if the user is logged out
     const { user } = useContext(AccountContext)
 
-    const [contactList, setContactList] = useState([]);
-    const [messages, setMessages] = useState([]);
-    const [socket, setSocket] = useState(() => socketConnection(user));
-
-    useEffect(() => {
-        setSocket(() => socketConnection(user));
-    }, []);
-
-    useSocketSetup(setContactList, setMessages, socket);
 
     //If user is logged in render routers otherwise render login
     return user.loggedIn === null ? <></>
         // <Loading class='center-screen'></Loading><Text>Loading Borrowit...</Text> 
         : (
             <>
-                <SocketContext.Provider value={{ socket }}>
-                    {user.loggedIn === true && (
-                        <>
-                            <NavBar />
-                            <Routes>
-                                <Route element={<PrivateRoutes />}>
-                                    <Route path="/dashboard" element={<Dashboard />} />
-                                    <Route path="/chat" element={<ChatMain />} />
-                                    <Route path="/browse" element={<Browse />} />
-                                    <Route path="/browse/:itemid" element={<BrowseSpecificItem />} />
-                                    <Route path="/users/:username" element={<BrowseSpecificUser />} />
-                                    {user.userrole === "admin" && (
-                                        <>
-                                            <Route path="/administration" element={<Administration />} />
-                                        </>
-                                    )}
-                                </Route>
-                            </Routes>
-                        </>
-                    )}
+                {user.loggedIn === true && (
+                    <>
+                        <NavBar />
+                        <Routes>
+                            <Route element={<PrivateRoutes />}>
+                                <Route path="/dashboard" element={<Dashboard />} />
+                                <Route path="/chat" element={<ChatMain />} />
+                                <Route path="/browse" element={<Browse />} />
+                                <Route path="/browse/:itemid" element={<BrowseSpecificItem />} />
+                                <Route path="/users/:username" element={<BrowseSpecificUser />} />
+                                {user.userrole === "admin" && (
+                                    <>
+                                        <Route path="/administration" element={<Administration />} />
+                                    </>
+                                )}
+                            </Route>
+                        </Routes>
+                    </>
+                )}
 
-                    {user.loggedIn === false && (
-                        <>
-                            <Routes>
-                                <Route path="/" element={<SignIn />} />
-                                <Route path="/register" element={<SignUp />} />
-                                <Route path="*" element={<SignIn />} />
-                            </Routes>
-                        </>
-                    )}
-                    <Footer />
-                </SocketContext.Provider>
+                {user.loggedIn === false && (
+                    <>
+                        <Routes>
+                            <Route path="/" element={<SignIn />} />
+                            <Route path="/register" element={<SignUp />} />
+                            <Route path="*" element={<SignIn />} />
+                        </Routes>
+                    </>
+                )}
+                <Footer />
             </>
         );
 
