@@ -284,14 +284,12 @@ const Dashboard = () => {
                         <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
                             {incomingOffers.map(item => (
                                 <Fragment>
-                                    <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                                        <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
-                                            <Image borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />                                        <Box display='flex' mt='2' alignItems='center'>
-                                                <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
-                                            </Box>
-                                            <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
-                                            <Box as='span' color='gray.600' fontSize='sm'>{item.username}</Box>
-                                        </Link>
+                                    <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+                                        <Image borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                        <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
+                                        <Badge borderRadius='full' px='2' colorScheme='teal'>{item.giveaway}</Badge>
+                                        <Box as='span' color='gray.600' fontSize='sm'>{item.username}</Box>
+
                                         <Stack direction='column' >
                                             <Button
                                                 onClick={e => {
