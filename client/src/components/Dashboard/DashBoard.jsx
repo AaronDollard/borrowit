@@ -254,7 +254,7 @@ const Dashboard = () => {
                                 <Fragment>
                                     <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                         <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
-                                            <Image boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                            <Image boxSize='sm' borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />
                                             <Box padding={"10px"}>
                                                 <Box display='flex' mt='2' alignItems='center'>
                                                     <Badge colorScheme='teal'>{item.giveaway}</Badge>
@@ -285,7 +285,7 @@ const Dashboard = () => {
                                 <Fragment>
                                     <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                         <Box alignItems='center'>
-                                            <Image borderRadius='lg' boxSize='100px' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                            <Image borderRadius='lg' h={150} boxSize='sm' objectFit='cover' src={item.photo} alt={item.imagealt} />
                                             <Box fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>{item.itemname}</Box>
                                             <Box lineHeight='tight' isTruncated><Link href={'/users/' + item.username}>{item.username}</Link></Box>
                                         </Box>
@@ -346,7 +346,7 @@ const Dashboard = () => {
                                     {item.offerstatus === "PENDING" && (
                                         <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                             <Box>
-                                                <Image borderRadius='lg' objectFit='fit' src={item.photo} alt={item.imagealt} />
+                                                <Image borderRadius='lg' h={150} objectFit='contain' src={item.photo} alt={item.imagealt} />
 
                                                 {item.offerstatus == "PENDING" && (
                                                     <Badge colorScheme='orange'>{item.offerstatus}</Badge>
@@ -372,7 +372,7 @@ const Dashboard = () => {
                                     {item.offerstatus === "ACCEPTED" && (
                                         <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                             <Box alignItems='center'>
-                                                <Image borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                                <Image borderRadius='lg' h={150} objectFit='cover' src={item.photo} alt={item.imagealt} />
                                                 {item.offerstatus == "ACCEPTED" && (
                                                     <Badge colorScheme='green'>{item.offerstatus}</Badge>
                                                 )}
@@ -411,7 +411,7 @@ const Dashboard = () => {
                                     {item.offerstatus === "DECLINED" && (
                                         <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                             <Box alignItems='center'>
-                                                <Image borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                                <Image borderRadius='lg' h={150} objectFit='cover' src={item.photo} alt={item.imagealt} />
                                                 {item.offerstatus == "DECLINED" && (
                                                     <Badge colorScheme='red'>{item.offerstatus}</Badge>
                                                 )}
@@ -439,7 +439,7 @@ const Dashboard = () => {
                                     {item.offerstatus === "CONTACTED" && (
                                         <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                             <Box alignItems='center'>
-                                                <Image borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                                <Image borderRadius='lg' h={150} objectFit='cover' src={item.photo} alt={item.imagealt} />
                                                 {item.offerstatus == "CONTACTED" && (
                                                     <Badge colorScheme='blue'>{item.offerstatus}</Badge>
                                                 )}
@@ -479,7 +479,7 @@ const Dashboard = () => {
                                     {item.offerstatus === "REVIEWED" && (
                                         <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                             <Box alignItems='center'>
-                                                <Image borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                                <Image borderRadius='lg' h={150} objectFit='cover' src={item.photo} alt={item.imagealt} />
                                                 {item.offerstatus == "REVIEWED" && (
                                                     <Badge colorScheme='purple'>{item.offerstatus}</Badge>
                                                 )}
@@ -514,7 +514,7 @@ const Dashboard = () => {
                                     {item.offerstatus === "DISMISSED" && (
                                         <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                             <Box alignItems='center'>
-                                                <Image borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                                <Image borderRadius='lg' h={150} objectFit='cover' src={item.photo} alt={item.imagealt} />
 
                                                 {item.offerstatus == "DISMISSED" && (
                                                     <Badge colorScheme='gray'>Declined</Badge>
@@ -536,7 +536,7 @@ const Dashboard = () => {
                                     {item.offerstatus === "COMPLETED" && (
                                         <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
                                             <Box alignItems='center'>
-                                                <Image borderRadius='lg' objectFit='cover' src={item.photo} alt={item.imagealt} />
+                                                <Image borderRadius='lg' h={150} objectFit='cover' src={item.photo} alt={item.imagealt} />
                                                 {item.offerstatus == "COMPLETED" && (
                                                     <Badge colorScheme='blue'>Completed</Badge>
                                                 )}
