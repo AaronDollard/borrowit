@@ -201,22 +201,21 @@ const BrowseSpecificUser = () => {
                     </Grid>
 
                     <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>{user.username}'s Reviews</Heading>
-                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(3, 1fr)' gap={1} >
+                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                         {reviews.map(review => (
                             <Fragment>
-                                <GridItem key={review.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} maxW='sm' borderWidth='2px' borderRadius='lg' overflow='hidden'>
-                                    <HStack pl={2}>
-                                        <Text fontSize='xl'>{review.itemborrowed}</Text>
-                                        <Text fontSize='sm'><Link href={'/users/' + review.username}>Borrowed by {review.username}</Link></Text>
-
+                                <GridItem key={review.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} mr={{ md: 6 }} maxW='300px' borderWidth='2px' borderRadius='lg' overflow='hidden'>
+                                    <HStack pl={2} pr={2}>
                                         <Text fontSize='xl'>
                                             {review.outcome == "GOOD" && (
-                                                <Text>👍</Text>
+                                                <Text><b>{review.itemborrowed} </b><Link href={'/users/' + review.username}><i>Borrowed by {review.username}</i> 👍</Link></Text>
                                             )}
                                             {review.outcome == "BAD" && (
-                                                <Text>👎</Text>
+                                                <Text><b>{review.itemborrowed} </b><Link href={'/users/' + review.username}><i>Borrowed by {review.username}</i> 👎</Link></Text>
+
                                             )}
                                         </Text>
+
                                     </HStack>
                                     <Text pl={2} fontSize='lg'>{review.review}</Text>
                                 </GridItem>
