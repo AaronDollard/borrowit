@@ -4,9 +4,8 @@ import { AccountContext } from "../components/Contexts/AccountContext";
 const useSocketSetup = (setContactList, setMessages, socket) => {
     const { setUser } = useContext(AccountContext);
 
-    socket.connect();
-
     useEffect(() => {
+        socket.connect();
         socket.on("contacts", contactList => {
             setContactList(contactList);
         });
