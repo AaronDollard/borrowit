@@ -47,7 +47,7 @@ const Dashboard = () => {
     const [countReviewed, setcountReviewed] = useState("");
 
 
-    const socket = useContext(SocketContext);
+    const { socket } = useContext(SocketContext);
 
     const [loaded, setLoaded] = useState("NOTLOADED");
 
@@ -389,7 +389,7 @@ const Dashboard = () => {
                                             {item.offerstatus == "ACCEPTED" && (
 
                                                 <Stack direction='row' spacing={4}>
-                                                    <Button onClick={e => {
+                                                    <Button onClick={(e) => {
                                                         socket.emit("add_contact", e = item.username, ({ done, newContact }) => {
                                                             if (done) {
                                                                 setContactList = c => [newContact, ...c];
