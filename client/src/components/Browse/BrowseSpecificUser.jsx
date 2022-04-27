@@ -172,7 +172,7 @@ const BrowseSpecificUser = () => {
 
 
                     <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>{user.username}'s Catalog</Heading>
-                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)'>
+                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)'>
                         {usersItems.map(item => (
                             <Fragment>
                                 <GridItem key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} maxW='300px' borderWidth='1px' borderRadius='lg' overflow='hidden'>
