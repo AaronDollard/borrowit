@@ -76,7 +76,7 @@ const BrowseItems = () => {
 
     return (
         <>
-            <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)'>
+            <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' display={{ md: 'flex' }}>
                 {latestItems.map(item => (
                     <GridItem key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} maxW='300px' borderWidth='1px' borderRadius='lg' overflow='hidden'>
                         <Link style={{ textDecoration: 'none' }} href={'/browse/' + item.id}>
@@ -104,8 +104,7 @@ const BrowseItems = () => {
             <Heading ml={"10px"} fontFamily={"Dongle"}>Browse all items</Heading>
             <Input m={"10px"} alignContent={'center'} maxW={'2xl'} type="search" value={search} onChange={handleSearchChange} className="input" label="Search" color={"gray"} placeholder='Search for an item'></Input>
 
-            <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
-
+            <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(4, 1fr)' >
                 {filtered.map((itemm) => (
                     <Fragment>
                         <GridItem key={itemm.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} maxW='300px' borderWidth='1px' borderRadius='lg' overflow='hidden'>

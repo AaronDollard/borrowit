@@ -67,7 +67,7 @@ const Home = () => {
 
           <HStack>
             <Link href='/browse'><Img boxSize='60px' src="https://s00152905-project1.s3.eu-west-1.amazonaws.com/image.png"></Img></Link>
-            <Text align={'center'} fontWeight={'bold'} fontSize='md' color='teal'>Borrowing & Lending <br />Application</Text>
+            {/* <Text align={'center'} fontWeight={'bold'} fontSize='md' color='teal'>Borrowing & Lending <br />Application</Text> */}
           </HStack>
 
           <HStack as={'nav'} spacing={4}>
@@ -145,6 +145,7 @@ const Home = () => {
                 </>
               )}
               <Link href='/chat'>Contacts</Link>
+              <Link href={'/users/' + user.username}>My Profile</Link>
             </Stack>
           </Box>
         ) : null}

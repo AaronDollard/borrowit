@@ -7,9 +7,6 @@ import { useNavigate } from "react-router";
 import { Radio, RadioGroup } from '@chakra-ui/react'
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react"
 
-//import socket from '../../Socket/socket';
-
-
 const Dashboard = () => {
     const navigate = useNavigate();
     const [usersItems, setLoggedUserItems] = useState([]);
@@ -29,14 +26,8 @@ const Dashboard = () => {
         setReviewTextValue(inputValue)
     }
 
-
     var offerstatusID = 0;
-
-    // var reviewItem;
-    // var reviewOwner;
-
     var [counter, setcounter] = useState(1000);
-    //const [buttonState, setbuttonState] = useState("");
 
     const [incomingCount, setincomingCount] = useState("");
     const [outgoingCount, setoutgoingCount] = useState("");
@@ -73,7 +64,7 @@ const Dashboard = () => {
         setIsOpen(false);
     }
 
-    console.log(currentUserID, "Dashboard DEBUG")
+    //console.log(currentUserID, "Dashboard DEBUG")
     const getLoggedUserItems = async () => {
         try {
             const body = { currentUserID };
@@ -109,7 +100,7 @@ const Dashboard = () => {
             const incomingOfferData = await response.json();
             setIncomingOffers(incomingOfferData);
             for (var i = 0; i < incomingOfferData.length; i += 1) {
-                console.log(incomingOfferData[i]);
+                //console.log(incomingOfferData[i]);
             }
             setincomingCount(incomingOfferData.length);
         } catch (err) {
@@ -133,38 +124,37 @@ const Dashboard = () => {
                 body: JSON.stringify(body)
             });
             // console.log("OUTGOING OFFER BODY", body)
-            console.log("OUTGOING OFFER RESPONSE", response)
+            //console.log("OUTGOING OFFER RESPONSE", response)
 
             const outgoingOfferData = await response.json();
-
             setOutgoingOffers(outgoingOfferData);
 
             for (var i = 0; i < outgoingOfferData.length; i += 1) {
-                console.log(outgoingOfferData[i]);
+                //console.log(outgoingOfferData[i]);
 
                 if (outgoingOffers[i].offerstatus == "PENDING") {
                     countPending = countPending + 1;
-                    console.log("PENDING", countPending)
+                    //console.log("PENDING", countPending)
                 }
 
                 if (outgoingOffers[i].offerstatus == "ACCEPTED") {
                     countAccepted = countAccepted + 1;
-                    console.log("ACCEPTED", countAccepted)
+                    //console.log("ACCEPTED", countAccepted)
                 }
 
                 if (outgoingOffers[i].offerstatus == "DECLINED") {
                     countDeclined = countDeclined + 1;
-                    console.log("DECLINED", countDeclined)
+                    //console.log("DECLINED", countDeclined)
                 }
 
                 if (outgoingOffers[i].offerstatus == "CONTACTED") {
                     countContacted = countContacted + 1;
-                    console.log("CONTACTED", countContacted)
+                    //console.log("CONTACTED", countContacted)
                 }
 
                 if (outgoingOffers[i].offerstatus == "REVIEWED") {
                     countReviewed = countReviewed + 1;
-                    console.log("REVIEWED", countReviewed)
+                    //console.log("REVIEWED", countReviewed)
                 }
             }
 
@@ -192,7 +182,7 @@ const Dashboard = () => {
         var responseToOffer = e;
         var responseToOfferID = offerstatusID;
 
-        console.log("Offerstatusid: ", responseToOffer, responseToOfferID)
+        //console.log("Offerstatusid: ", responseToOffer, responseToOfferID)
         try {
             const body = { responseToOffer, responseToOfferID };
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/offerresponse`, {
@@ -209,7 +199,7 @@ const Dashboard = () => {
         var responseToOffer = e;
         var responseToOfferID = offerstatusID;
 
-        console.log("Dismiss Offer: ", responseToOffer, responseToOfferID)
+        //console.log("Dismiss Offer: ", responseToOffer, responseToOfferID)
         try {
             const body = { responseToOffer, responseToOfferID };
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/dismissoffer`, {
@@ -235,6 +225,8 @@ const Dashboard = () => {
         } catch (err) {
             console.log(err.message)
         }
+
+        setReviewTextValue('');
     }
 
     useEffect(() => {
@@ -249,7 +241,7 @@ const Dashboard = () => {
                 <AccordionItem>
                     <AccordionButton><Heading fontFamily={"Dongle"}>My Catalog</Heading><AccordionIcon /></AccordionButton>
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {usersItems.map(item => (
                                 <Fragment>
                                     <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
@@ -280,7 +272,7 @@ const Dashboard = () => {
 
                     </AccordionButton>
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {incomingOffers.map(item => (
                                 <Fragment>
                                     <GridItem p={1} m={1} key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} borderWidth='1px' borderRadius='lg' overflow='hidden'>
@@ -340,7 +332,7 @@ const Dashboard = () => {
                     </AccordionButton>
 
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "PENDING" && (
@@ -366,7 +358,7 @@ const Dashboard = () => {
                             }
                         </Grid >
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "ACCEPTED" && (
@@ -394,7 +386,6 @@ const Dashboard = () => {
                                                             navigate("/chat");
                                                             return;
                                                         })
-
                                                     }}>Contact</Button>
                                                 </Stack>
                                             )}
@@ -405,7 +396,7 @@ const Dashboard = () => {
                             }
                         </Grid >
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "DECLINED" && (
@@ -433,7 +424,7 @@ const Dashboard = () => {
                             }
                         </Grid >
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "CONTACTED" && (
@@ -473,7 +464,7 @@ const Dashboard = () => {
                             }
                         </Grid >
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(8, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "REVIEWED" && (
@@ -508,7 +499,7 @@ const Dashboard = () => {
                 <AccordionItem>
                     <AccordionButton><Heading fontFamily={"Dongle"}>Your History</Heading><AccordionIcon /></AccordionButton>
                     <AccordionPanel pb={4}>
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "DISMISSED" && (
@@ -529,7 +520,7 @@ const Dashboard = () => {
                             }
                         </Grid>
 
-                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)' gap={1} >
+                        <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)' gap={1} >
                             {outgoingOffers.map(item => (
                                 <Fragment>
                                     {item.offerstatus === "COMPLETED" && (

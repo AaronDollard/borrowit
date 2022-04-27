@@ -121,45 +121,45 @@ const BrowseSpecificUser = () => {
         <div>
             {users.map(user => (
                 <Fragment>
-                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(2, 1fr)' gap={1} >
+                    <Grid templateRows='repeat(1, 1fr)' gap={1} >
                         <GridItem padding={"10px"}>
-                            <Box display='flex'>
+                            <Box display='flex' float={'left'}>
                                 <Image boxSize={'300px'} objectFit='cover' border={'2px'} borderRadius='full' src={user.profilepic} alt={user.username} />
                                 <VStack pl={'5'} align={'left'}>
                                     <Heading>{user.username}'s Profile</Heading>
                                     {user.firstname !== "" && user.surname !== "" && (
-                                        <Text fontSize='xl'>👤 - {user.firstname} {user.surname}</Text>
+                                        <Text fontSize='xl'>👤 {user.firstname} {user.surname}</Text>
                                     )}
                                     {user.firstname === "" || user.surname === "" && (
-                                        <Text fontSize='xl'>👤 - {user.firstname} {user.surname}</Text>
+                                        <Text fontSize='xl'>👤 {user.firstname} {user.surname}</Text>
                                     )}
 
                                     {user.email !== "" && user.email !== null && (
-                                        <Text fontSize='xl'>📧 - {user.email}</Text>
+                                        <Text fontSize='xl'>📧 {user.email}</Text>
                                     )}
                                     {user.email === "" && (
-                                        <Text fontSize='xl'>📧 - No email given..</Text>
+                                        <Text fontSize='xl'>📧 No email given..</Text>
                                     )}
 
                                     {user.socials !== "" && user.socials !== null && (
-                                        <Text fontSize='xl'>＠ - {user.socials}</Text>
+                                        <Text fontSize='xl'>＠ {user.socials}</Text>
                                     )}
                                     {user.socials === "" || user.socials === null && (
-                                        <Text fontSize='xl'>＠ - No socials given..</Text>
+                                        <Text fontSize='xl'>＠ No socials given..</Text>
                                     )}
 
                                     {user.phone !== "" && user.phone !== null && (
-                                        <Text fontSize='xl'>📞 - +353 {user.phone}</Text>
+                                        <Text fontSize='xl'>📞 +353 {user.phone}</Text>
                                     )}
                                     {user.phone === "" && (
-                                        <Text fontSize='xl'>📞 - No phone number given..</Text>
+                                        <Text fontSize='xl'>📞 No phone number given..</Text>
                                     )}
 
                                     {user.home !== "" && user.home !== null && (
-                                        <Text fontSize='xl'>🌎 - {user.home}</Text>
+                                        <Text fontSize='xl'>🌎 {user.home}</Text>
                                     )}
                                     {user.home === "" && (
-                                        <Text fontSize='xl'>🌎 - No hometown given..</Text>
+                                        <Text fontSize='xl'>🌎 No hometown given..</Text>
                                     )}
 
                                     {currentUserID === user.userid && (
@@ -172,7 +172,7 @@ const BrowseSpecificUser = () => {
 
 
                     <Heading paddingLeft={"10px"} fontFamily={"Dongle"}>{user.username}'s Catalog</Heading>
-                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(6, 1fr)'>
+                    <Grid templateRows='repeat(1, 1fr)' templateColumns='repeat(5, 1fr)'>
                         {usersItems.map(item => (
                             <Fragment>
                                 <GridItem key={item.id} mt={{ base: 5, md: 0 }} ml={{ md: 6 }} maxW='300px' borderWidth='1px' borderRadius='lg' overflow='hidden'>
