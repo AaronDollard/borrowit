@@ -49,17 +49,20 @@ const Administration = () => {
 
     const banUser = async (userid) => {
         const body = { userid };
-        console.log(body)
+        //console.log(body)
         try {
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/banuser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
             });
 
             const userData = await response.json();
             for (var i = 0; i < userData.length; i += 1) {
                 console.log(userData[i]);
             }
+            getUsers()
+            getItems()
             setUsers(userData);
         } catch (err) {
             console.error(err.message)

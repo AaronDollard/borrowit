@@ -276,8 +276,24 @@ module.exports.getUsers = async (req, res) => {
 //Get users for admins to ban
 module.exports.banUsers = async (req, res) => {
     try {
-        console.log("BanUsers - itemController Debug");
-
+        const { userid } = req.body;
+        console.log("BanUsers - itemController Debug - ", userid);
+        var banUser = await db.query(`DELETE FROM reviews WHERE 
+        reviewer = $1`, [userid]
+        );
+        banUser = await db.query(`DELETE FROM offers WHERE 
+            lenderid = $1`, [userid]
+        );
+        banUser = await db.query(`DELETE FROM offers WHERE 
+            borrowerid = $1`, [userid]
+        );
+        banUser = await db.query(`DELETE FROM items WHERE 
+        itemowner = $1`, [userid]
+        );
+        banUser = await db.query(`DELETE FROM users WHERE 
+        userid = $1`, [userid]
+        );
+        res.json(banUser.rows);
     } catch (err) {
         console.error(err.message);
     }
